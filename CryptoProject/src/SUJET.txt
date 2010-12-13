@@ -2,19 +2,17 @@ Sujet 10
 
 Motivation.
 
-Le JSE propose un outil de manipulation d'un keytstore : keytool. Cet outil est utilisable en tant que ligne de commande depuis un "shell". Le but de ce sujet est de développer un outil keytool simplifié qui soit muni d'une interface graphique.
+Le JSE propose un outil de manipulation d'un keytstore : keytool.
+Cet outil est utilisable en tant que ligne de commande depuis un "shell".
+Le but de ce sujet est de développer un outil keytool simplifié qui soit muni d'une interface graphique.
 
 Objectifs.
 
 Votre outil devra permettre les actions suivantes :
-
-Création et stockage dans un keystore d'une nouvelle paire clé privée, clé publique associée empaquetée dans un certificat X509. Si le keystore spécifié n'existe pas il sera créé.
-
-Listing détaillé du contenu d'un keystore.
-
-Importation d'un nouveau certificat ou d'une nouvelle clé dans un keystore. Si le keystore spécifié n'existe pas il sera créé.
-
-Exportation d'un certificat ou d'une clé présent dans le keystore spécifié
+- Création et stockage dans un keystore d'une nouvelle paire clé privée, clé publique associée empaquetée dans un certificat X509. Si le keystore spécifié n'existe pas il sera créé.
+- Listing détaillé du contenu d'un keystore.
+- Importation d'un nouveau certificat ou d'une nouvelle clé dans un keystore. Si le keystore spécifié n'existe pas il sera créé.
+- Exportation d'un certificat ou d'une clé présent dans le keystore spécifié
 
 Aide.
 
