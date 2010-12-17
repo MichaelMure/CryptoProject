@@ -1,5 +1,7 @@
 package mvc;
 
+import java.awt.event.ActionListener;
+
 import javax.swing.AbstractListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -35,6 +37,7 @@ public class View extends JFrame {
 	public View(){
 		super("View");
 		mainWindow();
+		this.setLocation(250,250);
 		this.setVisible(true);
 	}
 
@@ -127,6 +130,22 @@ public class View extends JFrame {
 
         pack();
     }
+    
+    public void addItemQuitListener(ActionListener actLst) {
+    	ItemQuit.addActionListener(actLst);
+	}
+    
+    public void addItemOpenListener(ActionListener actLst) {
+    	ItemOpen.addActionListener(actLst);
+	}
+    
+    public void addBtnImportListener(ActionListener actLst) {
+    	BtnImport.addActionListener(actLst);
+	}
+    
+    public void addBtnExportListener(ActionListener actLst) {
+    	BtnExport.addActionListener(actLst);
+	}
     
 	/*
 	// Closing Window Listener

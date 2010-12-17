@@ -2,26 +2,25 @@ package mvc;
  
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.Observable;
-import java.util.Observer;
  
 public class Controller {
-  private View view;
-  private Model model;
+  protected View view;
+  protected Model model;
  
   Controller(Model model, View view){
     this.view = view;
-    /*view.addstrStpBtnListener(new StrStpBtnListener());
-    view.addSetPrdBtnListener(new SetPrdBtnListener());
-    view.addClosingListener(new ClosingListener());
-    view.setScnFld(0);
-    view.setPrdFld(Model.DEFAULT_PERIOD);*/
+    this.view.addItemQuitListener(new ItemQuitListener());
  
     this.model = model;
   }
  
+  class ItemQuitListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+    	view.dispose();
+    }
+  }
+  
+  /*
   class ClosingListener extends WindowAdapter {
     public void windowClosing(WindowEvent e) {
       System.exit(0);
@@ -47,5 +46,5 @@ public class Controller {
   class QuestionObserver implements Observer {
     public void update(Observable obs, Object arg) {
     }
-  }
+  }*/
 }
