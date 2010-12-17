@@ -10,7 +10,10 @@ public class Controller {
   Controller(Model model, View view){
     this.view = view;
     this.view.addItemQuitListener(new ItemQuitListener());
- 
+    this.view.addItemOpenListener(new ItemOpenListener());
+    this.view.addBtnImportListener(new BtnImportListener());
+    this.view.addBtnExportListener(new BtnExportListener());
+    
     this.model = model;
   }
  
@@ -20,26 +23,28 @@ public class Controller {
     }
   }
   
+  class ItemOpenListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+
+    }
+  }
+  
+  class BtnImportListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+
+    }
+  }
+  
+  class BtnExportListener implements ActionListener {
+    public void actionPerformed(ActionEvent e) {
+
+    }
+  }
+  
   /*
   class ClosingListener extends WindowAdapter {
     public void windowClosing(WindowEvent e) {
       System.exit(0);
-    }
-  }
- 
-  class StrStpBtnListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-    }
-  }
- 
-  class SetPrdBtnListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-      //int period = view.getPrdFld();
-    }
-  }
- 
-  class SecondsObserver implements Observer {
-    public void update(Observable obs, Object arg) {
     }
   }
  
