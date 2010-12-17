@@ -1,111 +1,163 @@
 package mvc;
- 
-import java.awt.Container;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
- 
+
+import javax.swing.AbstractListModel;
+import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
- 
+import javax.swing.JList;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.KeyStroke;
+import javax.swing.LayoutStyle;
+import javax.swing.WindowConstants;
+
+@SuppressWarnings("serial")
 public class View extends JFrame {
-  private JTextField scnFld = new JTextField(5);
-  private JTextField prdFld = new JTextField(5);
-  private JButton setPrdBtn = new JButton("Set");
-  private JButton strStpBtn = new JButton("Start/Stop");
- 
-  public View(){
-    super("View");
- 
-    // Container
-    Container container = this.getContentPane();
- 
-    // Layout
-    GridBagLayout gbl = new GridBagLayout();
-    container.setLayout(gbl);
-    GridBagConstraints format = new GridBagConstraints();
- 
-    //(0,0) Seconds Label
-    JLabel scnLbl = new JLabel("Seconds");
-    format = new GridBagConstraints(0,0, 1,1, 0.0,0.0, GridBagConstraints.CENTER,GridBagConstraints.BOTH, new Insets(0,0,0,0), 0,0);
-    gbl.setConstraints(scnLbl, format);
-    container.add(scnLbl);
- 
-    //(1,0) Seconds Filed
-    scnFld.setEditable(false);
-    format = new GridBagConstraints(1,0, 1,1, 0.0,0.0, GridBagConstraints.CENTER,GridBagConstraints.BOTH, new Insets(0,0,0,0), 0,0);
-    gbl.setConstraints(scnFld, format);
-    container.add(scnFld);
- 
-    //(2,0) Start/Stop Button
-    format = new GridBagConstraints(2,0, 1,1, 0.0,0.0, GridBagConstraints.CENTER,GridBagConstraints.BOTH, new Insets(0,0,0,0), 0,0);
-    gbl.setConstraints(strStpBtn, format);
-    container.add(strStpBtn);
- 
-    //(0,1) Period Label
-    JLabel prdLbl = new JLabel("Period");
-    format = new GridBagConstraints(0,1, 1,1, 0.0,0.0, GridBagConstraints.CENTER,GridBagConstraints.BOTH, new Insets(0,0,0,0), 0,0);
-    gbl.setConstraints(prdLbl, format);
-    container.add(prdLbl);
- 
-    //(1,1) Period Field
-    format = new GridBagConstraints(1,1, 1,1, 0.0,0.0, GridBagConstraints.CENTER,GridBagConstraints.BOTH, new Insets(0,0,0,0), 0,0);
-    gbl.setConstraints(prdFld, format);
-    container.add(prdFld);
- 
-    //(2,1) Set Period Button
-    format = new GridBagConstraints(2,1, 1,1, 0.0,0.0, GridBagConstraints.CENTER,GridBagConstraints.BOTH, new Insets(0,0,0,0), 0,0);
-    gbl.setConstraints(setPrdBtn, format);
-    container.add(setPrdBtn);
- 
-    // Show frame
-    this.pack();
-    this.setResizable(false);
-    this.setLocation(250,250);
-    this.setVisible(true);
-  }
- 
-  // Closing Window Listener
-  public void addClosingListener(WindowAdapter wa){
-    this.addWindowListener(wa);
-  }
- 
-  // Start/Stop Button Listener
-  public void addstrStpBtnListener(ActionListener actLst) {
-    strStpBtn.addActionListener(actLst);
-  }
- 
-  // Set Period Button Listener
-  public void addSetPrdBtnListener(ActionListener actLst) {
-    setPrdBtn.addActionListener(actLst);
-  }
- 
-  // Set seconds Field
-  public void setScnFld(int sec){
-    scnFld.setText((new Integer(sec)).toString());
-  }
- 
-  // Set seconds Field
-  public void setPrdFld(int period){
-      prdFld.setText((new Integer(period)).toString());
-  }
- 
-  // Get period Field 
-  public int getPrdFld() {
-    return Integer.parseInt(prdFld.getText());
-  }
- 
-  // Question
-  public boolean question(){
-    int confirmation = JOptionPane.showConfirmDialog(null, "Restart ?", "Information", JOptionPane.YES_NO_OPTION);
-    if (confirmation == 0) return true;
-    if (confirmation == 1) return false;
- 
-    return false;
-  }
+    private JButton BtnExport;
+    private JButton BtnImport;
+    private JMenuItem ItemOpen;
+    private JMenuItem ItemQuit;
+    private JLabel LablDetails;
+    private JList ListCertificats;
+    private JList ListKeys;
+    private JMenuBar Menu;
+    private JMenu MenuKeytool;
+    private JScrollPane ScrollCertificatPanel;
+    private JScrollPane ScrollKeyPanel;
+    private JSplitPane SplitPanel;
+    private JTabbedPane TabbedPanel;
+	
+	public View(){
+		super("View");
+		mainWindow();
+		this.setVisible(true);
+	}
+
+    private void mainWindow() {
+        this.BtnImport = new JButton();
+        this.BtnExport = new JButton();
+        this.SplitPanel = new JSplitPane();
+        this.TabbedPanel = new JTabbedPane();
+        this.ScrollKeyPanel = new JScrollPane();
+        this.ListKeys = new JList();
+        this.ScrollCertificatPanel = new JScrollPane();
+        this.ListCertificats = new JList();
+        this.LablDetails = new JLabel();
+        this.Menu = new JMenuBar();
+        this.MenuKeytool = new JMenu();
+        this.ItemOpen = new JMenuItem();
+        this.ItemQuit = new JMenuItem();
+        
+        /* Fenetre */
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        setTitle("KeyTool");
+        
+        /* Bouton */
+        BtnImport.setText("Importer"); 
+        BtnExport.setText("Exporter");
+
+        /* SplitPanel */
+        SplitPanel.setDividerLocation(300);
+        SplitPanel.setContinuousLayout(true);
+
+        /* Liste Clés et Certificats */
+        ListKeys.setModel(new AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        ScrollKeyPanel.setViewportView(ListKeys);
+
+        ListCertificats.setModel(new AbstractListModel() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public Object getElementAt(int i) { return strings[i]; }
+        });
+        ScrollCertificatPanel.setViewportView(ListCertificats);
+
+        TabbedPanel.addTab("Clés", ScrollKeyPanel);
+        TabbedPanel.addTab("Certificats", ScrollCertificatPanel);
+
+        SplitPanel.setLeftComponent(TabbedPanel);
+        SplitPanel.setRightComponent(LablDetails);
+        
+        /* Menu */
+        MenuKeytool.setText("Keytool");
+        
+        /* Menu Ouvrir */
+        ItemOpen.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        ItemOpen.setText("Ouvrir");
+        //ItemOpen.setActionCommand(resourceMap.getString("ItemOpen.actionCommand")); // NOI18N
+        MenuKeytool.add(ItemOpen);
+
+        /* Menu Fermer */
+        ItemQuit.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        ItemQuit.setText("Quitter");
+        MenuKeytool.add(ItemQuit);
+
+        Menu.add(MenuKeytool);
+        setJMenuBar(Menu);
+
+        /* Layout */
+        GroupLayout layout = new GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(BtnImport)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BtnExport)
+                .addContainerGap(451, Short.MAX_VALUE))
+            .addComponent(SplitPanel, GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(GroupLayout.Alignment.LEADING)
+            .addGroup(GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addComponent(SplitPanel, GroupLayout.DEFAULT_SIZE, 354, Short.MAX_VALUE)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                    .addComponent(BtnImport)
+                    .addComponent(BtnExport)))
+        );
+
+        pack();
+    }
+    
+	/*
+	// Closing Window Listener
+	public void addClosingListener(WindowAdapter wa){
+		this.addWindowListener(wa);
+	}
+
+	// Start/Stop Button Listener
+	public void addstrStpBtnListener(ActionListener actLst) {
+		strStpBtn.addActionListener(actLst);
+	}
+
+	// Set Period Button Listener
+	public void addSetPrdBtnListener(ActionListener actLst) {
+		setPrdBtn.addActionListener(actLst);
+	}
+
+	// Set seconds Field
+	public void setScnFld(int sec){
+		scnFld.setText((new Integer(sec)).toString());
+	}
+
+	// Set seconds Field
+	public void setPrdFld(int period){
+		prdFld.setText((new Integer(period)).toString());
+	}
+
+	// Get period Field 
+	public int getPrdFld() {
+		return Integer.parseInt(prdFld.getText());
+	}
+	*/
+
 }

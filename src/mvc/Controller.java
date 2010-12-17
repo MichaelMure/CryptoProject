@@ -13,11 +13,11 @@ public class Controller {
  
   Controller(Model model, View view){
     this.view = view;
-    view.addstrStpBtnListener(new StrStpBtnListener());
+    /*view.addstrStpBtnListener(new StrStpBtnListener());
     view.addSetPrdBtnListener(new SetPrdBtnListener());
     view.addClosingListener(new ClosingListener());
     view.setScnFld(0);
-    view.setPrdFld(Model.DEFAULT_PERIOD);
+    view.setPrdFld(Model.DEFAULT_PERIOD);*/
  
     this.model = model;
   }
@@ -35,7 +35,7 @@ public class Controller {
  
   class SetPrdBtnListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
-      int period = view.getPrdFld();
+      //int period = view.getPrdFld();
     }
   }
  
