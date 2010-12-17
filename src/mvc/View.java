@@ -33,7 +33,7 @@ public class View extends JFrame {
     private JScrollPane ScrollKeyPanel;
     private JSplitPane SplitPanel;
     private JTabbedPane TabbedPanel;
-	
+
 	public View(){
 		super("View");
 		mainWindow();
@@ -55,20 +55,16 @@ public class View extends JFrame {
         this.MenuKeytool = new JMenu();
         this.ItemOpen = new JMenuItem();
         this.ItemQuit = new JMenuItem();
-        
+
         /* Fenetre */
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("KeyTool");
-        
+
         /* Bouton */
         BtnImport.setText("Importer"); 
         BtnExport.setText("Exporter");
 
-        /* SplitPanel */
-        SplitPanel.setDividerLocation(300);
-        SplitPanel.setContinuousLayout(true);
-
-        /* Liste Clés et Certificats */
+        /* Liste Clés */
         ListKeys.setModel(new AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -76,6 +72,7 @@ public class View extends JFrame {
         });
         ScrollKeyPanel.setViewportView(ListKeys);
 
+        /* Liste Certificats */
         ListCertificats.setModel(new AbstractListModel() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -83,15 +80,19 @@ public class View extends JFrame {
         });
         ScrollCertificatPanel.setViewportView(ListCertificats);
 
+        /* TabbedPanel */
         TabbedPanel.addTab("Clés", ScrollKeyPanel);
         TabbedPanel.addTab("Certificats", ScrollCertificatPanel);
 
+        /* SplitPanel */
+        SplitPanel.setDividerLocation(300);
+        SplitPanel.setContinuousLayout(true);
         SplitPanel.setLeftComponent(TabbedPanel);
         SplitPanel.setRightComponent(LablDetails);
-        
+
         /* Menu */
         MenuKeytool.setText("Keytool");
-        
+
         /* Menu Ouvrir */
         ItemOpen.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         ItemOpen.setText("Ouvrir");
@@ -130,23 +131,23 @@ public class View extends JFrame {
 
         pack();
     }
-    
+
     public void addItemQuitListener(ActionListener actLst) {
     	ItemQuit.addActionListener(actLst);
 	}
-    
+
     public void addItemOpenListener(ActionListener actLst) {
     	ItemOpen.addActionListener(actLst);
 	}
-    
+
     public void addBtnImportListener(ActionListener actLst) {
     	BtnImport.addActionListener(actLst);
 	}
-    
+
     public void addBtnExportListener(ActionListener actLst) {
     	BtnExport.addActionListener(actLst);
 	}
-    
+
 	/*
 	// Closing Window Listener
 	public void addClosingListener(WindowAdapter wa){
