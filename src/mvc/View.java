@@ -66,7 +66,7 @@ public class View extends JFrame {
 
         /* Liste Clés */
         ListKeys.setModel(new AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "Clé 1", "Clé 2", "Clé 3", "Clé 4", "Clé 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -74,7 +74,7 @@ public class View extends JFrame {
 
         /* Liste Certificats */
         ListCertificats.setModel(new AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            String[] strings = { "Cert 1", "Cert 2", "Cert 3", "Cert 4", "Cert 5" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
