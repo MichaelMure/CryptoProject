@@ -9,7 +9,6 @@ import java.util.Enumeration;
 
 public class MTKeyStore extends KeyStore {
 	private static String mdp = "keytool";
-	private Object[][] String;
 	
 	protected MTKeyStore(KeyStoreSpi keyStoreSpi, Provider provider, String type) {
 		super(keyStoreSpi, provider, type);
@@ -31,5 +30,22 @@ public class MTKeyStore extends KeyStore {
 		 }
 		 
 		 return (String[]) keys.toArray();
+	}
+	
+	public String[] getCertificates() throws KeyStoreException
+	{
+		 Enumeration<String> aliases = this.aliases();
+		 String alias;
+		 ArrayList<String> certificates = new ArrayList<String>();
+		 while(aliases.hasMoreElements())
+		 {
+			 alias =  aliases().nextElement();
+			 if(this.isKeyEntry(alias))
+			 {
+				 certificates.add(alias);
+			 }
+		 }
+		 
+		 return (String[]) certificates.toArray();
 	}
 }
