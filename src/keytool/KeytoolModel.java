@@ -1,5 +1,10 @@
 package keytool;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.cert.CertificateException;
 
 import javax.swing.event.EventListenerList;
 
@@ -16,7 +21,13 @@ public class KeytoolModel {
 	
 	public KeytoolModel(String path) {
 		super();
-		this.keystore = null;
+	    try {
+			keystore = KeyStore.getInstance("JCEKS");
+			openKeyStore(path);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		listeners = new EventListenerList();
 	}
@@ -26,7 +37,12 @@ public class KeytoolModel {
 	}
 	
 	public void setKeyStore(String path) {
-		
+		try {
+			openKeyStore(path);
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
 		fireKeyStoreChanged();
 
 	}
@@ -45,5 +61,13 @@ public class KeytoolModel {
 		for(KeytoolListener listener : listenerList){
 			listener.keystoreChanged(new KeyStoreChangedEvent(this, getKeyStore()));
 		}
+	}
+	
+	public void openKeyStore(String path) throws NoSuchAlgorithmException, CertificateException, IOException {
+
+	    String password = "keytool";
+	    java.io.FileInputStream fis =
+	        new java.io.FileInputStream("store.ks");
+	    keystore.load(fis, password.toCharArray());
 	}
 }
