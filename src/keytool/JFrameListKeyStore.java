@@ -165,18 +165,24 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 				alias = aliases.nextElement();
 				if(ks.isKeyEntry(alias))
 				{
-					ListKeysModel.addElement(alias+" ("+ks.getKey(alias, password.toCharArray()).getFormat()+")");
+					ListKeysModel.addElement(alias);
 				}
 			}
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
-		
-
+	}
+	
+	public void refreshDetails(Key key) {
+		LablDetails.setText(key.toString());
 	}
 	
 	public void keystoreChanged(KeyStoreChangedEvent event) {
 		refreshKeys(event.getNewKeyStore());
+	}
+	
+	public void keySelected(KeySelectedEvent event) {
+		refreshDetails(event.getSelectedKey());
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -188,7 +194,7 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 
 	@Override
 	public void focusGained(FocusEvent e) {
-
+		getController().notifyElementSelected(e);
 	}
 
 	@Override

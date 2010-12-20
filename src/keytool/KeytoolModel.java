@@ -1,6 +1,7 @@
 package keytool;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -11,7 +12,9 @@ import javax.swing.event.EventListenerList;
 public class KeytoolModel {
 
 	private KeyStore keystore;
+	private Key selectedKey;
 	private static String KEYSTORE_DEFAULT_PATH = "store.ks";
+	private static char[] DEFAULT_PASSWORD = { 'k', 'e', 'y', 't', 'o', 'o', 'l' };
 	
 	private EventListenerList listeners;
 	
@@ -47,6 +50,27 @@ public class KeytoolModel {
 
 	}
 	
+	public void setSelectedKey(String alias) {
+		try {
+			this.selectedKey = keystore.getKey(alias, DEFAULT_PASSWORD);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		fireKeySelected();
+	}
+
+	private void fireKeySelected() {
+		KeytoolListener[] listenerList = (KeytoolListener[])listeners.getListeners(KeytoolListener.class);
+		
+		for(KeytoolListener listener : listenerList){
+			listener.keySelected(new KeySelectedEvent(this, getSelectedKey()));
+		}		
+	}
+
+	public Key getSelectedKey() {
+		return selectedKey;
+	}
+
 	public void addKeytoolListener(KeytoolListener listener){
 		listeners.add(KeytoolListener.class, listener);
 	}
@@ -66,8 +90,7 @@ public class KeytoolModel {
 	public void openKeyStore(String path) throws NoSuchAlgorithmException, CertificateException, IOException {
 
 	    String password = "keytool";
-	    java.io.FileInputStream fis =
-	        new java.io.FileInputStream("store.ks");
+	    java.io.FileInputStream fis = new java.io.FileInputStream("store.ks");
 	    keystore.load(fis, password.toCharArray());
 	}
 }

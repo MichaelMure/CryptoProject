@@ -1,5 +1,9 @@
 package keytool;
 
+import java.awt.event.FocusEvent;
+
+import javax.swing.JList;
+
 public class KeytoolController {
 	public KeytoolView listView = null;
 	
@@ -27,5 +31,12 @@ public class KeytoolController {
 	
 	public void notifyKeyStoreChanged(String path) {
 		model.setKeyStore(path);
+	}
+
+	public void notifyElementSelected(FocusEvent e) {
+		JList KeyList = (JList) e.getSource();
+		model.setSelectedKey(KeyList.getSelectedValue().toString());
+		System.out.println(e.getSource().getClass().getName()+
+				KeyList.getSelectedValue().toString());
 	}
 }
