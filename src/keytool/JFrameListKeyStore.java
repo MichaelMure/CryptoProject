@@ -174,7 +174,13 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 	}
 	
 	public void refreshDetails(Key key) {
-		LablDetails.setText(key.toString());
+		StringBuilder sb = new StringBuilder();
+		sb.append("Algorithm: ");
+		sb.append(key.getAlgorithm());
+		sb.append("\n Format: ");
+		sb.append(key.getFormat());
+
+		LablDetails.setText(sb.toString());
 	}
 	
 	public void keystoreChanged(KeyStoreChangedEvent event) {
