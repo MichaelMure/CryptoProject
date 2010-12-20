@@ -1,9 +1,16 @@
 package model;
 
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.KeyStoreSpi;
 import java.security.Provider;
+import java.security.cert.Certificate;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
@@ -40,12 +47,33 @@ public class MTKeyStore extends KeyStore {
 		 while(aliases.hasMoreElements())
 		 {
 			 alias =  aliases().nextElement();
-			 if(this.isKeyEntry(alias))
+			 if(this.isCertificateEntry(alias))
 			 {
 				 certificates.add(alias);
 			 }
 		 }
 		 
 		 return (String[]) certificates.toArray();
+	}
+	
+	public void addCertificate(String alias, String path) throws IOException, FileNotFoundException, CertificateException, KeyStoreException
+	{
+		FileInputStream fis;
+		fis = new FileInputStream(path);
+
+		BufferedInputStream bis = new BufferedInputStream(fis);
+
+		CertificateFactory cf;
+		cf = CertificateFactory.getInstance("X.509");
+
+		// S'il y a plusieurs certificats dans le fichier
+		// ça pose problème pour les alias
+//		while (bis.available() > 0) {
+			Certificate cert;
+			cert = cf.generateCertificate(bis);
+			System.out.println(cert.toString());
+			this.setCertificateEntry(alias, cert);
+//		}
+		 
 	}
 }
