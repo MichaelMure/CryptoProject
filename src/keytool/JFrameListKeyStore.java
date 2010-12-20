@@ -2,7 +2,16 @@ package keytool;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.security.Key;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultListModel;
@@ -21,7 +30,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 
-public class JFrameListKeyStore extends KeytoolView implements ActionListener {
+public class JFrameListKeyStore extends KeytoolView implements ActionListener, FocusListener {
     private JButton BtnExport;
     private JButton BtnImport;
     private JMenuItem ItemOpen;
@@ -74,6 +83,7 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener {
         /* Liste Clés */
         ListKeysModel = new DefaultListModel();
         ListKeys.setModel(ListKeysModel);
+        ListKeys.addFocusListener(this);
         ScrollKeyPanel.setViewportView(ListKeys);
 
         /* Liste Certificats */
@@ -145,20 +155,45 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener {
 		frame.setVisible(true);
 	}
 
-	public void refreshKeys() {
-		ListKeysModel.addElement("Hello");
+	public void refreshKeys(KeyStore ks) {
+		HashMap<String,Key> keys = new HashMap<String,Key>();
+		String alias;
+		String password = "keytool";
+		try {
+			Enumeration<String> aliases = ks.aliases();
+			while(aliases.hasMoreElements()) {
+				alias = aliases.nextElement();
+				if(ks.isKeyEntry(alias))
+				{
+					ListKeysModel.addElement(alias+" ("+ks.getKey(alias, password.toCharArray()).getFormat()+")");
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		
+
 	}
 	
 	public void keystoreChanged(KeyStoreChangedEvent event) {
-		
-		refreshKeys();
-
+		refreshKeys(event.getNewKeyStore());
 	}
 
 	public void actionPerformed(ActionEvent e) {
 		if(e.getActionCommand().equals("import")) {
 			getController().notifyKeyStoreChanged(null);
 		}
+		
+	}
+
+	@Override
+	public void focusGained(FocusEvent e) {
+
+	}
+
+	@Override
+	public void focusLost(FocusEvent e) {
+		// TODO Auto-generated method stub
 		
 	}
 
