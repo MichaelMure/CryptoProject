@@ -2,6 +2,7 @@ package keytool.model;
 
 import java.security.Key;
 
+
 public class MTKey {
 	private Key key;
 	private char[] password;
@@ -29,5 +30,9 @@ public class MTKey {
 	
 	public String toString() {
 		return "clé "+key.getAlgorithm()+", "+key.getFormat()+", "+key.getClass().getName();
+	}
+	
+	public String getDetails() {
+		return this.key.getClass().getName();
 	}
 }
