@@ -1,6 +1,10 @@
 package keytool;
 
+import java.awt.List;
 import java.awt.event.FocusEvent;
+import java.security.Key;
+import java.util.ArrayList;
+import java.util.Enumeration;
 
 import javax.swing.JList;
 import javax.swing.JTabbedPane;
@@ -29,6 +33,24 @@ public class KeytoolController {
 	
 	public void closeViews() {
 		listView.close();
+	}
+	
+	public ArrayList<String> getKeys() {
+		String alias;
+		ArrayList<String> keys = new ArrayList<String>();
+		try {
+			Enumeration<String> aliases = model.getKeyStore().aliases();
+			while(aliases.hasMoreElements()) {
+				alias = aliases.nextElement();
+				if(model.getKeyStore().isKeyEntry(alias))
+				{
+					keys.add(alias);
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return keys;
 	}
 	
 	public void notifyKeyStoreChanged(String path) {

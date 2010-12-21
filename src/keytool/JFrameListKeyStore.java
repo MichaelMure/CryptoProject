@@ -157,23 +157,16 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 		frame.setVisible(true);
 	}
 
-	public void refreshKeys(KeyStore ks) {
-		String alias;
-		try {
-			Enumeration<String> aliases = ks.aliases();
-			while(aliases.hasMoreElements()) {
-				alias = aliases.nextElement();
-				if(ks.isKeyEntry(alias))
-				{
-					ListKeysModel.addElement(alias);
-				}
-			}
-		} catch(Exception e) {
-			e.printStackTrace();
+	public void refreshKeys() {
+		ListKeysModel.clear();
+		ArrayList<String> keys = getController().getKeys();
+		for(int i = 0; i < keys.size(); i++) {
+			ListKeysModel.addElement(keys.get(i));
 		}
 	}
 	
 	public void refreshCertificates(Certificate certs) {
+		ListCertificateModel.clear();
 		ListCertificateModel.addElement("Cert1");
 		ListCertificateModel.addElement("Cert2");
 		ListCertificateModel.addElement("Cert3");
@@ -190,7 +183,7 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 	}
 	
 	public void keystoreChanged(KeyStoreChangedEvent event) {
-		refreshKeys(event.getNewKeyStore());
+		refreshKeys();
 	}
 	
 	public void keySelected(KeySelectedEvent event) {
@@ -217,16 +210,16 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		getController().notifyTabChanged(e);
+		System.out.println(((JTabbedPane) e.getSource()).getSelectedIndex());
 	}
 
 	@Override
 	public void selectedTabChanged(TabChangedEvent event) {
-		if(Integer.valueOf(event.getSelectedTab()).equals(1)) {
+		if(Integer.valueOf(event.getSelectedTab()).equals(0)) {
 			//refreshKeys();
 		} else {
 			refreshCertificates(null);
 			System.out.println(event.getSelectedTab());
 		}
 	}
-
 }
