@@ -1,6 +1,9 @@
 package keytool.mvc;
 
 import java.awt.event.ActionListener;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -143,11 +146,16 @@ public class View extends JFrame {
 	}
 
     public void refreshKeys() {
-        this.ListKeys.setModel(this.model.getKeys());
+    	try {
+    		this.ListKeys.setModel(this.model.getKeys());
+    	} catch(Exception e) { e.printStackTrace(); }
     }
     
     public void refreshCertificates() {
-    	this.ListCertificates.setModel(this.model.getCertificates());
+    	try {
+    		this.ListCertificates.setModel(this.model.getCertificates());
+    	} catch(Exception e) { e.printStackTrace(); }
+
     }
     
 	/*
