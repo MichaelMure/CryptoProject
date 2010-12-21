@@ -165,8 +165,12 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 		}
 	}
 	
-	public void refreshCertificates(Certificate certs) {
+	public void refreshCertificates() {
 		ListCertificateModel.clear();
+		ArrayList<String> certs = getController().getCertificates();
+		for(int i = 0; i < certs.size(); i++) {
+			ListKeysModel.addElement(certs.get(i));
+		}
 		ListCertificateModel.addElement("Cert1");
 		ListCertificateModel.addElement("Cert2");
 		ListCertificateModel.addElement("Cert3");
@@ -210,16 +214,14 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 	@Override
 	public void stateChanged(ChangeEvent e) {
 		getController().notifyTabChanged(e);
-		System.out.println(((JTabbedPane) e.getSource()).getSelectedIndex());
 	}
 
 	@Override
 	public void selectedTabChanged(TabChangedEvent event) {
 		if(Integer.valueOf(event.getSelectedTab()).equals(0)) {
-			//refreshKeys();
+			refreshKeys();
 		} else {
-			refreshCertificates(null);
-			System.out.println(event.getSelectedTab());
+			refreshCertificates();
 		}
 	}
 }

@@ -53,6 +53,24 @@ public class KeytoolController {
 		return keys;
 	}
 	
+	public ArrayList<String> getCertificates() {
+		String alias;
+		ArrayList<String> certificates = new ArrayList<String>();
+		try {
+			Enumeration<String> aliases = model.getKeyStore().aliases();
+			while(aliases.hasMoreElements()) {
+				alias = aliases.nextElement();
+				if(model.getKeyStore().isCertificateEntry(alias))
+				{
+					certificates.add(alias);
+				}
+			}
+		} catch(Exception e) {
+			e.printStackTrace();
+		}
+		return certificates;
+	}
+	
 	public void notifyKeyStoreChanged(String path) {
 		model.setKeyStore(path);
 	}
