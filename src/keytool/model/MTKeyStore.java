@@ -7,6 +7,8 @@ import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
+import keytool.mvc.Model;
+
 public class MTKeyStore {
 	private KeyStore keystore;
 	private char[] password;
@@ -25,7 +27,7 @@ public class MTKeyStore {
 	    try {
 			KeyStore ks = KeyStore.getInstance("JCEKS");
 		    java.io.FileInputStream fis = new java.io.FileInputStream("store.ks");
-		    ks.load(fis, "keytool".toCharArray());
+		    ks.load(fis, Model.DEFAULT_PASSWORD);
 		    return ks;
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -60,7 +62,7 @@ public class MTKeyStore {
 		while(aliases.hasMoreElements()) {
 			alias = aliases.nextElement();
 			if(this.keystore.isKeyEntry(alias)) {
-				keys.add(new MTKey(this.keystore.getKey(alias, "keytool".toCharArray()), "keytool".toCharArray()));
+				keys.add(new MTKey(this.keystore.getKey(alias, Model.DEFAULT_PASSWORD), Model.DEFAULT_PASSWORD));
 			}
 		}
 		return keys;

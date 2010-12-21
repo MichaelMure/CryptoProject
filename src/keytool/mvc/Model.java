@@ -12,12 +12,12 @@ public class Model {
 	private int selectedTab;
 
 	private static String KEYSTORE_DEFAULT_PATH = "store.ks";
-	private static char[] DEFAULT_PASSWORD = { 'k', 'e', 'y', 't', 'o', 'o', 'l' };
+	public static char[] DEFAULT_PASSWORD = { 'k', 'e', 'y', 't', 'o', 'o', 'l' };
 	
 	private EventListenerList listeners;
 	
     public Model(){
-    	this.keystore = new MTKeyStore("store.ks", "keytool".toCharArray());
+    	this.keystore = new MTKeyStore("store.ks", Model.DEFAULT_PASSWORD);
 
     }
 	
