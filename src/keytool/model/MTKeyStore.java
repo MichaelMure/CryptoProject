@@ -4,6 +4,8 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
+import java.util.ArrayList;
+import java.util.Enumeration;
 
 public class MTKeyStore {
 	private KeyStore keystore;
@@ -49,5 +51,18 @@ public class MTKeyStore {
 	
 	public MTKey getKey(String alias) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
 		return new MTKey(this.keystore.getKey(alias, password), password);
+	}
+	
+	public ArrayList<MTKey> getKeys() throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException {
+		Enumeration<String> aliases = this.keystore.aliases();
+		ArrayList<MTKey> keys = new ArrayList<MTKey>();
+		String alias;
+		while(aliases.hasMoreElements()) {
+			alias = aliases.nextElement();
+			if(this.keystore.isKeyEntry(alias)) {
+				keys.add(new MTKey(this.keystore.getKey(alias, "keytool".toCharArray()), "keytool".toCharArray()));
+			}
+		}
+		return keys;
 	}
 }

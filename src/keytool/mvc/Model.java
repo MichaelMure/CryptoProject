@@ -3,6 +3,7 @@ package keytool.mvc;
 
 import javax.swing.event.EventListenerList;
 
+import keytool.model.MTKey;
 import keytool.model.MTKeyStore;
 
 public class Model {
@@ -17,6 +18,7 @@ public class Model {
 	
     public Model(){
     	this.keystore = new MTKeyStore("store.ks", "keytool".toCharArray());
+
     }
 	
 
