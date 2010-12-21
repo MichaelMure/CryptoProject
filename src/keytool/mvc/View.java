@@ -1,10 +1,7 @@
 package keytool.mvc;
 
 import java.awt.event.ActionListener;
-import keytool.model.MTKey;
-import java.util.ArrayList;
 
-import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -35,11 +32,12 @@ public class View extends JFrame {
     private JScrollPane ScrollKeyPanel;
     private JSplitPane SplitPanel;
     private JTabbedPane TabbedPanel;
-    private DefaultListModel ListCertificatesModel, ListKeysModel;
+
+    private Model model;
     
-    
-	public View(){
+	public View(Model model){
 		super("View");
+		this.model = model;
 		mainWindow();
 		this.setLocation(250,250);
 		this.setVisible(true);
@@ -59,9 +57,6 @@ public class View extends JFrame {
         this.MenuKeytool = new JMenu();
         this.ItemOpen = new JMenuItem();
         this.ItemQuit = new JMenuItem();
-
-        this.ListCertificatesModel = new DefaultListModel();
-        this.ListKeysModel = new DefaultListModel();
         
         /* Fenetre */
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -72,14 +67,13 @@ public class View extends JFrame {
         BtnExport.setText("Exporter");
 
         /* Liste Clés */
-        
-        ListKeys.setModel(ListKeysModel);
         ScrollKeyPanel.setViewportView(ListKeys);
-
+        this.refreshKeys();
+        
         /* Liste Certificats */
-        ListCertificates.setModel(ListCertificatesModel);
         ScrollCertificatPanel.setViewportView(ListCertificates);
-
+        this.refreshCertificates();
+        
         /* TabbedPanel */
         TabbedPanel.addTab("Clés", ScrollKeyPanel);
         TabbedPanel.addTab("Certificats", ScrollCertificatPanel);
@@ -148,12 +142,14 @@ public class View extends JFrame {
     	BtnExport.addActionListener(actLst);
 	}
 
-    public void refreshKeys(ArrayList<MTKey> keys) {
-    	ListKeysModel.clear();
-    	for(int i =0; i < keys.size(); i++) {
-    		ListKeysModel.addElement(keys.get(i).toString());
-    	}
+    public void refreshKeys() {
+        this.ListKeys.setModel(this.model.getKeys());
     }
+    
+    public void refreshCertificates() {
+    	this.ListCertificates.setModel(this.model.getCertificates());
+    }
+    
 	/*
 	// Closing Window Listener
 	public void addClosingListener(WindowAdapter wa){
