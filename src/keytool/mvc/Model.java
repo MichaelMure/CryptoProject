@@ -1,5 +1,10 @@
 package keytool.mvc;
 
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.util.ArrayList;
+
 import javax.swing.DefaultListModel;
 
 import keytool.model.MTKey;
@@ -16,9 +21,12 @@ public class Model {
     	this.keystore = new MTKeyStore(KEYSTORE_DEFAULT_PATH, DEFAULT_PASSWORD);
     }
 	
-    public DefaultListModel getKeys() {
+    public DefaultListModel getKeys() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
     	DefaultListModel list = new DefaultListModel();
-    	list.addElement("Item1");
+    	ArrayList<MTKey> keys = this.keystore.getKeys();
+    	for(int i =0; i < keys.size(); i++)
+    		list.addElement(keys.get(i).toString());
+    	
         return list;
     }
     
