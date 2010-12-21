@@ -4,17 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.security.cert.Certificate;
 import java.security.Key;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.HashMap;
 
-import javax.swing.AbstractListModel;
+import java.util.ArrayList;
+
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import javax.swing.GroupLayout;
@@ -118,6 +112,8 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
         /* Menu Fermer */
         ItemQuit.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
         ItemQuit.setText("Quitter");
+        ItemQuit.setActionCommand("quitter");
+        ItemQuit.addActionListener(this);
         MenuKeytool.add(ItemQuit);
 
         Menu.add(MenuKeytool);
@@ -155,6 +151,8 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 
 	public void display() {
 		frame.setVisible(true);
+		refreshCertificates();
+		refreshKeys();
 	}
 
 	public void refreshKeys() {
@@ -195,8 +193,11 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 	}
 
 	public void actionPerformed(ActionEvent e) {
-		if(e.getActionCommand().equals("import")) {
+		String action = e.getActionCommand();
+		if(action.equals("import")) {
 			getController().notifyKeyStoreChanged(null);
+		} else if(action.equals("quitter")) {
+			this.close();
 		}
 		
 	}
