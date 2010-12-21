@@ -67,4 +67,17 @@ public class MTKeyStore {
 		}
 		return keys;
 	}
+	
+	public ArrayList<MTCertificate> getCertificates() throws KeyStoreException {
+		Enumeration<String> aliases = this.keystore.aliases();
+		ArrayList<MTCertificate> certificates = new ArrayList<MTCertificate>();
+		String alias;
+		while(aliases.hasMoreElements()) {
+			alias = aliases.nextElement();
+			if(this.keystore.isCertificateEntry(alias)) {
+				certificates.add(new MTCertificate(this.keystore.getCertificate(alias)));
+			}
+		}
+		return certificates;
+	}
 }
