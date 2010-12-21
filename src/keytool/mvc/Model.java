@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
 
+import keytool.model.MTCertificate;
 import keytool.model.MTKey;
 import keytool.model.MTKeyStore;
 
@@ -24,15 +25,22 @@ public class Model {
     public DefaultListModel getKeys() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
     	DefaultListModel list = new DefaultListModel();
     	ArrayList<MTKey> keys = this.keystore.getKeys();
-    	for(int i =0; i < keys.size(); i++)
+    	for(int i = 0; i < keys.size(); i++) {
     		list.addElement(keys.get(i).toString());
+    	}
     	
         return list;
     }
     
-    public DefaultListModel getCertificates() {
+    public DefaultListModel getCertificates() throws KeyStoreException {
     	DefaultListModel list = new DefaultListModel();
+    	ArrayList<MTCertificate> certificates;
+			certificates = this.keystore.getCertificates();
+
+    	for(int i =0; i < certificates.size(); i++)
+    		list.addElement(certificates.get(i).toString());
     	
+	
         return list;
     }
 

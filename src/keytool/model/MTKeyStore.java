@@ -14,7 +14,7 @@ public class MTKeyStore {
 	private char[] password;
 	
 	public MTKeyStore(String path, char[] password) {
-		openKeyStore(path, password);
+		this.keystore = openKeyStore(path, password);
 		this.password = password;
 	}
 	
@@ -23,7 +23,7 @@ public class MTKeyStore {
 		this.password = password;
 	}
 	
-	public KeyStore openKeyStore(String path, char[] password) {
+	public static KeyStore openKeyStore(String path, char[] password) {
 	    try {
 			KeyStore ks = KeyStore.getInstance("JCEKS");
 		    java.io.FileInputStream fis = new java.io.FileInputStream("store.ks");
@@ -74,7 +74,7 @@ public class MTKeyStore {
 		String alias;
 		while(aliases.hasMoreElements()) {
 			alias = aliases.nextElement();
-			if(this.keystore.isCertificateEntry(alias)) {
+			if(this.keystore.isKeyEntry(alias)) {
 				certificates.add(new MTCertificate(this.keystore.getCertificate(alias)));
 			}
 		}

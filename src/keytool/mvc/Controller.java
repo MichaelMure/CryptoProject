@@ -13,6 +13,8 @@ public class Controller {
     this.view.addItemOpenListener(new ItemOpenListener());
     this.view.addBtnImportListener(new BtnImportListener());
     this.view.addBtnExportListener(new BtnExportListener());
+    this.view.refreshKeys();
+    
     
     this.model = model;
   }

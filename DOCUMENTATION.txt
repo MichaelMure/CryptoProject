@@ -1,3 +1,5 @@
 http://download.oracle.com/javase/7/docs/technotes/guides/security/crypto/CryptoSpec.html#KeyStore
 
 http://stackoverflow.com/questions/1321557/can-not-get-key-from-keystore
+
+http://www.exampledepot.com/egs/java.security/GetKeyFromKs.html
