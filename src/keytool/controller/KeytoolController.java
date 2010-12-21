@@ -1,6 +1,5 @@
 package keytool.controller;
 
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseEvent;
 import java.security.Key;
 import java.util.ArrayList;
