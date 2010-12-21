@@ -13,6 +13,8 @@ public class KeytoolModel {
 
 	private KeyStore keystore;
 	private Key selectedKey;
+	private int selectedTab;
+
 	private static String KEYSTORE_DEFAULT_PATH = "store.ks";
 	private static char[] DEFAULT_PASSWORD = { 'k', 'e', 'y', 't', 'o', 'o', 'l' };
 	
@@ -59,7 +61,7 @@ public class KeytoolModel {
 		fireKeySelected();
 	}
 
-	private void fireKeySelected() {
+	public void fireKeySelected() {
 		KeytoolListener[] listenerList = (KeytoolListener[])listeners.getListeners(KeytoolListener.class);
 		
 		for(KeytoolListener listener : listenerList){
@@ -92,5 +94,22 @@ public class KeytoolModel {
 	    String password = "keytool";
 	    java.io.FileInputStream fis = new java.io.FileInputStream("store.ks");
 	    keystore.load(fis, password.toCharArray());
+	}
+
+	public void setSelectedTab(int selectedIndex) {
+		this.selectedTab = selectedIndex;
+		fireSelectedTab();
+	}
+	
+	private void fireSelectedTab() {
+		KeytoolListener[] listenerList = (KeytoolListener[]) listeners.getListeners(KeytoolListener.class);
+		
+		for(KeytoolListener listener : listenerList){
+			listener.selectedTabChanged(new TabChangedEvent(this, getSelectedTab()));
+		}
+	}
+
+	public int getSelectedTab() {
+		return this.selectedTab;
 	}
 }

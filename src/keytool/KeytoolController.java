@@ -3,6 +3,8 @@ package keytool;
 import java.awt.event.FocusEvent;
 
 import javax.swing.JList;
+import javax.swing.JTabbedPane;
+import javax.swing.event.ChangeEvent;
 
 public class KeytoolController {
 	public KeytoolView listView = null;
@@ -38,5 +40,10 @@ public class KeytoolController {
 		model.setSelectedKey(KeyList.getSelectedValue().toString());
 		System.out.println(e.getSource().getClass().getName()+
 				KeyList.getSelectedValue().toString());
+	}
+
+	public void notifyTabChanged(ChangeEvent e) {
+		JTabbedPane panel = (JTabbedPane) e.getSource();
+		model.setSelectedTab(panel.getSelectedIndex());
 	}
 }

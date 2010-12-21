@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.security.cert.Certificate;
 import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
@@ -29,8 +30,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
-public class JFrameListKeyStore extends KeytoolView implements ActionListener, FocusListener {
+public class JFrameListKeyStore extends KeytoolView implements ActionListener, FocusListener, ChangeListener {
     private JButton BtnExport;
     private JButton BtnImport;
     private JMenuItem ItemOpen;
@@ -47,6 +50,7 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
     private JFrame frame;
     
     private DefaultListModel ListKeysModel;
+    private DefaultListModel ListCertificateModel;
     
 	public JFrameListKeyStore(KeytoolController controller, KeyStore keystore) {
 		super(controller);
@@ -87,17 +91,15 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
         ScrollKeyPanel.setViewportView(ListKeys);
 
         /* Liste Certificats */
-        ListCertificats.setModel(new AbstractListModel() {
-            String[] strings = { "Cert 1", "Cert 2", "Cert 3", "Cert 4", "Cert 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        ListCertificateModel = new DefaultListModel();
+        ListCertificats.setModel(ListCertificateModel);
         ScrollCertificatPanel.setViewportView(ListCertificats);
-
+        
         /* TabbedPanel */
         TabbedPanel.addTab("Clés", ScrollKeyPanel);
         TabbedPanel.addTab("Certificats", ScrollCertificatPanel);
-
+        TabbedPanel.addChangeListener(this);
+        
         /* SplitPanel */
         SplitPanel.setDividerLocation(300);
         SplitPanel.setContinuousLayout(true);
@@ -156,9 +158,7 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 	}
 
 	public void refreshKeys(KeyStore ks) {
-		HashMap<String,Key> keys = new HashMap<String,Key>();
 		String alias;
-		String password = "keytool";
 		try {
 			Enumeration<String> aliases = ks.aliases();
 			while(aliases.hasMoreElements()) {
@@ -171,6 +171,12 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void refreshCertificates(Certificate certs) {
+		ListCertificateModel.addElement("Cert1");
+		ListCertificateModel.addElement("Cert2");
+		ListCertificateModel.addElement("Cert3");
 	}
 	
 	public void refreshDetails(Key key) {
@@ -205,8 +211,22 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 
 	@Override
 	public void focusLost(FocusEvent e) {
-		// TODO Auto-generated method stub
-		
+	
+	}
+
+	@Override
+	public void stateChanged(ChangeEvent e) {
+		getController().notifyTabChanged(e);
+	}
+
+	@Override
+	public void selectedTabChanged(TabChangedEvent event) {
+		if(Integer.valueOf(event.getSelectedTab()).equals(1)) {
+			//refreshKeys();
+		} else {
+			refreshCertificates(null);
+			System.out.println(event.getSelectedTab());
+		}
 	}
 
 }
