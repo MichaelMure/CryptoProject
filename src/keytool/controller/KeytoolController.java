@@ -1,4 +1,4 @@
-package keytool;
+package keytool.controller;
 
 import java.awt.event.FocusEvent;
 import java.awt.event.MouseEvent;
@@ -9,6 +9,10 @@ import java.util.Enumeration;
 import javax.swing.JList;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
+
+import keytool.model.KeytoolModel;
+import keytool.view.JFrameListKeyStore;
+import keytool.view.KeytoolView;
 
 public class KeytoolController {
 	public KeytoolView listView = null;

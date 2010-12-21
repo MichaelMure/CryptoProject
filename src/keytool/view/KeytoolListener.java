@@ -1,4 +1,4 @@
-package keytool;
+package keytool.view;
 
 import java.util.EventListener;
 

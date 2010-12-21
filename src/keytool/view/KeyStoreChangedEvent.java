@@ -1,4 +1,4 @@
-package keytool;
+package keytool.view;
 
 import java.security.KeyStore;
 import java.util.EventObject;

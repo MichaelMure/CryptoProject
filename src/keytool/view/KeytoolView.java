@@ -1,4 +1,6 @@
-package keytool;
+package keytool.view;
+
+import keytool.controller.KeytoolController;
 
 public abstract class KeytoolView implements KeytoolListener {
 

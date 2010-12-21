@@ -1,4 +1,4 @@
-package keytool;
+package keytool.view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,6 +29,8 @@ import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+
+import keytool.controller.KeytoolController;
 
 public class JFrameListKeyStore extends KeytoolView implements ActionListener, ChangeListener, MouseListener {
     private JButton BtnExport;
