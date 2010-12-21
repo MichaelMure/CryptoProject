@@ -4,6 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.security.Key;
 import java.security.KeyStore;
 
@@ -27,7 +29,7 @@ import javax.swing.WindowConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-public class JFrameListKeyStore extends KeytoolView implements ActionListener, FocusListener, ChangeListener {
+public class JFrameListKeyStore extends KeytoolView implements ActionListener, ChangeListener, MouseListener {
     private JButton BtnExport;
     private JButton BtnImport;
     private JMenuItem ItemOpen;
@@ -81,7 +83,7 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
         /* Liste Clés */
         ListKeysModel = new DefaultListModel();
         ListKeys.setModel(ListKeysModel);
-        ListKeys.addFocusListener(this);
+        ListKeys.addMouseListener(this);
         ScrollKeyPanel.setViewportView(ListKeys);
 
         /* Liste Certificats */
@@ -106,7 +108,7 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
         /* Menu Ouvrir */
         ItemOpen.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
         ItemOpen.setText("Ouvrir");
-        //ItemOpen.setActionCommand(resourceMap.getString("ItemOpen.actionCommand")); // NOI18N
+        ItemOpen.setActionCommand("ouvrir");
         MenuKeytool.add(ItemOpen);
 
         /* Menu Fermer */
@@ -203,16 +205,6 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 	}
 
 	@Override
-	public void focusGained(FocusEvent e) {
-		getController().notifyElementSelected(e);
-	}
-
-	@Override
-	public void focusLost(FocusEvent e) {
-	
-	}
-
-	@Override
 	public void stateChanged(ChangeEvent e) {
 		getController().notifyTabChanged(e);
 	}
@@ -225,4 +217,14 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, F
 			refreshCertificates();
 		}
 	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		getController().notifyElementSelected(e);
+	}
+
+	public void mouseEntered(MouseEvent arg0) {}
+	public void mouseExited(MouseEvent arg0) {}
+	public void mousePressed(MouseEvent arg0) {}
+	public void mouseReleased(MouseEvent arg0) {}
 }

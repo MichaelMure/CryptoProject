@@ -1,7 +1,7 @@
 package keytool;
 
-import java.awt.List;
 import java.awt.event.FocusEvent;
+import java.awt.event.MouseEvent;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -71,19 +71,24 @@ public class KeytoolController {
 		return certificates;
 	}
 	
+	public Key getSelectedKey() {
+		return model.getSelectedKey();
+	}
+	
 	public void notifyKeyStoreChanged(String path) {
 		model.setKeyStore(path);
-	}
-
-	public void notifyElementSelected(FocusEvent e) {
-		JList KeyList = (JList) e.getSource();
-		model.setSelectedKey(KeyList.getSelectedValue().toString());
-		System.out.println(e.getSource().getClass().getName()+
-				KeyList.getSelectedValue().toString());
 	}
 
 	public void notifyTabChanged(ChangeEvent e) {
 		JTabbedPane panel = (JTabbedPane) e.getSource();
 		model.setSelectedTab(panel.getSelectedIndex());
+	}
+
+	public void notifyElementSelected(MouseEvent e) {
+		JList KeyList = (JList) e.getSource();
+		if(KeyList.getSelectedValue() == null) return;
+		model.setSelectedKey(KeyList.getSelectedValue().toString());
+		System.out.println(e.getSource().getClass().getName()+
+				KeyList.getSelectedValue().toString());
 	}
 }
