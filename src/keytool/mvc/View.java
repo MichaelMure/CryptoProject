@@ -71,11 +71,21 @@ public class View extends JFrame {
 
         /* Liste Clés */
         ScrollKeyPanel.setViewportView(ListKeys);
-        this.refreshKeys();
+        try {
+			this.refreshKeys();
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.dispose();
+		}
         
         /* Liste Certificats */
         ScrollCertificatPanel.setViewportView(ListCertificates);
-        this.refreshCertificates();
+        try {
+			this.refreshCertificates();
+		} catch (Exception e) {
+			e.printStackTrace();
+			this.dispose();
+		}
         
         /* TabbedPanel */
         TabbedPanel.addTab("Clés", ScrollKeyPanel);
@@ -145,18 +155,13 @@ public class View extends JFrame {
     	BtnExport.addActionListener(actLst);
 	}
 
-    public void refreshKeys() {
-    	try {
-    		this.ListKeys.setModel(this.model.getKeys());
-    	} catch(Exception e) { e.printStackTrace(); }
+    public void refreshKeys() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
+   		this.ListKeys.setModel(this.model.getKeys());
     }
     
-    public void refreshCertificates() {
-    	try {
-    		this.ListCertificates.setModel(this.model.getCertificates());
-    	} catch(Exception e) { e.printStackTrace(); }
-
-    }
+    public void refreshCertificates() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
+		this.ListCertificates.setModel(this.model.getCertificates());
+	}
     
 	/*
 	// Closing Window Listener
