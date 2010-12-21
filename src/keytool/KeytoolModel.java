@@ -5,6 +5,7 @@ import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 
 import javax.swing.event.EventListenerList;
@@ -12,7 +13,8 @@ import javax.swing.event.EventListenerList;
 public class KeytoolModel {
 
 	private KeyStore keystore;
-	private Key selectedKey;
+	private Object selectedElement;
+	//private Certificate selectedCertificate;
 	private int selectedTab;
 
 	private static String KEYSTORE_DEFAULT_PATH = "store.ks";
@@ -52,27 +54,35 @@ public class KeytoolModel {
 
 	}
 	
-	public void setSelectedKey(String alias) {
+	public void setSelectedElement(String alias) {
 		try {
-			this.selectedKey = keystore.getKey(alias, DEFAULT_PASSWORD);
+			if(keystore.isKeyEntry(alias))
+				this.selectedElement = keystore.getKey(alias, DEFAULT_PASSWORD);
+			else if (keystore.isCertificateEntry(alias))
+				this.selectedElement = keystore.getCertificate(alias);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		fireKeySelected();
+		fireElementSelected();
 	}
 
-	public void fireKeySelected() {
+	public void fireElementSelected() {
 		KeytoolListener[] listenerList = (KeytoolListener[])listeners.getListeners(KeytoolListener.class);
 		
 		for(KeytoolListener listener : listenerList){
-			listener.keySelected(new KeySelectedEvent(this, getSelectedKey()));
+			listener.elementSelected(new ElementSelectedEvent(this, getSelectedElement()));
 		}		
 	}
 
-	public Key getSelectedKey() {
-		return selectedKey;
+	public Object getSelectedElement() {
+		return selectedElement;
 	}
 
+/*
+	public Certificate getSelectedCertificate() {
+		return selectedCertificate;
+	}
+*/
 	public void addKeytoolListener(KeytoolListener listener){
 		listeners.add(KeytoolListener.class, listener);
 	}

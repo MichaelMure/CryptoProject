@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.security.Key;
 import java.security.KeyStore;
+import java.security.cert.Certificate;
 
 import java.util.ArrayList;
 
@@ -89,6 +90,7 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, C
         /* Liste Certificats */
         ListCertificateModel = new DefaultListModel();
         ListCertificats.setModel(ListCertificateModel);
+        ListCertificats.addMouseListener(this);
         ScrollCertificatPanel.setViewportView(ListCertificats);
         
         /* TabbedPanel */
@@ -176,13 +178,20 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, C
 		ListCertificateModel.addElement("Cert3");
 	}
 	
-	public void refreshDetails(Key key) {
+	public void refreshDetails(Object obj) {
 		StringBuilder sb = new StringBuilder();
-		sb.append("Algorithm: ");
-		sb.append(key.getAlgorithm());
-		sb.append("\n Format: ");
-		sb.append(key.getFormat());
-
+		LablDetails.setText("empty");
+		
+		try {
+			Key key = (Key) obj;
+			sb.append("Algorithm: ");
+			sb.append(key.getAlgorithm());
+			sb.append("\n Format: ");
+			sb.append(key.getFormat());
+		} catch(Exception e) {
+			Certificate cert = (Certificate) obj;
+			sb.append("Certificat !");
+		}
 		LablDetails.setText(sb.toString());
 	}
 	
@@ -190,8 +199,8 @@ public class JFrameListKeyStore extends KeytoolView implements ActionListener, C
 		refreshKeys();
 	}
 	
-	public void keySelected(KeySelectedEvent event) {
-		refreshDetails(event.getSelectedKey());
+	public void elementSelected(ElementSelectedEvent event) {
+		refreshDetails(event.getSelectedElement());
 	}
 
 	public void actionPerformed(ActionEvent e) {

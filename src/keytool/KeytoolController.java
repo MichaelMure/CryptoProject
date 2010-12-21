@@ -72,7 +72,10 @@ public class KeytoolController {
 	}
 	
 	public Key getSelectedKey() {
-		return model.getSelectedKey();
+		if(model.getSelectedElement().getClass().equals(Key.class))
+			return (Key) model.getSelectedElement();
+		else
+			return null;
 	}
 	
 	public void notifyKeyStoreChanged(String path) {
@@ -87,8 +90,7 @@ public class KeytoolController {
 	public void notifyElementSelected(MouseEvent e) {
 		JList KeyList = (JList) e.getSource();
 		if(KeyList.getSelectedValue() == null) return;
-		model.setSelectedKey(KeyList.getSelectedValue().toString());
-		System.out.println(e.getSource().getClass().getName()+
-				KeyList.getSelectedValue().toString());
+		
+		model.setSelectedElement(KeyList.getSelectedValue().toString());
 	}
 }
