@@ -1,8 +1,10 @@
-package mvc;
+package keytool.mvc;
 
 import java.awt.event.ActionListener;
+import keytool.model.MTKey;
+import java.util.ArrayList;
 
-import javax.swing.AbstractListModel;
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,7 +27,7 @@ public class View extends JFrame {
     private JMenuItem ItemOpen;
     private JMenuItem ItemQuit;
     private JLabel LablDetails;
-    private JList ListCertificats;
+    private JList ListCertificates;
     private JList ListKeys;
     private JMenuBar Menu;
     private JMenu MenuKeytool;
@@ -33,7 +35,9 @@ public class View extends JFrame {
     private JScrollPane ScrollKeyPanel;
     private JSplitPane SplitPanel;
     private JTabbedPane TabbedPanel;
-
+    private DefaultListModel ListCertificatesModel, ListKeysModel;
+    
+    
 	public View(){
 		super("View");
 		mainWindow();
@@ -49,13 +53,16 @@ public class View extends JFrame {
         this.ScrollKeyPanel = new JScrollPane();
         this.ListKeys = new JList();
         this.ScrollCertificatPanel = new JScrollPane();
-        this.ListCertificats = new JList();
+        this.ListCertificates = new JList();
         this.LablDetails = new JLabel();
         this.Menu = new JMenuBar();
         this.MenuKeytool = new JMenu();
         this.ItemOpen = new JMenuItem();
         this.ItemQuit = new JMenuItem();
 
+        this.ListCertificatesModel = new DefaultListModel();
+        this.ListKeysModel = new DefaultListModel();
+        
         /* Fenetre */
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setTitle("KeyTool");
@@ -65,20 +72,13 @@ public class View extends JFrame {
         BtnExport.setText("Exporter");
 
         /* Liste Clés */
-        ListKeys.setModel(new AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
+        
+        ListKeys.setModel(ListKeysModel);
         ScrollKeyPanel.setViewportView(ListKeys);
 
         /* Liste Certificats */
-        ListCertificats.setModel(new AbstractListModel() {
-            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
-            public int getSize() { return strings.length; }
-            public Object getElementAt(int i) { return strings[i]; }
-        });
-        ScrollCertificatPanel.setViewportView(ListCertificats);
+        ListCertificates.setModel(ListCertificatesModel);
+        ScrollCertificatPanel.setViewportView(ListCertificates);
 
         /* TabbedPanel */
         TabbedPanel.addTab("Clés", ScrollKeyPanel);
@@ -148,6 +148,12 @@ public class View extends JFrame {
     	BtnExport.addActionListener(actLst);
 	}
 
+    public void refreshKeys(ArrayList<MTKey> keys) {
+    	ListKeysModel.clear();
+    	for(int i =0; i < keys.size(); i++) {
+    		ListKeysModel.addElement(keys.get(i).toString());
+    	}
+    }
 	/*
 	// Closing Window Listener
 	public void addClosingListener(WindowAdapter wa){
