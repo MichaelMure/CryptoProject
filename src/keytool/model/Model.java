@@ -16,6 +16,12 @@ public class Model {
 	
     public Model(){
     	this.keystore = new MTKeyStore(KEYSTORE_DEFAULT_PATH, DEFAULT_PASSWORD);
+        try {
+    		MTKey key = new MTKey();
+    		keystore.addKey("truc", key);
+    	} catch (Exception e) {
+    		e.printStackTrace();
+    	}
     }
 	
     public DefaultListModel getKeys() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
