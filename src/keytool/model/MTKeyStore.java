@@ -74,7 +74,7 @@ public class MTKeyStore {
 		String alias;
 		while(aliases.hasMoreElements()) {
 			alias = aliases.nextElement();
-			if(this.keystore.isKeyEntry(alias)) {
+			if(this.keystore.isCertificateEntry(alias)) {
 				certificates.add(new MTCertificate(this.keystore.getCertificate(alias)));
 			}
 		}
