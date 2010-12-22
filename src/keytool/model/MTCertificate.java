@@ -2,6 +2,7 @@ package keytool.model;
 
 import java.security.PublicKey;
 import java.security.cert.Certificate;
+import java.security.cert.X509Certificate;
 
 public class MTCertificate {
 	private Certificate certificate;
@@ -19,9 +20,23 @@ public class MTCertificate {
 	}
 	
 	public PublicKey getPublicKey() {
-
         // Get public key
 		PublicKey publicKey = this.certificate.getPublicKey();
 		return publicKey;
+	}
+	
+	public String getDetails() {
+		X509Certificate cert = (X509Certificate) this.certificate;
+		StringBuilder sb = new StringBuilder();
+		sb.append("IssuerDN:"+cert.getIssuerDN().toString());
+		sb.append("IssuerUID"+cert.getIssuerUniqueID().toString());
+		sb.append("NotBefore:"+cert.getNotBefore().toString());
+		sb.append("NotAfter:"+cert.getNotAfter().toString());
+		
+		return sb.toString();
+	}
+	
+	public String toString() {
+		return getDetails();
 	}
 }
