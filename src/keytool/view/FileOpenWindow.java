@@ -1,5 +1,8 @@
 package keytool.view;
 
+import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
+
 import javax.swing.GroupLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -32,4 +35,12 @@ public class FileOpenWindow extends JFrame {
         pack();
     }
 
+
+    public void addFOActionListener(ActionListener actLst) {
+    	this.FileChooser.addActionListener(actLst);
+	}
+    
+    public void addFOWindowListener(WindowListener wdLst) {
+    	this.addWindowListener(wdLst);
+	}
 }
