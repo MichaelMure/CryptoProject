@@ -56,7 +56,13 @@ public class MTKeyStore {
 	}
 	
 	public MTKey getKey(String alias, char[] password) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
-		return new MTKey(keystore.getKey(alias, password), password);
+		if(keystore.getKey(alias, password) != null) {
+			if(keystore.getCertificate(alias) != null) {
+				return new MTKey(keystore.getKey(alias, password), password, keystore.getCertificate(alias));
+			} else
+				throw new KeyStoreException("pas de certificat associé à la clé");
+		} else
+			throw new KeyStoreException("pas de clé à ce nom");
 	}
 	
 	public MTCertificate getCertificate(String alias) throws KeyStoreException  {
@@ -87,5 +93,9 @@ public class MTKeyStore {
 			}
 		}
 		return certificates;
+	}
+	
+	public void addKey(String alias, MTKey key) throws KeyStoreException {
+		keystore.setKeyEntry(alias, key.getKey(), key.getPassword(), key.getCertificatesChain());
 	}
 }
