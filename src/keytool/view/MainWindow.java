@@ -1,4 +1,4 @@
-package keytool.mvc;
+package keytool.view;
 
 import java.awt.event.ActionListener;
 import java.security.KeyStoreException;
@@ -20,8 +20,10 @@ import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 
+import keytool.mvc.Model;
+
 @SuppressWarnings("serial")
-public class View extends JFrame {
+public class MainWindow extends JFrame {
     private JButton BtnExport;
     private JButton BtnImport;
     private JMenuItem ItemOpen;
@@ -38,15 +40,14 @@ public class View extends JFrame {
 
     private Model model;
     
-	public View(Model model){
+	public MainWindow(Model model){
 		super("View");
 		this.model = model;
-		mainWindow();
+		this.initComponent();
 		this.setLocation(250,250);
-		this.setVisible(true);
 	}
 
-    private void mainWindow() {
+    private void initComponent() {
         this.BtnImport = new JButton();
         this.BtnExport = new JButton();
         this.SplitPanel = new JSplitPane();
@@ -162,37 +163,5 @@ public class View extends JFrame {
     public void refreshCertificates() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
 		this.ListCertificates.setModel(this.model.getCertificates());
 	}
-    
-	/*
-	// Closing Window Listener
-	public void addClosingListener(WindowAdapter wa){
-		this.addWindowListener(wa);
-	}
-
-	// Start/Stop Button Listener
-	public void addstrStpBtnListener(ActionListener actLst) {
-		strStpBtn.addActionListener(actLst);
-	}
-
-	// Set Period Button Listener
-	public void addSetPrdBtnListener(ActionListener actLst) {
-		setPrdBtn.addActionListener(actLst);
-	}
-
-	// Set seconds Field
-	public void setScnFld(int sec){
-		scnFld.setText((new Integer(sec)).toString());
-	}
-
-	// Set seconds Field
-	public void setPrdFld(int period){
-		prdFld.setText((new Integer(period)).toString());
-	}
-
-	// Get period Field 
-	public int getPrdFld() {
-		return Integer.parseInt(prdFld.getText());
-	}
-	*/
 
 }

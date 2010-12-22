@@ -1,4 +1,6 @@
 package keytool.mvc;
+
+import keytool.view.View;
  
 public class MVC {
     public static void main(String[] args) {

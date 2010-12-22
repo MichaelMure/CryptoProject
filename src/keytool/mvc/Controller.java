@@ -2,6 +2,9 @@ package keytool.mvc;
  
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+
+import keytool.view.MainWindow;
+import keytool.view.View;
  
 public class Controller {
   protected View view;
@@ -9,18 +12,18 @@ public class Controller {
  
   Controller(Model model, View view){
     this.view = view;
-    this.view.addItemQuitListener(new ItemQuitListener());
-    this.view.addItemOpenListener(new ItemOpenListener());
-    this.view.addBtnImportListener(new BtnImportListener());
-    this.view.addBtnExportListener(new BtnExportListener());
-    
+    MainWindow mw = this.view.getMainWindow();
+    mw.addItemQuitListener(new ItemQuitListener());
+    mw.addItemOpenListener(new ItemOpenListener());
+    mw.addBtnImportListener(new BtnImportListener());
+    mw.addBtnExportListener(new BtnExportListener());
     
     this.model = model;
   }
  
   class ItemQuitListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
-    	view.dispose();
+    	view.getMainWindow().dispose();
     }
   }
   
@@ -42,15 +45,4 @@ public class Controller {
     }
   }
   
-  /*
-  class ClosingListener extends WindowAdapter {
-    public void windowClosing(WindowEvent e) {
-      System.exit(0);
-    }
-  }
- 
-  class QuestionObserver implements Observer {
-    public void update(Observable obs, Object arg) {
-    }
-  }*/
 }
