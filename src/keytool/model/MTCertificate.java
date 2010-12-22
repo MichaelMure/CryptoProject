@@ -29,9 +29,8 @@ public class MTCertificate {
 		X509Certificate cert = (X509Certificate) this.certificate;
 		StringBuilder sb = new StringBuilder();
 		sb.append("IssuerDN:"+cert.getIssuerDN().toString());
-		sb.append("IssuerUID"+cert.getIssuerUniqueID().toString());
-		sb.append("NotBefore:"+cert.getNotBefore().toString());
-		sb.append("NotAfter:"+cert.getNotAfter().toString());
+		sb.append("\nNotBefore:"+cert.getNotBefore().toString());
+		sb.append("\nNotAfter:"+cert.getNotAfter().toString());
 		
 		return sb.toString();
 	}
