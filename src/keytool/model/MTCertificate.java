@@ -23,6 +23,6 @@ public class MTCertificate {
         // Get public key
 		PublicKey publicKey = this.certificate.getPublicKey();
 		return publicKey;
-		
+		certificate.getPublicKey().
 	}
 }
