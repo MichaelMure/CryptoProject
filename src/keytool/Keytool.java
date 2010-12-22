@@ -7,12 +7,15 @@ Package model {
 	MTKey *-- Key
 	MTKeyStore *-- KeyStore
 	Model *-- MTKeyStore
+	MTKeyStore .. MTKey : use
+	MTKeyStore .. MTCertificate : use
 }
 Package view {
 	jFrame <|-- FileOpenWindow
 	jFrame <|-- MainWindow
 	View *--FileOpenWindow
 	View *-- MainWindow
+	MainWindow ..> Model
 }
 Package controller {
 	Controller *-- Model

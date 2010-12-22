@@ -1,9 +1,6 @@
 package keytool.model;
 
 import java.security.Key;
-import java.security.PublicKey;
-import java.security.cert.Certificate;
-
 
 public class MTKey {
 	private Key key;
