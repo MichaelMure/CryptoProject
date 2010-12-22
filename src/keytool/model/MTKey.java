@@ -1,6 +1,10 @@
 package keytool.model;
 
 import java.security.Key;
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 
 public class MTKey {
 	private Key key;
@@ -35,5 +39,14 @@ public class MTKey {
 		return this.key.getClass().getName();
 	}
 	
-
+	public static Key newKey() throws NoSuchAlgorithmException {
+		String keyAlgorithm = "DSA"; // can be : DSA, RSA, DH
+		
+        // Get the public/private key pair
+        KeyPairGenerator keyGen = KeyPairGenerator.getInstance(keyAlgorithm);
+        keyGen.initialize(1024);
+        KeyPair keyPair = keyGen.genKeyPair();
+        PrivateKey privateKey = keyPair.getPrivate();
+        return privateKey;
+	}
 }
