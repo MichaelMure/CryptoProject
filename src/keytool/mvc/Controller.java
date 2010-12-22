@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.JFileChooser;
+
 import keytool.view.MainWindow;
 import keytool.view.View;
  
@@ -59,7 +61,11 @@ public class Controller {
   
   class FOActionListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e) {
-	    	System.out.println(e);
+	        if (JFileChooser.APPROVE_SELECTION.equals(e.getActionCommand())) {
+	            System.out.println("Ouverture !");
+	        } else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
+	            view.hideFileOpenWindow();
+	        }
 	    }
   }
   
