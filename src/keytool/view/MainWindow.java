@@ -20,7 +20,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.WindowConstants;
 
-import keytool.mvc.Model;
+import keytool.model.Model;
 
 @SuppressWarnings("serial")
 public class MainWindow extends JFrame {

@@ -7,7 +7,6 @@ import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 
-import keytool.mvc.Model;
 
 public class MTKeyStore {
 	private static KeyStore keystore;

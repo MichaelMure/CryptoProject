@@ -1,4 +1,4 @@
-package keytool.mvc;
+package keytool.controller;
  
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -7,6 +7,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.JFileChooser;
 
+import keytool.model.Model;
 import keytool.view.MainWindow;
 import keytool.view.View;
  
@@ -14,7 +15,7 @@ public class Controller {
   protected View view;
   protected Model model;
  
-  Controller(Model model, View view){
+  public Controller(Model model, View view){
     this.view = view;
     this.model = model;
     

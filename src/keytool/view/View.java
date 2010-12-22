@@ -1,6 +1,6 @@
 package keytool.view;
 
-import keytool.mvc.Model;
+import keytool.model.Model;
 
 public class View {
 	

@@ -1,4 +1,4 @@
-package keytool.mvc;
+package keytool.model;
 
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -6,10 +6,6 @@ import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
-
-import keytool.model.MTCertificate;
-import keytool.model.MTKey;
-import keytool.model.MTKeyStore;
 
 public class Model {
 
