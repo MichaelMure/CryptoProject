@@ -4,9 +4,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.security.NoSuchAlgorithmException;
 
 import javax.swing.JFileChooser;
 
+import keytool.model.MTKey;
+import keytool.model.MTKeyStore;
 import keytool.model.Model;
 import keytool.view.MainWindow;
 import keytool.view.View;
@@ -21,6 +24,7 @@ public class Controller {
     
     initMainWindowListener();
     initFOWindowListener();
+    
   }
  
   private void initMainWindowListener() {
