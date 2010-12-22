@@ -96,6 +96,6 @@ public class MTKeyStore {
 	}
 	
 	public void addKey(String alias, MTKey key) throws KeyStoreException {
-		keystore.setKeyEntry(alias, key.getKey(), key.getPassword(), key.getCertificatesChain());
+		keystore.setKeyEntry(alias, key.getKey(), Model.DEFAULT_PASSWORD, key.getCertificatesChain());
 	}
 }
