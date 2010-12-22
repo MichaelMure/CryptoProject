@@ -10,16 +10,16 @@ import java.util.Enumeration;
 import keytool.mvc.Model;
 
 public class MTKeyStore {
-	private KeyStore keystore;
+	private static KeyStore keystore;
 	private char[] password;
 	
 	public MTKeyStore(String path, char[] password) {
-		this.keystore = openKeyStore(path, password);
+		keystore = openKeyStore(path, password);
 		this.password = password;
 	}
 	
-	public MTKeyStore(KeyStore keystore, char[] password) {
-		this.keystore = keystore;
+	public MTKeyStore(KeyStore ks, char[] password) {
+		keystore = ks;
 		this.password = password;
 	}
 	
@@ -35,8 +35,8 @@ public class MTKeyStore {
 		return null;
 	}
 	
-	public void setKeystore(KeyStore keystore) {
-		this.keystore = keystore;
+	public void setKeystore(KeyStore ks) {
+		keystore = ks;
 	}
 
 	public KeyStore getKeystore() {
@@ -51,31 +51,35 @@ public class MTKeyStore {
 		return password;
 	}
 	
-	public MTKey getKey(String alias) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
-		return new MTKey(this.keystore.getKey(alias, password), password);
+	public static MTKey getKey(String alias, char[] password) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
+		return new MTKey(keystore.getKey(alias, password), password);
+	}
+	
+	public static MTCertificate getCertificate(String alias) throws KeyStoreException  {
+		return new MTCertificate(keystore.getCertificate(alias));
 	}
 	
 	public ArrayList<MTKey> getKeys() throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException {
-		Enumeration<String> aliases = this.keystore.aliases();
+		Enumeration<String> aliases = keystore.aliases();
 		ArrayList<MTKey> keys = new ArrayList<MTKey>();
 		String alias;
 		while(aliases.hasMoreElements()) {
 			alias = aliases.nextElement();
-			if(this.keystore.isKeyEntry(alias)) {
-				keys.add(new MTKey(this.keystore.getKey(alias, Model.DEFAULT_PASSWORD), Model.DEFAULT_PASSWORD));
+			if(keystore.isKeyEntry(alias)) {
+				keys.add(new MTKey(keystore.getKey(alias, Model.DEFAULT_PASSWORD), Model.DEFAULT_PASSWORD));
 			}
 		}
 		return keys;
 	}
 	
 	public ArrayList<MTCertificate> getCertificates() throws KeyStoreException {
-		Enumeration<String> aliases = this.keystore.aliases();
+		Enumeration<String> aliases = keystore.aliases();
 		ArrayList<MTCertificate> certificates = new ArrayList<MTCertificate>();
 		String alias;
 		while(aliases.hasMoreElements()) {
 			alias = aliases.nextElement();
-			if(this.keystore.isCertificateEntry(alias)) {
-				certificates.add(new MTCertificate(this.keystore.getCertificate(alias)));
+			if(keystore.isCertificateEntry(alias)) {
+				certificates.add(new MTCertificate(keystore.getCertificate(alias)));
 			}
 		}
 		return certificates;
