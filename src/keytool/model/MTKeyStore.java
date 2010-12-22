@@ -9,7 +9,7 @@ import java.util.Enumeration;
 
 
 public class MTKeyStore {
-	private static KeyStore keystore;
+	private KeyStore keystore;
 	private char[] password;
 	
 	public MTKeyStore(String path, char[] password) {
@@ -55,11 +55,11 @@ public class MTKeyStore {
 		return password;
 	}
 	
-	public static MTKey getKey(String alias, char[] password) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
+	public MTKey getKey(String alias, char[] password) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
 		return new MTKey(keystore.getKey(alias, password), password);
 	}
 	
-	public static MTCertificate getCertificate(String alias) throws KeyStoreException  {
+	public MTCertificate getCertificate(String alias) throws KeyStoreException  {
 		return new MTCertificate(keystore.getCertificate(alias));
 	}
 	
