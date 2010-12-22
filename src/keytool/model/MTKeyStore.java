@@ -37,7 +37,12 @@ public class MTKeyStore {
 	public void setKeystore(KeyStore ks) {
 		keystore = ks;
 	}
-
+	
+	public void setKeystore(String path, char[] password) {
+		keystore = openKeyStore(path, password);
+		this.password = password;
+	}
+	
 	public KeyStore getKeystore() {
 		return keystore;
 	}
