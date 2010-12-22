@@ -10,7 +10,7 @@ import java.util.Enumeration;
 import keytool.mvc.Model;
 
 public class MTKeyStore {
-	private KeyStore keystore;
+	private static KeyStore keystore;
 	private char[] password;
 	
 	public MTKeyStore(String path, char[] password) {
@@ -51,8 +51,12 @@ public class MTKeyStore {
 		return password;
 	}
 	
-	public MTKey getKey(String alias) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
-		return new MTKey(this.keystore.getKey(alias, password), password);
+	public static MTKey getKey(String alias, char[] password) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
+		return new MTKey(keystore.getKey(alias, password), password);
+	}
+	
+	public static MTCertificate getCertificate(String alias) throws KeyStoreException  {
+		return new MTCertificate(keystore.getCertificate(alias));
 	}
 	
 	public ArrayList<MTKey> getKeys() throws KeyStoreException, UnrecoverableKeyException, NoSuchAlgorithmException {
