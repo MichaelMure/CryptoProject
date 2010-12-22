@@ -5,10 +5,23 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.PrivateKey;
+import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+
+import javax.security.auth.x500.X500Principal;
+
+import sun.security.x509.*;
+import java.security.*;
+import javax.security.cert .*;
 
 public class MTKey {
 	private Key key;
 	private char[] password;
+	
+	public MTKey() throws NoSuchAlgorithmException {
+		this.key = newKey();
+		this.password = null;
+	}
 	
 	public MTKey(Key key, char[] password) {
 		this.key = key;
@@ -39,7 +52,8 @@ public class MTKey {
 		return this.key.getClass().getName();
 	}
 	
-	public static Key newKey() throws NoSuchAlgorithmException {
+	public Key newKey() throws NoSuchAlgorithmException {
+
 		String keyAlgorithm = "DSA"; // can be : DSA, RSA, DH
 		
         // Get the public/private key pair
