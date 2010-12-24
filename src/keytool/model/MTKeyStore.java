@@ -20,10 +20,13 @@ public class MTKeyStore {
 	 * Open a KeyStore from a file and its password
 	 * @param path
 	 * @param password
+	 * @throws IOException 
+	 * @throws KeyStoreException 
+	 * @throws CertificateException 
+	 * @throws NoSuchAlgorithmException 
 	 */
-	public MTKeyStore(String path, char[] password) {
-		keystore = openKeyStore(path, password);
-		this.password = password;
+	public MTKeyStore(String path, char[] password) throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException {
+		openKeyStore(path, password);
 	}
 	
 	/**
@@ -40,24 +43,19 @@ public class MTKeyStore {
 		this.password = password;
 	}
 	
-	public static KeyStore openKeyStore(String path, char[] password) {
-	    try {
-			KeyStore ks = KeyStore.getInstance("JCEKS");
-		    java.io.FileInputStream fis = new java.io.FileInputStream("store.ks");
-		    ks.load(fis, password);
-		    return ks;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return null;
+	public void openKeyStore(String path, char[] password) throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException {
+		this.keystore = KeyStore.getInstance("JCEKS");
+		java.io.FileInputStream fis = new java.io.FileInputStream("store.ks");
+		this.keystore.load(fis, password);
+		this.password = password;
 	}
 	
 	public void setKeystore(KeyStore ks) {
 		keystore = ks;
 	}
 	
-	public void setKeystore(String path, char[] password) {
-		keystore = openKeyStore(path, password);
+	public void setKeystore(String path, char[] password) throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException {
+		openKeyStore(path, password);
 		this.password = password;
 	}
 	
@@ -65,13 +63,6 @@ public class MTKeyStore {
 		return keystore;
 	}
 
-	public void setPassword(char[] password) {
-		this.password = password;
-	}
-
-	public char[] getPassword() {
-		return password;
-	}
 	
 	public MTKey getKey(String alias, char[] password) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
 		if(keystore.getKey(alias, password) != null) {
