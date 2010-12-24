@@ -30,19 +30,24 @@ public class MTCertificate {
 	public String getDetails() {
 		X509Certificate cert = (X509Certificate) this.certificate;
 		StringBuilder sb = new StringBuilder();
-		sb.append("IssuerDN:"+cert.getIssuerDN().toString());
-		sb.append("\nNotBefore:"+cert.getNotBefore().toString());
-		sb.append("\nNotAfter:"+cert.getNotAfter().toString());
-
-	    // récupération de la description X500 de l'émetteur
-		X500Principal issuer = cert.getIssuerX500Principal();
-		// édition de la description selon la RFC2253 (mode par défaut)
-		sb.append("émetteur\n").append(issuer.getName("RFC2253")).append("\n________________\n\n");
-		// récupération de la description X500 du sujet
-		X500Principal subject = cert.getSubjectX500Principal();
-		// édition de la description selon la RFC1779
-		sb.append("sujet\n").append(subject.getName("RFC1779")).append("\n________________\n\n");
+		if(cert != null) {
+				
+			sb.append("IssuerDN:"+cert.getIssuerDN().toString());
+			sb.append("\nNotBefore:"+cert.getNotBefore().toString());
+			sb.append("\nNotAfter:"+cert.getNotAfter().toString());
 	
+		    // récupération de la description X500 de l'émetteur
+			X500Principal issuer = cert.getIssuerX500Principal();
+			// édition de la description selon la RFC2253 (mode par défaut)
+			sb.append("émetteur\n").append(issuer.getName("RFC2253")).append("\n________________\n\n");
+			// récupération de la description X500 du sujet
+			X500Principal subject = cert.getSubjectX500Principal();
+			// édition de la description selon la RFC1779
+			sb.append("sujet\n").append(subject.getName("RFC1779")).append("\n________________\n\n");
+
+		} else {
+			sb.append("Pas de certificat X509");
+		}
 		return sb.toString();
 	}
 	
