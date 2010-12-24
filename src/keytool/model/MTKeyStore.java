@@ -121,6 +121,6 @@ public class MTKeyStore {
 	
 	public void saveTo(String path) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
 		FileOutputStream fos = new FileOutputStream(new File(path));
-		this.keystore.store(fos, password);
+		this.keystore.store(fos, this.password);
 	}
 }
