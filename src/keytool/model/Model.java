@@ -43,7 +43,7 @@ public class Model {
     	for(int i =0; i < certificates.size(); i++)
     		list.addElement(certificates.get(i).toString());
     	
-	
+    	list.addElement("Cert test");
         return list;
     }
 
