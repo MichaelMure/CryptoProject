@@ -1,10 +1,12 @@
 package keytool.model;
 
+
+import java.security.KeyPair;
+import java.security.KeyPairGenerator;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
-
 import javax.swing.DefaultListModel;
 
 public class Model {
@@ -17,8 +19,16 @@ public class Model {
     public Model(){
     	this.keystore = new MTKeyStore(KEYSTORE_DEFAULT_PATH, DEFAULT_PASSWORD);
         try {
-    		MTKey key = new MTKey();
+        	/*
+    	    KeyPairGenerator kpGen = KeyPairGenerator.getInstance("RSA", "BC");
+    	    kpGen.initialize(1024, new java.security.SecureRandom());
+    	    KeyPair keyPair = kpGen.generateKeyPair();
+
+    		MTKey key = new MTKey(keyPair.getPrivate());
     		keystore.addKey("truc", key);
+    		*/
+        	MTCertificate cert = new MTCertificate();
+        	keystore.addCertificate("toto", cert);
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
