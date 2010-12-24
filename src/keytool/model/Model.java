@@ -17,8 +17,9 @@ public class Model {
 	public static char[] DEFAULT_PASSWORD = { 'k', 'e', 'y', 't', 'o', 'o', 'l' };
 	
     public Model(){
-    	this.keystore = new MTKeyStore(KEYSTORE_DEFAULT_PATH, DEFAULT_PASSWORD);
         try {
+        	this.keystore = new MTKeyStore(KEYSTORE_DEFAULT_PATH, DEFAULT_PASSWORD);
+
         	/*
     	    KeyPairGenerator kpGen = KeyPairGenerator.getInstance("RSA", "BC");
     	    kpGen.initialize(1024, new java.security.SecureRandom());
