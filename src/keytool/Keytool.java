@@ -24,15 +24,23 @@ Package controller {
 @enduml
 */
 
+import java.security.Security;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+
 import keytool.controller.Controller;
 import keytool.model.Model;
 import keytool.view.View;
  
 public class Keytool {
     public static void main(String[] args) {
+		// FIXME : l'ajouter au bon endroit
+		Security.addProvider(new BouncyCastleProvider());
+    	
         Model model = new Model();
         View view = new View(model);
- 
+
+
         @SuppressWarnings("unused")
 		Controller controller = new Controller(model, view);
     }
