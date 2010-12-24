@@ -1,20 +1,33 @@
 package keytool.model;
 
+import java.math.BigInteger;
+import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
+import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
+import java.security.SecureRandom;
+import java.security.Security;
+import java.security.SignatureException;
 import java.security.cert.Certificate;
+import java.security.cert.CertificateEncodingException;
+import java.security.cert.X509Certificate;
+import java.util.Date;
 
+import javax.security.auth.x500.X500Principal;
+
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.bouncycastle.x509.*;
 
 public class MTKey {
 	private Key key;
 	private char[] password;
 	private Certificate certificate;
 	
-	public MTKey() throws NoSuchAlgorithmException {
-		this.key = newKey();
+	public MTKey() throws NoSuchAlgorithmException, CertificateEncodingException, InvalidKeyException, IllegalStateException, SignatureException, NoSuchProviderException {
+		generateNewKey();
 		this.password = null;
 	}
 	
@@ -53,17 +66,34 @@ public class MTKey {
 		return this.key.getClass().getName();
 	}
 	
-	public Key newKey() throws NoSuchAlgorithmException {
+	public void generateNewKey() throws NoSuchAlgorithmException, CertificateEncodingException, InvalidKeyException, IllegalStateException, SignatureException, NoSuchProviderException {
 
-		String keyAlgorithm = "DSA"; // can be : DSA, RSA, DH
-		
-        // Get the public/private key pair
-        KeyPairGenerator keyGen = KeyPairGenerator.getInstance(keyAlgorithm);
-        keyGen.initialize(1024);
-        KeyPair keyPair = keyGen.genKeyPair();
-        PrivateKey privateKey = keyPair.getPrivate();
-        return privateKey;
-	}
+		// FIXME : l'ajouter au bon endroit
+		Security.addProvider(new BouncyCastleProvider());
+
+		/* Génération d'une paire de clé privée/publique */
+	    KeyPairGenerator kpGen = KeyPairGenerator.getInstance("RSA", "BC");
+	    kpGen.initialize(1024, new SecureRandom());
+	    KeyPair keyPair = kpGen.generateKeyPair();
+	    /* Sauvegarde de la clé privée */
+	    this.key = keyPair.getPrivate();
+
+	    /* Génération d'un certificat qui encapsule la paire de clé */
+	    X509V3CertificateGenerator certGen = new X509V3CertificateGenerator();
+
+	    certGen.setSerialNumber(BigInteger.valueOf(System.currentTimeMillis()));
+	    certGen.setIssuerDN(new X500Principal("CN=Test Certificate"));
+	    certGen.setNotBefore(new Date(System.currentTimeMillis() - 10000));
+	    certGen.setNotAfter(new Date(System.currentTimeMillis() + 10000));
+	    certGen.setSubjectDN(new X500Principal("CN=Test Certificate"));
+	    certGen.setPublicKey(keyPair.getPublic());
+	    certGen.setSignatureAlgorithm("SHA256WithRSAEncryption");
+
+	    /* Sauvegarde du certificat */
+	    this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
+	    
+	  }
+
 	
 	public Certificate getCertificate() {
 		return this.certificate;
