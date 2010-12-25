@@ -15,6 +15,11 @@ public class View {
 		this.fileOpenWindow.setVisible(false);
 	}
 
+	public void disposeAll() {
+		this.fileOpenWindow.dispose();
+		this.mainWindow.dispose();
+	}
+	
 	public MainWindow getMainWindow() {
 		return this.mainWindow;
 	}

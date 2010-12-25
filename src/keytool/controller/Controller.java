@@ -34,7 +34,7 @@ public class Controller {
   
   class ItemQuitListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
-    	view.getMainWindow().dispose();
+    	view.disposeAll();
     }
   }
   
