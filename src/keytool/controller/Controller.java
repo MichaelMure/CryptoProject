@@ -74,7 +74,7 @@ public class Controller {
 			DefaultListModel list = this.model.getKeys();
 			this.view.getMainWindow().setKeysList(list);
 		} catch (ModelException e) {
-			this.view.createErrorWIndow(e.getMessage());
+			this.view.createErrorWindow(e.getMessage());
 		}
 	}
 
@@ -83,7 +83,7 @@ public class Controller {
 			DefaultListModel list = this.model.getCertificates();
 			this.view.getMainWindow().setCertificatesList(list);
 		} catch (ModelException e) {
-			this.view.createErrorWIndow(e.getMessage());
+			this.view.createErrorWindow(e.getMessage());
 		}
 	}
 
@@ -92,7 +92,7 @@ public class Controller {
 			try {
 				model.newKeyStore();
 			} catch (ModelException e1) {
-				view.createErrorWIndow(e1.getMessage());
+				view.createErrorWindow(e1.getMessage());
 			}
 			refreshLists();
 		}
@@ -117,7 +117,7 @@ public class Controller {
 			try {
 				model.save();
 			} catch (ModelException e1) {
-				view.createErrorWIndow(e1.getMessage());
+				view.createErrorWindow(e1.getMessage());
 			}
 		}
 	}
@@ -158,7 +158,7 @@ public class Controller {
 						view.hideFileOpenWindow();
 						model.openKeyStore(view.getFileOpenWindow().getPath());
 					} catch (ModelException e2) {
-						view.createErrorWIndow(e2.getMessage());
+						view.createErrorWindow(e2.getMessage());
 					}
 					break;
 				case StateSAVING:
@@ -166,7 +166,7 @@ public class Controller {
 						view.hideFileOpenWindow();
 						model.saveTo(view.getFileOpenWindow().getPath());
 					} catch (ModelException e1) {
-						view.createErrorWIndow(e1.getMessage());
+						view.createErrorWindow(e1.getMessage());
 					}
 					break;
 				case StateEXPORTING:
