@@ -1,10 +1,8 @@
 package keytool.view;
 
 import java.awt.event.ActionListener;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
-import java.security.UnrecoverableKeyException;
 
+import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -22,9 +20,11 @@ import javax.swing.WindowConstants;
 
 import keytool.model.Model;
 
-@SuppressWarnings("serial")
 public class MainWindow extends JFrame {
-    private JButton BtnExport;
+	
+	private static final long serialVersionUID = 2831115647099397913L;
+	
+	private JButton BtnExport;
     private JButton BtnImport;
     private JMenuItem ItemOpen;
     private JMenuItem ItemQuit;
@@ -37,12 +37,9 @@ public class MainWindow extends JFrame {
     private JScrollPane ScrollKeyPanel;
     private JSplitPane SplitPanel;
     private JTabbedPane TabbedPanel;
-
-    private Model model;
     
 	public MainWindow(Model model){
 		super("View");
-		this.model = model;
 		this.initComponent();
 		this.setLocation(250,250);
 	}
@@ -72,21 +69,9 @@ public class MainWindow extends JFrame {
 
         /* Liste Clés */
         ScrollKeyPanel.setViewportView(ListKeys);
-        try {
-			this.refreshKeys();
-		} catch (Exception e) {
-			e.printStackTrace();
-			this.dispose();
-		}
         
         /* Liste Certificats */
         ScrollCertificatPanel.setViewportView(ListCertificates);
-        try {
-			this.refreshCertificates();
-		} catch (Exception e) {
-			e.printStackTrace();
-			this.dispose();
-		}
         
         /* TabbedPanel */
         TabbedPanel.addTab("Clés", ScrollKeyPanel);
@@ -156,12 +141,11 @@ public class MainWindow extends JFrame {
     	BtnExport.addActionListener(actLst);
 	}
 
-    public void refreshKeys() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
-   		this.ListKeys.setModel(this.model.getKeys());
+    public void setKeysList(DefaultListModel keysList) {
+    	this.ListKeys.setModel(keysList);
     }
     
-    public void refreshCertificates() throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
-		this.ListCertificates.setModel(this.model.getCertificates());
-	}
-
+    public void setCertificatesList(DefaultListModel certList) {
+    	this.ListCertificates.setModel(certList);
+    }
 }

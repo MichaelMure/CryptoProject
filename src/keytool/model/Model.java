@@ -1,18 +1,14 @@
 package keytool.model;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
-import java.util.ArrayList;
 import java.util.Enumeration;
 
 import javax.swing.DefaultListModel;
@@ -25,21 +21,31 @@ public class Model {
 	private static String KEYSTORE_DEFAULT_PATH = "store.ks";
 	private static char[] DEFAULT_PASSWORD = "keytool".toCharArray();
 	
-	public Model() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
+	public Model() throws ModelException {
 		this(Model.DEFAULT_PASSWORD);
 	}
 	
 	/**
 	 * Create a new KeyStore
 	 * @param password of the new KeyStore
-	 * @throws KeyStoreException 
-	 * @throws IOException 
-	 * @throws CertificateException 
-	 * @throws NoSuchAlgorithmException 
+	 * @throws ModelException 
 	 */
-	public Model(char[] password) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
-		this.keystore = KeyStore.getInstance("JCEKS");
-		this.keystore.load(null, password);
+	public Model(char[] password) throws ModelException {
+		try {
+			this.keystore = KeyStore.getInstance("JCEKS");
+			this.keystore.load(null, password);
+		} catch (KeyStoreException e) {
+			throw new ModelException("Error while creating default keystore : Can not create keystore.");
+		} catch (NoSuchAlgorithmException e) {
+			throw new ModelException("Error while creating default keystore : Integrity checking algorithm not found.");
+		} catch (CertificateException e) {
+			//cannot happend
+			e.printStackTrace();
+		} catch (IOException e) {
+			// cannot happend
+			e.printStackTrace();
+		}
+
 		this.password = password;
 		this.currentPath = Model.KEYSTORE_DEFAULT_PATH;
 	}
@@ -48,12 +54,9 @@ public class Model {
 	 * Open a KeyStore from a file and its password
 	 * @param path
 	 * @param password
-	 * @throws IOException 
-	 * @throws KeyStoreException 
-	 * @throws CertificateException 
-	 * @throws NoSuchAlgorithmException 
+	 * @throws ModelException 
 	 */
-	public Model(String path, char[] password) throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException {
+	public Model(String path, char[] password) throws ModelException {
 		openKeyStore(path, password);
 	}
 	
@@ -61,15 +64,22 @@ public class Model {
 	 * Open a Keytore with its path and its password
 	 * @param path
 	 * @param password
-	 * @throws NoSuchAlgorithmException
-	 * @throws CertificateException
-	 * @throws IOException
-	 * @throws KeyStoreException
+	 * @throws ModelException 
 	 */
-	public void openKeyStore(String path, char[] password) throws NoSuchAlgorithmException, CertificateException, IOException, KeyStoreException {
-		this.keystore = KeyStore.getInstance("JCEKS");
-		java.io.FileInputStream fis = new java.io.FileInputStream(path);
-		this.keystore.load(fis, password);
+	public void openKeyStore(String path, char[] password) throws ModelException {
+		try {
+			this.keystore = KeyStore.getInstance("JCEKS");
+			java.io.FileInputStream fis = new java.io.FileInputStream(path);
+			this.keystore.load(fis, password);
+		} catch (NoSuchAlgorithmException e) {
+			throw new ModelException("Error while opening keystore "+path+": Integrity checking algorithm not found.");
+		} catch (CertificateException e) {
+			throw new ModelException("Error while opening keystore "+path+": A certificate cannot be loaded.");
+		} catch (IOException e) {
+			throw new ModelException("Error while opening keystore "+path+": Can not find this file.");
+		} catch (KeyStoreException e) {
+			throw new ModelException("Error while opening keystore "+path+": Can not create keystore.");
+		}
 		this.password = password;
 		this.currentPath = path;
 	}
@@ -78,12 +88,9 @@ public class Model {
 	 * Change the KeyStore
 	 * @param path : path of the new Keystore
 	 * @param password : password of the new KeyStore
-	 * @throws NoSuchAlgorithmException
-	 * @throws CertificateException
-	 * @throws KeyStoreException
-	 * @throws IOException
+	 * @throws ModelException 
 	 */
-	public void setKeystore(String path, char[] password) throws NoSuchAlgorithmException, CertificateException, KeyStoreException, IOException {
+	public void setKeystore(String path, char[] password) throws ModelException {
 		openKeyStore(path, password);
 	}
 	
@@ -147,50 +154,70 @@ public class Model {
 	/**
 	 * Save the KeyStore to a path
 	 * @param path of the file
-	 * @throws KeyStoreException
-	 * @throws NoSuchAlgorithmException
-	 * @throws CertificateException
-	 * @throws IOException
+	 * @throws ModelException
 	 */
-	public void saveTo(String path) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException{
-		FileOutputStream fos = new FileOutputStream(new File(path));
-		this.keystore.store(fos, this.password);
+	public void saveTo(String path) throws ModelException {
+		try {
+			FileOutputStream fos = new FileOutputStream(new File(path));
+			this.keystore.store(fos, this.password);
+		} catch (NoSuchAlgorithmException e) {
+			throw new ModelException("Error while saving keystore "+path+": Integrity checking algorithm not found.");
+		} catch (CertificateException e) {
+			throw new ModelException("Error while saving keystore "+path+": A certificate cannot be saved.");
+		} catch (KeyStoreException e) {
+			throw new ModelException("Error while saving keystore "+path+": Keystore has not been initialized.");
+		} catch (IOException e) {
+			throw new ModelException("Error while saving keystore "+path+": Can not save here.");
+		}
 		System.out.println("Save the keystore to"+path);
 	}
 	
 	/**
 	 * Save the KeyStore where is has been opened
-	 * @throws IOException 
-	 * @throws CertificateException 
-	 * @throws NoSuchAlgorithmException 
-	 * @throws KeyStoreException 
+	 * @throws ModelException 
 	 */
-	public void save() throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
+	public void save() throws ModelException {
 		saveTo(this.currentPath);
 	}
 	
-    public DefaultListModel getKeys() throws KeyStoreException {
+    /**
+     * @return the keys list
+     * @throws ModelException
+     */
+    public DefaultListModel getKeys() throws ModelException{
     	DefaultListModel list = new DefaultListModel();
-    	Enumeration<String> aliases = keystore.aliases();
-		String alias;
-		while(aliases.hasMoreElements()) {
-			alias = aliases.nextElement();
-			if(keystore.isKeyEntry(alias)) {
-				list.addElement(alias.toString());
+		try {
+	    	Enumeration<String> aliases = keystore.aliases();
+			String alias;
+			while(aliases.hasMoreElements()) {
+				alias = aliases.nextElement();
+				if(keystore.isKeyEntry(alias)) {
+					list.addElement(alias.toString());
+				}
 			}
+		} catch (KeyStoreException e) {
+			throw new ModelException("Error while listing keys : Keystore has not been initialized.");
 		}
         return list;
     }
     
-    public DefaultListModel getCertificates() throws KeyStoreException {
+    /**
+     * @return the certificate list
+     * @throws ModelException
+     */
+    public DefaultListModel getCertificates() throws ModelException {
     	DefaultListModel list = new DefaultListModel();
-    	Enumeration<String> aliases = keystore.aliases();
-		String alias;
-		while(aliases.hasMoreElements()) {
-			alias = aliases.nextElement();
-			if(keystore.isCertificateEntry(alias)) {
-				list.addElement(keystore.getCertificate(alias));
+    	try {
+    		Enumeration<String> aliases = keystore.aliases();
+			String alias;
+			while(aliases.hasMoreElements()) {
+				alias = aliases.nextElement();
+				if(keystore.isCertificateEntry(alias)) {
+					list.addElement(keystore.getCertificate(alias));
+				}
 			}
+		} catch (KeyStoreException e) {
+			throw new ModelException("Error while listing certificates : Keystore has not been initialized.");
 		}
         return list;
     }

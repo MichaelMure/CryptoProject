@@ -1,5 +1,8 @@
 package keytool.view;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 import keytool.model.Model;
 
 public class View {
@@ -42,5 +45,10 @@ public class View {
 
 	public void hideFileOpenWindow() {
 		this.fileOpenWindow.setVisible(false);
+	}
+	
+	public void createErrorWIndow(String message) {
+		JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
+		        JOptionPane.ERROR_MESSAGE);
 	}
 }

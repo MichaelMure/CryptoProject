@@ -5,9 +5,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import keytool.model.Model;
+import keytool.model.ModelException;
 import keytool.view.MainWindow;
 import keytool.view.View;
  
@@ -20,8 +24,10 @@ public class Controller {
     this.model = model;
     
     initMainWindowListener();
-    initFOWindowListener();
+    refreshKeysList();
+    refreshCertificateList();
     
+    initFOWindowListener();
   }
  
   private void initMainWindowListener() {
@@ -30,6 +36,24 @@ public class Controller {
 	mw.addItemOpenListener(new ItemOpenListener());
 	mw.addBtnImportListener(new BtnImportListener());
 	mw.addBtnExportListener(new BtnExportListener());
+  }
+  
+  private void refreshKeysList() {
+	  try {
+		DefaultListModel list = this.model.getKeys();
+		this.view.getMainWindow().setKeysList(list);
+	} catch (ModelException e) {
+		this.view.createErrorWIndow(e.getMessage());
+	}
+  }
+  
+  private void refreshCertificateList() {
+	  try {
+			DefaultListModel list = this.model.getCertificates();
+			this.view.getMainWindow().setCertificatesList(list);
+		} catch (ModelException e) {
+			this.view.createErrorWIndow(e.getMessage());
+		}
   }
   
   class ItemQuitListener implements ActionListener {
