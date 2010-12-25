@@ -43,4 +43,16 @@ public class FileOpenWindow extends JFrame {
     public void addFOWindowListener(WindowListener wdLst) {
     	this.addWindowListener(wdLst);
 	}
+    
+    public void setSaveDialog() {
+    	this.FileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
+    }
+    
+    public void setOpenDialog() {
+    	this.FileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+    }
+    
+    public String getPath() {
+    	return this.FileChooser.getSelectedFile().getPath();
+    }
 }

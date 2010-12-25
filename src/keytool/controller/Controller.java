@@ -83,7 +83,9 @@ public class Controller {
  
   class ItemOpenListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e) {
+	    	view.getFileOpenWindow().setOpenDialog();
 	    	view.showFileOpenWindow();
+	    	state = State.StateOPENING;
 	    }
 	  }
   
@@ -105,19 +107,23 @@ public class Controller {
   
   class ItemSaveAsListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e) {
-	    	
+	    	view.getFileOpenWindow().setSaveDialog();
+	    	view.showFileOpenWindow();
+	    	state = State.StateSAVING;
 	    }
 	  }
   
   class BtnImportListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
-
+    	view.showFileOpenWindow();
+    	state = State.StateIMPORTING;
     }
   }
   
   class BtnExportListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
-
+    	view.showFileOpenWindow();
+    	state = State.StateEXPORTING;
     }
   }
   
@@ -129,16 +135,39 @@ public class Controller {
   class FOActionListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e) {
 	        if (JFileChooser.APPROVE_SELECTION.equals(e.getActionCommand())) {
-	            System.out.println("Ouverture !");
+	            switch(state) {
+	            case StateOPENING:
+	            	try {
+	            		view.hideFileOpenWindow();
+						model.openKeyStore(view.getFileOpenWindow().getPath());
+					} catch (ModelException e2) {
+						view.createErrorWIndow(e2.getMessage());
+					}
+	            	break;
+	            case StateSAVING:
+	            	try {
+	            		view.hideFileOpenWindow();
+						model.saveTo(view.getFileOpenWindow().getPath());
+					} catch (ModelException e1) {
+						view.createErrorWIndow(e1.getMessage());
+					}
+	            	break;
+	            case StateEXPORTING:
+	            	break;
+	            case StateIMPORTING:
+	            	break;
+	            }
 	        } else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
 	            view.hideFileOpenWindow();
 	        }
+	        state = State.StateWAIT;
 	    }
   }
   
   class FOWindowListener extends WindowAdapter {
 	    public void windowClosing(WindowEvent e) {
 	    	view.hideFileOpenWindow();
+	    	state = State.StateWAIT;
 	    }
 	  }
   

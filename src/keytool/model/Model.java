@@ -60,6 +60,10 @@ public class Model {
 		openKeyStore(path, password);
 	}
 	
+	public void openKeyStore(String path) throws ModelException {
+		this.openKeyStore(path, DEFAULT_PASSWORD);
+	}
+	
 	/**
 	 * Open a Keytore with its path and its password
 	 * @param path
@@ -82,16 +86,6 @@ public class Model {
 		}
 		this.password = password;
 		this.currentPath = path;
-	}
-	
-	/**
-	 * Change the KeyStore
-	 * @param path : path of the new Keystore
-	 * @param password : password of the new KeyStore
-	 * @throws ModelException 
-	 */
-	public void setKeystore(String path, char[] password) throws ModelException {
-		openKeyStore(path, password);
 	}
 	
 	/**
