@@ -1,6 +1,8 @@
 package keytool.view;
 
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
@@ -27,6 +29,8 @@ public class MainWindow extends JFrame {
 	private JButton BtnExport;
     private JButton BtnImport;
     private JMenuItem ItemOpen;
+    private JMenuItem ItemSave;
+    private JMenuItem ItemSaveAs;
     private JMenuItem ItemQuit;
     private JLabel LablDetails;
     private JList ListCertificates;
@@ -57,6 +61,8 @@ public class MainWindow extends JFrame {
         this.Menu = new JMenuBar();
         this.MenuKeytool = new JMenu();
         this.ItemOpen = new JMenuItem();
+        this.ItemSave = new JMenuItem();
+        this.ItemSaveAs = new JMenuItem();
         this.ItemQuit = new JMenuItem();
         
         /* Fenetre */
@@ -86,14 +92,23 @@ public class MainWindow extends JFrame {
         /* Menu */
         MenuKeytool.setText("Keytool");
 
-        /* Menu Ouvrir */
-        ItemOpen.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_O, java.awt.event.InputEvent.CTRL_MASK));
+        /* Menu Open */
+        ItemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         ItemOpen.setText("Ouvrir");
-        //ItemOpen.setActionCommand(resourceMap.getString("ItemOpen.actionCommand")); // NOI18N
         MenuKeytool.add(ItemOpen);
 
+        /* Menu Save */
+        ItemSave.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_MASK));
+        ItemSave.setText("Sauvegarder");
+        MenuKeytool.add(ItemSave);
+
+        /* Menu SaveAs */
+        ItemSaveAs.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.SHIFT_MASK | InputEvent.CTRL_MASK));
+        ItemSaveAs.setText("Sauvegarder sous ...");
+        MenuKeytool.add(ItemSaveAs);
+        
         /* Menu Fermer */
-        ItemQuit.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.CTRL_MASK));
+        ItemQuit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_Q, InputEvent.CTRL_MASK));
         ItemQuit.setText("Quitter");
         MenuKeytool.add(ItemQuit);
 
@@ -133,6 +148,14 @@ public class MainWindow extends JFrame {
     	ItemOpen.addActionListener(actLst);
 	}
 
+    public void addItemSaveListener(ActionListener actLst) {
+    	ItemSave.addActionListener(actLst);
+	}
+    
+    public void addItemSaveAsListener(ActionListener actLst) {
+    	ItemSaveAs.addActionListener(actLst);
+	}
+    
     public void addBtnImportListener(ActionListener actLst) {
     	BtnImport.addActionListener(actLst);
 	}

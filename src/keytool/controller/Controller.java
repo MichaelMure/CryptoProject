@@ -32,8 +32,10 @@ public class Controller {
  
   private void initMainWindowListener() {
 	MainWindow mw = this.view.getMainWindow();
-	mw.addItemQuitListener(new ItemQuitListener());
 	mw.addItemOpenListener(new ItemOpenListener());
+	mw.addItemSaveListener(new ItemSaveListener());
+	mw.addItemSaveAsListener(new ItemSaveAsListener());
+	mw.addItemQuitListener(new ItemQuitListener());
 	mw.addBtnImportListener(new BtnImportListener());
 	mw.addBtnExportListener(new BtnExportListener());
   }
@@ -55,6 +57,12 @@ public class Controller {
 			this.view.createErrorWIndow(e.getMessage());
 		}
   }
+ 
+  class ItemOpenListener implements ActionListener {
+	    public void actionPerformed(ActionEvent e) {
+	    	view.showFileOpenWindow();
+	    }
+	  }
   
   class ItemQuitListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
@@ -62,11 +70,15 @@ public class Controller {
     }
   }
   
-  class ItemOpenListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-    	view.showFileOpenWindow();
-    }
-  }
+  class ItemSaveListener implements ActionListener {
+	    public void actionPerformed(ActionEvent e) {
+	    }
+	  }
+  
+  class ItemSaveAsListener implements ActionListener {
+	    public void actionPerformed(ActionEvent e) {
+	    }
+	  }
   
   class BtnImportListener implements ActionListener {
     public void actionPerformed(ActionEvent e) {
