@@ -23,13 +23,43 @@ import org.bouncycastle.x509.X509V3CertificateGenerator;
 
 public class MTCertificate {
 	private Certificate certificate;
+	private static String DEFAULT_SUBJECT = "CN=Alice-Subject, O=ENSISA, L=Mulhouse, ST=68, C=FR";
+	private static String DEFAULT_ISSUER = "CN=Bob-Issuer, O=DataPower, L=Cambridge, ST=MA, C=US";
+
 
 	public MTCertificate(Certificate certificate) {
 		this.certificate = certificate;
 	}
 	
 	public MTCertificate() throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
-		generateNewCertificate();
+		this(DEFAULT_SUBJECT, DEFAULT_ISSUER);
+	}
+
+	public MTCertificate(String subject) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
+		this(subject, subject);
+	}
+	
+	public MTCertificate(String subject, String issuer) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
+
+		/* Génération d'une paire de clé privée/publique */
+	    KeyPairGenerator kpGen = KeyPairGenerator.getInstance("RSA", "BC");
+	    kpGen.initialize(1024, new SecureRandom());
+	    KeyPair keyPair = kpGen.generateKeyPair();
+
+	    
+	    /* Génération d'un certificat qui encapsule la paire de clé */
+	    X509V3CertificateGenerator certGen = new X509V3CertificateGenerator();
+
+	    certGen.setSerialNumber(BigInteger.valueOf(System.currentTimeMillis()));
+	    certGen.setIssuerDN(new X500Principal(issuer));
+	    certGen.setNotBefore(new Date(System.currentTimeMillis() - 10000));
+	    certGen.setNotAfter(new Date(System.currentTimeMillis() + 10000));
+	    certGen.setSubjectDN(new X500Principal(subject));
+	    certGen.setPublicKey(keyPair.getPublic());
+	    certGen.setSignatureAlgorithm("SHA256WithRSAEncryption");
+
+	    /* Sauvegarde du certificat */
+	    this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
 	}
 
 	public void setCertificate(Certificate certificate) {
@@ -72,30 +102,7 @@ public class MTCertificate {
 	public String toString() {
 		return getDetails();
 	}
-	
-	public void generateNewCertificate() throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException  {
 
-		/* Génération d'une paire de clé privée/publique */
-	    KeyPairGenerator kpGen = KeyPairGenerator.getInstance("RSA", "BC");
-	    kpGen.initialize(1024, new SecureRandom());
-	    KeyPair keyPair = kpGen.generateKeyPair();
-
-	    
-	    /* Génération d'un certificat qui encapsule la paire de clé */
-	    X509V3CertificateGenerator certGen = new X509V3CertificateGenerator();
-
-	    certGen.setSerialNumber(BigInteger.valueOf(System.currentTimeMillis()));
-	    certGen.setIssuerDN(new X500Principal("CN=Test Certificate"));
-	    certGen.setNotBefore(new Date(System.currentTimeMillis() - 10000));
-	    certGen.setNotAfter(new Date(System.currentTimeMillis() + 10000));
-	    certGen.setSubjectDN(new X500Principal("CN=Test Certificate"));
-	    certGen.setPublicKey(keyPair.getPublic());
-	    certGen.setSignatureAlgorithm("SHA256WithRSAEncryption");
-
-	    /* Sauvegarde du certificat */
-	    this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
-	        
-	  }
 	
 	public String toBase64() throws CertificateEncodingException, IOException {
 		ByteArrayOutputStream bOut = new ByteArrayOutputStream();
