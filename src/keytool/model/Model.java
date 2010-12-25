@@ -112,7 +112,7 @@ public class Model {
 	 * @throws KeyStoreException
 	 * @throws NoSuchAlgorithmException
 	 */
-	private MTKey getKey(String alias) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
+	public MTKey getKey(String alias) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
 		if(keystore.getKey(alias, password) != null) {
 			if(keystore.getCertificate(alias) != null) {
 				return new MTKey(keystore.getKey(alias, this.password));
@@ -128,7 +128,7 @@ public class Model {
 	 * @return a Certificate
 	 * @throws KeyStoreException
 	 */
-	private MTCertificate getCertificate(String alias) throws KeyStoreException  {
+	public MTCertificate getCertificate(String alias) throws KeyStoreException  {
 		return new MTCertificate(keystore.getCertificate(alias));
 	}
 	
