@@ -12,11 +12,9 @@ import java.security.SignatureException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
 import java.util.Date;
-import java.util.Random;
 
 import javax.security.auth.x500.X500Principal;
 
-import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
 
