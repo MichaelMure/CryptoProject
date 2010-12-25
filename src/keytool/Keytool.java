@@ -5,17 +5,15 @@ package keytool;
 Package model {
 	MTCertificate *-- Certificate
 	MTKey *-- Key
-	MTKeyStore *-- KeyStore
-	Model *-- MTKeyStore
-	MTKeyStore .. MTKey : use
-	MTKeyStore .. MTCertificate : use
+	Model *-- KeyStore
+	Model .. MTKey : use
+	Model .. MTCertificate : use
 }
 Package view {
 	jFrame <|-- FileOpenWindow
 	jFrame <|-- MainWindow
 	View *--FileOpenWindow
 	View *-- MainWindow
-	MainWindow ..> Model
 }
 Package controller {
 	Controller *-- Model
