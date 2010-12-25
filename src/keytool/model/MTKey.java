@@ -1,5 +1,8 @@
 package keytool.model;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -15,6 +18,7 @@ import java.util.Date;
 
 import javax.security.auth.x500.X500Principal;
 
+import org.bouncycastle.openssl.PEMWriter;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
 
@@ -60,8 +64,7 @@ public class MTKey {
 
 	    SecureRandom random = new SecureRandom();
 
-	    // FIXME: seems can be negative
-	    certGen.setSerialNumber(BigInteger.valueOf(random.nextInt()));
+	    certGen.setSerialNumber(BigInteger.valueOf(random.nextInt(random.nextInt(Integer.MAX_VALUE))));
 	    certGen.setIssuerDN(new X500Principal(subject));
 	    certGen.setNotBefore(new Date(System.currentTimeMillis() - 10000));
 	    certGen.setNotAfter(new Date(System.currentTimeMillis() + 10000));
@@ -74,15 +77,28 @@ public class MTKey {
 	    
 	  }
 	
-	public String getPrivateBase64() {
-		String string = new String(org.bouncycastle.util.encoders.Base64.encode(this.key.getEncoded()));
+	public String getPublicKeyBase64() throws IOException {
+		ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+	    
+		PEMWriter pemWrt = new PEMWriter(new OutputStreamWriter(bOut));
 		
-		return string;
+		if(this.certificate != null)
+			pemWrt.writeObject(this.certificate.getPublicKey());
+		pemWrt.close();
+		bOut.close();
+    
+		return bOut.toString();
 	}
 	
-	public String getPublicBase64() {
-		String string = new String(org.bouncycastle.util.encoders.Base64.encode(this.certificate.getPublicKey().getEncoded()));
-		
-		return "-----BEGIN CERTIFICATE-----\n"+string+"\n-----END CERTIFICATE-----\n";
+	public String getPrivateKeyBase64() throws CertificateEncodingException, IOException {
+		ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+    
+		PEMWriter pemWrt = new PEMWriter(new OutputStreamWriter(bOut));
+    
+		pemWrt.writeObject(this.key);
+		pemWrt.close();
+		bOut.close();
+    
+		return bOut.toString();
 	}
 }
