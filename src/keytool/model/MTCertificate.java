@@ -52,8 +52,10 @@ public class MTCertificate {
 
 	    certGen.setSerialNumber(BigInteger.valueOf(System.currentTimeMillis()));
 	    certGen.setIssuerDN(new X500Principal(issuer));
-	    certGen.setNotBefore(new Date(System.currentTimeMillis() - 10000));
-	    certGen.setNotAfter(new Date(System.currentTimeMillis() + 10000));
+	    // One day before now
+	    certGen.setNotBefore(new Date(System.currentTimeMillis() - (60 * 60 * 24)* 1000 ));
+	    // One year after today
+	    certGen.setNotAfter(new Date(System.currentTimeMillis() + (365 * 60 * 60 * 24)* 1000 ));
 	    certGen.setSubjectDN(new X500Principal(subject));
 	    certGen.setPublicKey(keyPair.getPublic());
 	    certGen.setSignatureAlgorithm("SHA256WithRSAEncryption");
