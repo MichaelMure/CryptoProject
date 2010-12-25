@@ -1,3 +1,4 @@
+Type des éléments d'un keystore
 http://download.oracle.com/javase/7/docs/technotes/guides/security/crypto/CryptoSpec.html#KeyStore
 
 http://stackoverflow.com/questions/1321557/can-not-get-key-from-keystore
@@ -15,3 +16,4 @@ http://webcache.googleusercontent.com/search?q=cache:wKK1UtOxQt4J:forums.sun.com
 
 Liste le contenu du certificat (mdp : keytool)
 $ keytool -storetype JCEKS -list -v -keystore store.ks 
+

@@ -3,6 +3,7 @@ package keytool.model;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.cert.Certificate;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -10,6 +11,7 @@ import java.security.UnrecoverableKeyException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+
 
 
 public class MTKeyStore {
@@ -150,16 +152,13 @@ public class MTKeyStore {
 	}
 	
 	/**
-	 * Add a certificate in the KeyStore
+	 * Add a (private) Key in the KeyStore. The MUST have a Certificate
 	 * @param alias
 	 * @param key
 	 * @throws KeyStoreException
 	 */
 	public void addKey(String alias, MTKey key) throws KeyStoreException {
-		// FIXME : le dernier argument doit etre une chaine de certificat
-		// Je n'ai pas compris le fonctionnement
-		// T.H. 24/12/10
-		keystore.setKeyEntry(alias, key.getKey(), this.password, null);
+		keystore.setKeyEntry(alias, key.getKey(), this.password, new Certificate[] { key.getCertificate() });
 	}
 	
 	/**
@@ -192,6 +191,7 @@ public class MTKeyStore {
 	public void saveTo(String path) throws KeyStoreException, NoSuchAlgorithmException, CertificateException, IOException {
 		FileOutputStream fos = new FileOutputStream(new File(path));
 		this.keystore.store(fos, this.password);
+		System.out.println("Save the keystore to"+path);
 	}
 	
 	/**

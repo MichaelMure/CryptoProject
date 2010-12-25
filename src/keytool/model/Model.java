@@ -9,27 +9,26 @@ import java.security.UnrecoverableKeyException;
 import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 
+@SuppressWarnings("unused")
 public class Model {
 
 	private MTKeyStore keystore;
 
 	private static String KEYSTORE_DEFAULT_PATH = "store.ks";
-	public static char[] DEFAULT_PASSWORD = { 'k', 'e', 'y', 't', 'o', 'o', 'l' };
+	public static char[] DEFAULT_PASSWORD = "keytool".toCharArray();
 	
     public Model(){
         try {
         	this.keystore = new MTKeyStore(KEYSTORE_DEFAULT_PATH, DEFAULT_PASSWORD);
 
-        	/*
-    	    KeyPairGenerator kpGen = KeyPairGenerator.getInstance("RSA", "BC");
-    	    kpGen.initialize(1024, new java.security.SecureRandom());
-    	    KeyPair keyPair = kpGen.generateKeyPair();
-
-    		MTKey key = new MTKey(keyPair.getPrivate());
-    		keystore.addKey("truc", key);
-    		*/
-        	MTCertificate cert = new MTCertificate();
-        	keystore.addCertificate("toto", cert);
+    		//MTKey key = new MTKey();
+    		//keystore.addKey("truc4", key);
+    		
+        	//MTCertificate cert = new MTCertificate();
+        	//keystore.addCertificate("toto", cert);
+        	
+        	//keystore.save();
+        	
     	} catch (Exception e) {
     		e.printStackTrace();
     	}
