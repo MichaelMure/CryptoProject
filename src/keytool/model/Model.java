@@ -25,12 +25,34 @@ public class Model {
 		this(Model.DEFAULT_PASSWORD);
 	}
 	
+	public Model(char[] password) throws ModelException {
+		this.newKeyStore(password);
+	}
+	
 	/**
-	 * Create a new KeyStore
+	 * Open a KeyStore from a file and its password
+	 * @param path
+	 * @param password
+	 * @throws ModelException 
+	 */
+	public Model(String path, char[] password) throws ModelException {
+		openKeyStore(path, password);
+	}
+	
+	/**
+	 * Create a new KeyStore with the DEFAULT_PASSWORD, in the KEYSTORE_DEFAULT_PATH
+	 * @throws ModelException 
+	 */
+	public void newKeyStore() throws ModelException {
+		newKeyStore(Model.DEFAULT_PASSWORD);
+	}
+	
+	/**
+	 * Create a new KeyStore in the KEYSTORE_DEFAULT_PATH
 	 * @param password of the new KeyStore
 	 * @throws ModelException 
 	 */
-	public Model(char[] password) throws ModelException {
+	public void newKeyStore(char[] password) throws ModelException {
 		try {
 			this.keystore = KeyStore.getInstance("JCEKS");
 			this.keystore.load(null, password);
@@ -45,21 +67,15 @@ public class Model {
 			// cannot happend
 			e.printStackTrace();
 		}
-
 		this.password = password;
 		this.currentPath = Model.KEYSTORE_DEFAULT_PATH;
 	}
 	
 	/**
-	 * Open a KeyStore from a file and its password
+	 * Open a Keytore with its path and use the DEFAULT_PASSWORD
 	 * @param path
-	 * @param password
 	 * @throws ModelException 
 	 */
-	public Model(String path, char[] password) throws ModelException {
-		openKeyStore(path, password);
-	}
-	
 	public void openKeyStore(String path) throws ModelException {
 		this.openKeyStore(path, DEFAULT_PASSWORD);
 	}
