@@ -1,12 +1,14 @@
 package keytool.model;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.SignatureException;
 import java.security.cert.Certificate;
@@ -16,6 +18,7 @@ import java.util.Date;
 
 import javax.security.auth.x500.X500Principal;
 
+import org.bouncycastle.openssl.PEMWriter;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
 public class MTCertificate {
@@ -37,10 +40,9 @@ public class MTCertificate {
 		return certificate;
 	}
 	
-	public PublicKey getPublicKey() {
-        // Get public key
-		PublicKey publicKey = this.certificate.getPublicKey();
-		return publicKey;
+	public MTKey getPublicKey() {
+		MTKey mtKey = new MTKey(this.certificate.getPublicKey());
+		return mtKey;
 	}
 	
 	public String getDetails() {
@@ -95,9 +97,15 @@ public class MTCertificate {
 	        
 	  }
 	
-	public String getBase64() throws CertificateEncodingException {
-		String string = new String(org.bouncycastle.util.encoders.Base64.encode(this.certificate.getEncoded()));
-		
-		return "-----BEGIN CERTIFICATE-----\n"+string+"\n-----END CERTIFICATE-----\n";
+	public String toBase64() throws CertificateEncodingException, IOException {
+		ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+    
+		PEMWriter pemWrt = new PEMWriter(new OutputStreamWriter(bOut));
+    
+		pemWrt.writeObject(this.certificate);
+		pemWrt.close();
+		bOut.close();
+    
+		return bOut.toString();
 	}
 }
