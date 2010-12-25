@@ -21,13 +21,13 @@ public class Model {
         try {
         	this.keystore = new MTKeyStore(KEYSTORE_DEFAULT_PATH, DEFAULT_PASSWORD);
 
-    		//MTKey key = new MTKey();
-    		//keystore.addKey("truc4", key);
+    		MTKey key = new MTKey("CN=Jean Dupont, OU=HEI, O=UCL, L=Lille, ST=France, C=FR");
+    		keystore.addKey("jd", key);
     		
-        	//MTCertificate cert = new MTCertificate();
-        	//keystore.addCertificate("toto", cert);
+        	MTCertificate cert = new MTCertificate();
+        	keystore.addCertificate("toto", cert);
         	
-        	//keystore.save();
+        	// keystore.save();
         	
     	} catch (Exception e) {
     		e.printStackTrace();
