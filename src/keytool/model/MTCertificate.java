@@ -7,6 +7,7 @@ import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
@@ -99,6 +100,10 @@ public class MTCertificate {
 			sb.append("Pas de certificat X509");
 		}
 		return sb.toString();
+	}
+	
+	public void addToKeyStore(Model keystore, String alias) throws KeyStoreException {
+		keystore.addCertificate(alias, this.certificate);
 	}
 	
 	public String toString() {
