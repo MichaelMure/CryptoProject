@@ -11,11 +11,14 @@ import java.security.SecureRandom;
 import java.security.SignatureException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 
 import javax.security.auth.x500.X500Principal;
 
+import org.bouncycastle.util.encoders.Base64;
+import org.bouncycastle.util.encoders.Base64Encoder;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
 public class MTCertificate {
@@ -94,4 +97,10 @@ public class MTCertificate {
 	    this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
 	        
 	  }
+	
+	public String getBase64() throws CertificateEncodingException {
+		String string = new String(org.bouncycastle.util.encoders.Base64.encode(this.certificate.getEncoded()));
+		
+		return "-----BEGIN CERTIFICATE-----\n"+string+"\n-----END CERTIFICATE-----\n";
+	}
 }

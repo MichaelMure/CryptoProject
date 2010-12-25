@@ -16,6 +16,7 @@ import java.util.Random;
 
 import javax.security.auth.x500.X500Principal;
 
+import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
 
@@ -61,7 +62,8 @@ public class MTKey {
 
 	    SecureRandom random = new SecureRandom();
 
-	    certGen.setSerialNumber(BigInteger.valueOf(random.nextLong()));
+	    // FIXME: seems can be negative
+	    certGen.setSerialNumber(BigInteger.valueOf(random.nextInt()));
 	    certGen.setIssuerDN(new X500Principal(subject));
 	    certGen.setNotBefore(new Date(System.currentTimeMillis() - 10000));
 	    certGen.setNotAfter(new Date(System.currentTimeMillis() + 10000));
@@ -73,4 +75,16 @@ public class MTKey {
 	    this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
 	    
 	  }
+	
+	public String getPrivateBase64() {
+		String string = new String(org.bouncycastle.util.encoders.Base64.encode(this.key.getEncoded()));
+		
+		return string;
+	}
+	
+	public String getPublicBase64() {
+		String string = new String(org.bouncycastle.util.encoders.Base64.encode(this.certificate.getPublicKey().getEncoded()));
+		
+		return "-----BEGIN CERTIFICATE-----\n"+string+"\n-----END CERTIFICATE-----\n";
+	}
 }

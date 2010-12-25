@@ -23,10 +23,13 @@ public class Model {
 
     		MTKey key = new MTKey("CN=Jean Dupont, OU=HEI, O=UCL, L=Lille, ST=France, C=FR");
     		keystore.addKey("jd", key);
+    		System.out.println(key.getPrivateBase64());
+    		System.out.println(key.getPublicBase64());
     		
         	MTCertificate cert = new MTCertificate();
         	keystore.addCertificate("toto", cert);
-        	
+    		System.out.println(cert.getBase64());
+
         	// keystore.save();
         	
     	} catch (Exception e) {
