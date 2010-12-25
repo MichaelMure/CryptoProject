@@ -112,10 +112,10 @@ public class Model {
 	 * @throws KeyStoreException
 	 * @throws NoSuchAlgorithmException
 	 */
-	public MTKey getKey(String alias) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
+	public MTPrivateKey getKey(String alias) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
 		if(keystore.getKey(alias, password) != null) {
 			if(keystore.getCertificate(alias) != null) {
-				return new MTKey(keystore.getKey(alias, this.password));
+				return new MTPrivateKey(keystore.getKey(alias, this.password), keystore.getCertificate(alias));
 			} else
 				throw new KeyStoreException("pas de certificat associé à la clé");
 		} else
@@ -138,7 +138,7 @@ public class Model {
 	 * @param key
 	 * @throws KeyStoreException
 	 */
-	public void addKey(String alias, MTKey key) throws KeyStoreException {
+	public void addKey(String alias, MTPrivateKey key) throws KeyStoreException {
 		keystore.setKeyEntry(alias, key.getKey(), this.password, new Certificate[] { key.getCertificate() });
 	}
 	

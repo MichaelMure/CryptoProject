@@ -72,8 +72,8 @@ public class MTCertificate {
 		return certificate;
 	}
 	
-	public MTKey getPublicKey() {
-		MTKey mtKey = new MTKey(this.certificate.getPublicKey());
+	public MTPublicKey getPublicKey() {
+		MTPublicKey mtKey = new MTPublicKey(this.certificate.getPublicKey());
 		return mtKey;
 	}
 	

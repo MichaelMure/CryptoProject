@@ -26,6 +26,7 @@ import java.security.Security;
 import keytool.controller.Controller;
 import keytool.model.MTCertificate;
 import keytool.model.MTKey;
+import keytool.model.MTPrivateKey;
 import keytool.model.Model;
 import keytool.view.View;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -43,7 +44,7 @@ public class Keytool {
 	        model.addCertificate("test", new MTCertificate());
 	        System.out.println(model.getCertificate("test").toBase64());
 	        
-	        model.addKey("cle-theo", new MTKey("CN=Hello-Theo"));
+	        model.addKey("cle-theo", new MTPrivateKey("CN=Hello-Theo"));
 	        System.out.println(model.getKey("cle-theo").toBase64());
 	        System.out.println(model.getCertificate("cle-theo").toBase64());
 	        System.out.println(model.getCertificate("cle-theo").getPublicKey().toBase64());
