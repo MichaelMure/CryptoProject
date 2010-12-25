@@ -134,16 +134,6 @@ public class Model {
 	}
 	
 	/**
-	 * Add a (private) Key in the KeyStore. The MUST have a Certificate
-	 * @param alias
-	 * @param key
-	 * @throws KeyStoreException
-	 */
-	private void addKey(String alias, MTPrivateKey key) throws KeyStoreException {
-		keystore.setKeyEntry(alias, key.getKey(), this.password, new Certificate[] { key.getCertificate() });
-	}
-	
-	/**
 	 * Add a Key in the KeyStore
 	 * @param alias
 	 * @param key

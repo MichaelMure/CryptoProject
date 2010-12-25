@@ -67,15 +67,6 @@ public class MTPrivateKey extends MTKey {
 	}
 	
 	/**
-	 * Warning : there is no certificate in a Key from a Keystore !
-	 * You have to get the Certificate from the KeyStore
-	 * @return
-	 */
-	public Certificate getCertificate() {
-		return this.certificate;
-	}
-	
-	/**
 	 * Add the current PrivateKey to a keystore
 	 * @param keystore
 	 * @param alias
