@@ -130,7 +130,11 @@ public class Model {
 	 * @throws KeyStoreException
 	 */
 	public MTCertificate getCertificate(String alias) throws KeyStoreException  {
-		return new MTCertificate(keystore.getCertificate(alias));
+		if(this.keystore.containsAlias(alias))
+			return new MTCertificate(keystore.getCertificate(alias));
+		else
+			throw new KeyStoreException("Pas de certificat "+alias);
+		
 	}
 	
 	/**
@@ -150,8 +154,8 @@ public class Model {
 	 * @param cert : Certificate to add
 	 * @throws KeyStoreException
 	 */
-	public void addCertificate(String alias, MTCertificate cert) throws KeyStoreException {
-		keystore.setCertificateEntry(alias, cert.getCertificate());
+	public void addCertificate(String alias, Certificate cert) throws KeyStoreException {
+		keystore.setCertificateEntry(alias, cert);
 	}
 	
 	/**

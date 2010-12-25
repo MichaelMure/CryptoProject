@@ -25,7 +25,6 @@ Package controller {
 import java.security.Security;
 import keytool.controller.Controller;
 import keytool.model.MTCertificate;
-import keytool.model.MTKey;
 import keytool.model.MTPrivateKey;
 import keytool.model.Model;
 import keytool.view.View;
@@ -41,8 +40,10 @@ public class Keytool {
 			model = new Model();
 			/* Pour test*/
 	        model.openKeyStore("store.ks",  "keytool".toCharArray());
-	        model.addCertificate("test", new MTCertificate());
-	        System.out.println(model.getCertificate("test").toBase64());
+	        MTCertificate cert = new MTCertificate();
+	        
+	        cert.addToKeyStore(model, "test-cert");
+	        System.out.println(model.getCertificate("test-cert").toBase64());
 	        
 	        MTPrivateKey key = new MTPrivateKey("CN=Hello-Theo");
 	        key.addToKeyStore(model, "cle-theo");
