@@ -179,7 +179,7 @@ public class Model {
 		} catch (IOException e) {
 			throw new ModelException("Error while saving keystore "+path+": Can not save here.");
 		}
-		System.out.println("Save the keystore to"+path);
+		System.out.println("Save the keystore to: "+path);
 	}
 	
 	/**
