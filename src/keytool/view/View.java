@@ -8,13 +8,13 @@ import keytool.model.Model;
 public class View {
 	
 	private MainWindow mainWindow;
-	private FileOpenWindow fileOpenWindow;
+	private FileChooserWindow fileOpenWindow;
 	
 	public View(Model model) {
 		this.mainWindow = new MainWindow(model);
 		this.mainWindow.setVisible(true);
 		
-		this.fileOpenWindow = new FileOpenWindow();
+		this.fileOpenWindow = new FileChooserWindow();
 		this.fileOpenWindow.setVisible(false);
 	}
 
@@ -35,7 +35,7 @@ public class View {
 		this.mainWindow.setVisible(false);
 	}
 
-	public FileOpenWindow getFileOpenWindow() {
+	public FileChooserWindow getFileOpenWindow() {
 		return this.fileOpenWindow;
 	}
 	

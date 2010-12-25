@@ -7,13 +7,13 @@ import javax.swing.GroupLayout;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 
-public class FileOpenWindow extends JFrame {
+public class FileChooserWindow extends JFrame {
 
 	private static final long serialVersionUID = -7175771389359615082L;
 
 	private JFileChooser FileChooser;
 	
-	public FileOpenWindow() {
+	public FileChooserWindow() {
 		initComponents();
 	}
 	
@@ -36,11 +36,11 @@ public class FileOpenWindow extends JFrame {
     }
 
 
-    public void addFOActionListener(ActionListener actLst) {
+    public void addFCActionListener(ActionListener actLst) {
     	this.FileChooser.addActionListener(actLst);
 	}
     
-    public void addFOWindowListener(WindowListener wdLst) {
+    public void addFCWindowListener(WindowListener wdLst) {
     	this.addWindowListener(wdLst);
 	}
     

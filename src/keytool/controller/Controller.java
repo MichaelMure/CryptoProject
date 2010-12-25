@@ -145,8 +145,8 @@ public class Controller {
 	}
 
 	private void initFOWindowListener() {
-		this.view.getFileOpenWindow().addFOActionListener(new FOActionListener());
-		this.view.getFileOpenWindow().addFOWindowListener(new FOWindowListener());
+		this.view.getFileOpenWindow().addFCActionListener(new FOActionListener());
+		this.view.getFileOpenWindow().addFCWindowListener(new FOWindowListener());
 	}
 
 	class FOActionListener implements ActionListener {
