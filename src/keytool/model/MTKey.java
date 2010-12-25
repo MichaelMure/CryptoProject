@@ -26,7 +26,7 @@ public class MTKey {
 	private Key key;
 	private Certificate certificate;
 	
-	public MTKey(String subject) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
+	public MTKey(String subject) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException, ModelException {
 		generateNewKey(subject);
 	}
 	
@@ -38,6 +38,11 @@ public class MTKey {
 		return this.key;
 	}
 
+	/**
+	 * Warning : there is no certificate in a Key from a Keystore !
+	 * You have to get the Certificate from the KeyStore
+	 * @return
+	 */
 	public Certificate getCertificate() {
 		return this.certificate;
 	}
@@ -50,7 +55,7 @@ public class MTKey {
 		return this.key.getClass().getName();
 	}
 	
-	public void generateNewKey(String subject) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException  {
+	public void generateNewKey(String subject) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException, ModelException  {
 
 		/* Génération d'une paire de clé privée/publique */
 	    KeyPairGenerator kpGen = KeyPairGenerator.getInstance("RSA", "BC");
@@ -74,23 +79,16 @@ public class MTKey {
 
 	    /* Sauvegarde du certificat */
 	    this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
-	    
-	  }
-	
-	public String getPublicKeyBase64() throws IOException {
-		ByteArrayOutputStream bOut = new ByteArrayOutputStream();
-	    
-		PEMWriter pemWrt = new PEMWriter(new OutputStreamWriter(bOut));
-		
-		if(this.certificate != null)
-			pemWrt.writeObject(this.certificate.getPublicKey());
-		pemWrt.close();
-		bOut.close();
-    
-		return bOut.toString();
 	}
 	
-	public String getPrivateKeyBase64() throws CertificateEncodingException, IOException {
+	/**
+	 * Export the PrivateKey to Base64 String
+	 * if you wan the publicKey, go through the certificate
+	 * @return
+	 * @throws CertificateEncodingException
+	 * @throws IOException
+	 */
+	public String toBase64() throws CertificateEncodingException, IOException {
 		ByteArrayOutputStream bOut = new ByteArrayOutputStream();
     
 		PEMWriter pemWrt = new PEMWriter(new OutputStreamWriter(bOut));
