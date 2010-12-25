@@ -48,7 +48,7 @@ public class View {
 	}
 	
 	public void createErrorWIndow(String message) {
-		JOptionPane.showMessageDialog(new JFrame(), message, "Dialog",
+		JOptionPane.showMessageDialog(new JFrame(), message, "Erreur",
 		        JOptionPane.ERROR_MESSAGE);
 	}
 }

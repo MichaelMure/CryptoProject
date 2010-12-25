@@ -7,8 +7,6 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
 import keytool.model.Model;
 import keytool.model.ModelException;
@@ -72,11 +70,17 @@ public class Controller {
   
   class ItemSaveListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e) {
+	    	try {
+				model.save();
+			} catch (ModelException e1) {
+				view.createErrorWIndow(e1.getMessage());
+			}
 	    }
 	  }
   
   class ItemSaveAsListener implements ActionListener {
 	    public void actionPerformed(ActionEvent e) {
+	    	
 	    }
 	  }
   
