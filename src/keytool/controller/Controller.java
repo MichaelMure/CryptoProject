@@ -12,14 +12,39 @@ import keytool.model.Model;
 import keytool.model.ModelException;
 import keytool.view.MainWindow;
 import keytool.view.View;
- 
+
+/*
+@startuml
+
+[*] --> StateWait
+StateWait --> StateSaving : menuSave
+StateSaving --> StateWait : FOopen
+StateSaving --> StateWait : FOcancel
+
+StateWait --> StateOpening : menuOpen
+StateOpening --> StateWait : FOopen
+StateOpening --> StateWait : FOcancel
+
+StateWait --> StateExporting : itemExport
+StateExporting --> StateWait : FOopen
+StateExporting --> StateWait : FOcancel
+
+StateWait --> StateImporting : itemImport
+StateImporting --> StateWait : FOopen
+StateImporting --> StateWait : FOcancel
+
+@enduml
+*/
 public class Controller {
-  protected View view;
-  protected Model model;
- 
+  private View view;
+  private Model model;
+  private enum State {StateWAIT, StateSAVING, StateOPENING, StateIMPORTING, StateEXPORTING};
+  private State state;
+  
   public Controller(Model model, View view){
     this.view = view;
     this.model = model;
+    this.state = State.StateWAIT;
     
     initMainWindowListener();
     refreshKeysList();
