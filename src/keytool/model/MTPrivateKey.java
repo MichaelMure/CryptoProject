@@ -1,13 +1,11 @@
 package keytool.model;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.Key;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
@@ -18,12 +16,21 @@ import java.util.Date;
 
 import javax.security.auth.x500.X500Principal;
 
-import org.bouncycastle.openssl.PEMWriter;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
 public class MTPrivateKey extends MTKey {
 	private Certificate certificate;
 
+	/**
+	 * Create a PrivateKey with a subject
+	 * @param subject
+	 * @throws CertificateEncodingException
+	 * @throws InvalidKeyException
+	 * @throws IllegalStateException
+	 * @throws NoSuchProviderException
+	 * @throws NoSuchAlgorithmException
+	 * @throws SignatureException
+	 */
 	public MTPrivateKey(String subject) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
 		/* Génération d'une paire de clé privée/publique */
 	    KeyPairGenerator kpGen = KeyPairGenerator.getInstance("RSA", "BC");
@@ -49,6 +56,11 @@ public class MTPrivateKey extends MTKey {
 	    this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
 	}
 	
+	/**
+	 * Create a PrivateKey from a other PrivateKey and its certificate
+	 * @param key2
+	 * @param cert2
+	 */
 	public MTPrivateKey(Key key2, Certificate cert2) {
 		this.key = key2;
 		this.certificate = cert2;
@@ -63,6 +75,14 @@ public class MTPrivateKey extends MTKey {
 		return this.certificate;
 	}
 	
-
+	/**
+	 * Add the current PrivateKey to a keystore
+	 * @param keystore
+	 * @param alias
+	 * @throws KeyStoreException
+	 */
+	public void addToKeyStore(Model keystore, String alias) throws KeyStoreException {
+		keystore.addKey(alias, this.key, this.certificate);
+	}
 
 }

@@ -44,7 +44,9 @@ public class Keytool {
 	        model.addCertificate("test", new MTCertificate());
 	        System.out.println(model.getCertificate("test").toBase64());
 	        
-	        model.addKey("cle-theo", new MTPrivateKey("CN=Hello-Theo"));
+	        MTPrivateKey key = new MTPrivateKey("CN=Hello-Theo");
+	        key.addToKeyStore(model, "cle-theo");
+
 	        System.out.println(model.getKey("cle-theo").toBase64());
 	        System.out.println(model.getCertificate("cle-theo").toBase64());
 	        System.out.println(model.getCertificate("cle-theo").getPublicKey().toBase64());

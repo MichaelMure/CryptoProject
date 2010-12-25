@@ -3,6 +3,7 @@ package keytool.model;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.security.Key;
 import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
@@ -138,8 +139,19 @@ public class Model {
 	 * @param key
 	 * @throws KeyStoreException
 	 */
-	public void addKey(String alias, MTPrivateKey key) throws KeyStoreException {
+	private void addKey(String alias, MTPrivateKey key) throws KeyStoreException {
 		keystore.setKeyEntry(alias, key.getKey(), this.password, new Certificate[] { key.getCertificate() });
+	}
+	
+	/**
+	 * Add a Key in the KeyStore
+	 * @param alias
+	 * @param key
+	 * @param certificate
+	 * @throws KeyStoreException
+	 */
+	public void addKey(String alias, Key key, Certificate certificate) throws KeyStoreException {
+		keystore.setKeyEntry(alias, key, this.password, new Certificate[] { certificate });
 	}
 	
 	/**
