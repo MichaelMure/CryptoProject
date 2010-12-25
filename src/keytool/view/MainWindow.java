@@ -28,6 +28,7 @@ public class MainWindow extends JFrame {
 	
 	private JButton BtnExport;
     private JButton BtnImport;
+    private JMenuItem ItemNew;
     private JMenuItem ItemOpen;
     private JMenuItem ItemSave;
     private JMenuItem ItemSaveAs;
@@ -60,6 +61,7 @@ public class MainWindow extends JFrame {
         this.LablDetails = new JLabel();
         this.Menu = new JMenuBar();
         this.MenuKeytool = new JMenu();
+        this.ItemNew = new JMenuItem();
         this.ItemOpen = new JMenuItem();
         this.ItemSave = new JMenuItem();
         this.ItemSaveAs = new JMenuItem();
@@ -92,6 +94,11 @@ public class MainWindow extends JFrame {
         /* Menu */
         MenuKeytool.setText("Keytool");
 
+        /* Menu New */
+        ItemNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+        ItemNew.setText("Nouveau");
+        MenuKeytool.add(ItemNew);
+        
         /* Menu Open */
         ItemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         ItemOpen.setText("Ouvrir");
@@ -144,6 +151,10 @@ public class MainWindow extends JFrame {
     	ItemQuit.addActionListener(actLst);
 	}
 
+    public void addItemNewListener(ActionListener actLst) {
+    	ItemNew.addActionListener(actLst);
+	}
+    
     public void addItemOpenListener(ActionListener actLst) {
     	ItemOpen.addActionListener(actLst);
 	}

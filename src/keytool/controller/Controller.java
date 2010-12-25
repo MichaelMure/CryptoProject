@@ -1,5 +1,5 @@
 package keytool.controller;
- 
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -34,141 +34,159 @@ StateImporting --> StateWait : FOopen
 StateImporting --> StateWait : FOcancel
 
 @enduml
-*/
+ */
 public class Controller {
-  private View view;
-  private Model model;
-  private enum State {StateWAIT, StateSAVING, StateOPENING, StateIMPORTING, StateEXPORTING};
-  private State state;
-  
-  public Controller(Model model, View view){
-    this.view = view;
-    this.model = model;
-    this.state = State.StateWAIT;
-    
-    initMainWindowListener();
-    refreshKeysList();
-    refreshCertificateList();
-    
-    initFOWindowListener();
-  }
- 
-  private void initMainWindowListener() {
-	MainWindow mw = this.view.getMainWindow();
-	mw.addItemOpenListener(new ItemOpenListener());
-	mw.addItemSaveListener(new ItemSaveListener());
-	mw.addItemSaveAsListener(new ItemSaveAsListener());
-	mw.addItemQuitListener(new ItemQuitListener());
-	mw.addBtnImportListener(new BtnImportListener());
-	mw.addBtnExportListener(new BtnExportListener());
-  }
-  
-  private void refreshKeysList() {
-	  try {
-		DefaultListModel list = this.model.getKeys();
-		this.view.getMainWindow().setKeysList(list);
-	} catch (ModelException e) {
-		this.view.createErrorWIndow(e.getMessage());
+	private View view;
+	private Model model;
+	private enum State {StateWAIT, StateSAVING, StateOPENING, StateIMPORTING, StateEXPORTING};
+	private State state;
+
+	public Controller(Model model, View view){
+		this.view = view;
+		this.model = model;
+		this.state = State.StateWAIT;
+
+		initMainWindowListener();
+		refreshKeysList();
+		refreshCertificateList();
+
+		initFOWindowListener();
 	}
-  }
-  
-  private void refreshCertificateList() {
-	  try {
+
+	private void initMainWindowListener() {
+		MainWindow mw = this.view.getMainWindow();
+		mw.addItemNewListener(new ItemNewListener());
+		mw.addItemOpenListener(new ItemOpenListener());
+		mw.addItemSaveListener(new ItemSaveListener());
+		mw.addItemSaveAsListener(new ItemSaveAsListener());
+		mw.addItemQuitListener(new ItemQuitListener());
+		mw.addBtnImportListener(new BtnImportListener());
+		mw.addBtnExportListener(new BtnExportListener());
+	}
+
+	private void refreshLists() {
+		this.refreshKeysList();
+		this.refreshCertificateList();
+	}
+	
+	private void refreshKeysList() {
+		try {
+			DefaultListModel list = this.model.getKeys();
+			this.view.getMainWindow().setKeysList(list);
+		} catch (ModelException e) {
+			this.view.createErrorWIndow(e.getMessage());
+		}
+	}
+
+	private void refreshCertificateList() {
+		try {
 			DefaultListModel list = this.model.getCertificates();
 			this.view.getMainWindow().setCertificatesList(list);
 		} catch (ModelException e) {
 			this.view.createErrorWIndow(e.getMessage());
 		}
-  }
- 
-  class ItemOpenListener implements ActionListener {
-	    public void actionPerformed(ActionEvent e) {
-	    	view.getFileOpenWindow().setOpenDialog();
-	    	view.showFileOpenWindow();
-	    	state = State.StateOPENING;
-	    }
-	  }
-  
-  class ItemQuitListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-    	view.disposeAll();
-    }
-  }
-  
-  class ItemSaveListener implements ActionListener {
-	    public void actionPerformed(ActionEvent e) {
-	    	try {
+	}
+
+	class ItemNewListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				model.newKeyStore();
+			} catch (ModelException e1) {
+				view.createErrorWIndow(e1.getMessage());
+			}
+			refreshLists();
+		}
+	}
+	
+	class ItemOpenListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			view.getFileOpenWindow().setOpenDialog();
+			view.showFileOpenWindow();
+			state = State.StateOPENING;
+		}
+	}
+
+	class ItemQuitListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			view.disposeAll();
+		}
+	}
+
+	class ItemSaveListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			try {
 				model.save();
 			} catch (ModelException e1) {
 				view.createErrorWIndow(e1.getMessage());
 			}
-	    }
-	  }
-  
-  class ItemSaveAsListener implements ActionListener {
-	    public void actionPerformed(ActionEvent e) {
-	    	view.getFileOpenWindow().setSaveDialog();
-	    	view.showFileOpenWindow();
-	    	state = State.StateSAVING;
-	    }
-	  }
-  
-  class BtnImportListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-    	view.showFileOpenWindow();
-    	state = State.StateIMPORTING;
-    }
-  }
-  
-  class BtnExportListener implements ActionListener {
-    public void actionPerformed(ActionEvent e) {
-    	view.showFileOpenWindow();
-    	state = State.StateEXPORTING;
-    }
-  }
-  
-  private void initFOWindowListener() {
-	  this.view.getFileOpenWindow().addFOActionListener(new FOActionListener());
-	  this.view.getFileOpenWindow().addFOWindowListener(new FOWindowListener());
-  }
-  
-  class FOActionListener implements ActionListener {
-	    public void actionPerformed(ActionEvent e) {
-	        if (JFileChooser.APPROVE_SELECTION.equals(e.getActionCommand())) {
-	            switch(state) {
-	            case StateOPENING:
-	            	try {
-	            		view.hideFileOpenWindow();
+		}
+	}
+
+	class ItemSaveAsListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			view.getFileOpenWindow().setSaveDialog();
+			view.showFileOpenWindow();
+			state = State.StateSAVING;
+		}
+	}
+
+	class BtnImportListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			view.showFileOpenWindow();
+			state = State.StateIMPORTING;
+		}
+	}
+
+	class BtnExportListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			view.showFileOpenWindow();
+			state = State.StateEXPORTING;
+		}
+	}
+
+	private void initFOWindowListener() {
+		this.view.getFileOpenWindow().addFOActionListener(new FOActionListener());
+		this.view.getFileOpenWindow().addFOWindowListener(new FOWindowListener());
+	}
+
+	class FOActionListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			if (JFileChooser.APPROVE_SELECTION.equals(e.getActionCommand())) {
+				switch(state) {
+				case StateOPENING:
+					try {
+						view.hideFileOpenWindow();
 						model.openKeyStore(view.getFileOpenWindow().getPath());
 					} catch (ModelException e2) {
 						view.createErrorWIndow(e2.getMessage());
 					}
-	            	break;
-	            case StateSAVING:
-	            	try {
-	            		view.hideFileOpenWindow();
+					break;
+				case StateSAVING:
+					try {
+						view.hideFileOpenWindow();
 						model.saveTo(view.getFileOpenWindow().getPath());
 					} catch (ModelException e1) {
 						view.createErrorWIndow(e1.getMessage());
 					}
-	            	break;
-	            case StateEXPORTING:
-	            	break;
-	            case StateIMPORTING:
-	            	break;
-	            }
-	        } else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
-	            view.hideFileOpenWindow();
-	        }
-	        state = State.StateWAIT;
-	    }
-  }
-  
-  class FOWindowListener extends WindowAdapter {
-	    public void windowClosing(WindowEvent e) {
-	    	view.hideFileOpenWindow();
-	    	state = State.StateWAIT;
-	    }
-	  }
-  
+					break;
+				case StateEXPORTING:
+					break;
+				case StateIMPORTING:
+					break;
+				}
+			} else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
+				view.hideFileOpenWindow();
+			}
+			refreshLists();
+			state = State.StateWAIT;
+		}
+	}
+
+	class FOWindowListener extends WindowAdapter {
+		public void windowClosing(WindowEvent e) {
+			view.hideFileOpenWindow();
+			state = State.StateWAIT;
+		}
+	}
+
 }
