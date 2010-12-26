@@ -3,13 +3,11 @@ package keytool.model;
 import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayInputStream;
-import java.io.DataInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -18,7 +16,6 @@ import java.security.KeyPair;
 import java.security.KeyPairGenerator;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.PrivateKey;
 import java.security.SecureRandom;
 import java.security.SignatureException;
 import java.security.cert.Certificate;
@@ -27,29 +24,17 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.security.spec.DSAPrivateKeySpec;
-import java.security.spec.DSAPublicKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
-import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.RSAPrivateCrtKeySpec;
-import java.security.spec.RSAPublicKeySpec;
-import java.util.Collection;
 import java.util.Date;
-import java.util.List;
-import java.util.StringTokenizer;
 
 import javax.security.auth.x500.X500Principal;
 
 import org.bouncycastle.asn1.ASN1InputStream;
 import org.bouncycastle.asn1.ASN1Sequence;
 import org.bouncycastle.asn1.DERInteger;
-import org.bouncycastle.asn1.util.ASN1Dump;
-import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
-import org.bouncycastle.crypto.util.PrivateKeyFactory;
-import org.bouncycastle.jce.provider.PEMUtil;
-import org.bouncycastle.openssl.PEMReader;
 import org.bouncycastle.util.encoders.Base64;
-import org.bouncycastle.util.encoders.Hex;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
 public class MTPrivateKey extends MTKey {
@@ -141,7 +126,6 @@ public class MTPrivateKey extends MTKey {
 	        String keyfileText = new String(buffer);
 	        String[] strings = keyfileText.split("-----");
 	        String keyText = strings[2];
-			System.out.println(keyText);
 			
 			// extract the key
 			byte[] keyBytes = Base64.decode(keyText);
@@ -176,7 +160,7 @@ public class MTPrivateKey extends MTKey {
 				DERInteger p = (DERInteger)seq.getObjectAt(1);
 				DERInteger q = (DERInteger)seq.getObjectAt(2);
 				DERInteger g = (DERInteger)seq.getObjectAt(3);
-				DERInteger y = (DERInteger)seq.getObjectAt(4);
+				// DERInteger y = (DERInteger)seq.getObjectAt(4);
 				DERInteger x = (DERInteger)seq.getObjectAt(5);
 			
 				privSpec = new DSAPrivateKeySpec(
@@ -194,7 +178,6 @@ public class MTPrivateKey extends MTKey {
 	        String certfileText = new String(certBuffer);
 	        String[] certStrings = certfileText.split("-----");
 	        String certText = certStrings[2];
-			System.out.println(certText);
 			
 	        ByteArrayInputStream certBais = new ByteArrayInputStream(Base64.decode(certText));
 	        CertificateFactory certFact = CertificateFactory.getInstance("X.509", "BC");
