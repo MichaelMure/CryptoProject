@@ -152,8 +152,7 @@ public class Controller {
 	
 	class BtnNewKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("création clé");
-			//view.showCreateKeyWindow();
+			view.showCreateKeyWindow();
 			state = State.StateCREATINGKEY;
 		}
 	}
@@ -249,7 +248,8 @@ public class Controller {
 	
 	class CKWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			
+			view.getCreateKeyWindow().resetField();
+			view.hideCreateKeyWindow();
 		}
 	}
 	
@@ -261,7 +261,8 @@ public class Controller {
 	
 	class CKWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
-
+			view.getCreateKeyWindow().resetField();
+			view.hideCreateKeyWindow();
 		}
 	}
 
