@@ -1,6 +1,8 @@
 package keytool.model;
 
+import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.math.BigInteger;
@@ -102,7 +104,7 @@ public class MTCertificate {
 		return sb.toString();
 	}
 	
-	public void addToKeyStore(Model keystore, String alias) throws KeyStoreException {
+	public void addToKeyStore(Model keystore, String alias) throws ModelException {
 		keystore.addCertificate(alias, this.certificate);
 	}
 	
@@ -121,5 +123,18 @@ public class MTCertificate {
 		bOut.close();
     
 		return bOut.toString();
+	}
+	
+	public void exportTo(String path) throws ModelException {
+		try {
+			BufferedWriter buf = new BufferedWriter(new FileWriter(path));
+			buf.write(this.toBase64());
+			buf.close();
+		} catch (CertificateEncodingException e) {
+			throw new ModelException("Problème d'encodage de certificat : "+e.getMessage());
+		} catch (IOException e) {
+			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+		}
+		
 	}
 }
