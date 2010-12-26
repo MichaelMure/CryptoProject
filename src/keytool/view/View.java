@@ -8,23 +8,28 @@ import keytool.model.Model;
 public class View {
 	
 	private MainWindow mainWindow;
-	private FileChooserWindow fileOpenWindow;
+	private FileChooserWindow fileChooserWindow;
 	private CreateKeyWindow createKeyWindow;
+	private ImportKeyWindow importKeyWindow;
 	
 	public View(Model model) {
 		this.mainWindow = new MainWindow(model);
 		this.mainWindow.setVisible(true);
 		
-		this.fileOpenWindow = new FileChooserWindow();
+		this.fileChooserWindow = new FileChooserWindow();
 		this.createKeyWindow = new CreateKeyWindow();
+		this.importKeyWindow = new ImportKeyWindow();
+		this.importKeyWindow.setVisible(true);
 	}
 
 	public void disposeAll() {
-		this.fileOpenWindow.dispose();
+		this.fileChooserWindow.dispose();
 		this.mainWindow.dispose();
 		this.createKeyWindow.dispose();
+		this.importKeyWindow.dispose();
 	}
 	
+	/* MainWindow */
 	public MainWindow getMainWindow() {
 		return this.mainWindow;
 	}
@@ -37,23 +42,26 @@ public class View {
 		this.mainWindow.setVisible(false);
 	}
 
-	public FileChooserWindow getFileOpenWindow() {
-		return this.fileOpenWindow;
+	/* FileChooserWindow */
+	public FileChooserWindow getFileChooserWindow() {
+		return this.fileChooserWindow;
 	}
 	
-	public void showFileOpenWindow() {
-		this.fileOpenWindow.setVisible(true);
+	public void showFileChooserWindow() {
+		this.fileChooserWindow.setVisible(true);
 	}
 
-	public void hideFileOpenWindow() {
-		this.fileOpenWindow.setVisible(false);
+	public void hideFileChooserWindow() {
+		this.fileChooserWindow.setVisible(false);
 	}
 	
+	/* ErrorWindow */
 	public void createErrorWindow(String message) {
 		JOptionPane.showMessageDialog(new JFrame(), message, "Erreur",
 		        JOptionPane.ERROR_MESSAGE);
 	}
 	
+	/* CreateKeyWindow */
 	public CreateKeyWindow getCreateKeyWindow() {
 		return this.createKeyWindow;
 	}
@@ -67,6 +75,23 @@ public class View {
 	}
 	
 	public void hideCreateKeyWindow() {
-		this.createKeyWindow.dispose();
+		this.createKeyWindow.setVisible(false);
+	}
+	
+	/* ImportKeyWindow */
+	public ImportKeyWindow getImportKeyWindow() {
+		return this.importKeyWindow;
+	}
+	
+	public void showImportKeyWindow() {
+		this.importKeyWindow.setVisible(true);
+	}
+	
+	public void hideImportKeyWindow() {
+		this.importKeyWindow.setVisible(false);
+	}
+	
+	public void resetImportKeyWindow() {
+		this.importKeyWindow.resetField();
 	}
 }
