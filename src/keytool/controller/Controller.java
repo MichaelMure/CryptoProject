@@ -51,6 +51,7 @@ public class Controller {
 		refreshCertificateList();
 
 		initFOWindowListener();
+		initCreateWindowListener();
 	}
 
 	private void initMainWindowListener() {
@@ -186,6 +187,30 @@ public class Controller {
 		public void windowClosing(WindowEvent e) {
 			view.hideFileOpenWindow();
 			state = State.StateWAIT;
+		}
+	}
+	
+	private void initCreateWindowListener() {
+		this.view.getCreateWindow().addBtnCancelListener(new CWBtnCancelListener());
+		this.view.getCreateWindow().addBtnValidateListener(new CWBtnValidateListener());
+		this.view.getCreateWindow().addCWWindowListener(new CWWindowListener());
+	}
+	
+	class CWBtnCancelListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			
+		}
+	}
+	
+	class CWBtnValidateListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+			
+		}
+	}
+	
+	class CWWindowListener extends WindowAdapter {
+		public void windowClosing(WindowEvent e) {
+			System.out.println("pwet");
 		}
 	}
 

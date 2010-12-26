@@ -1,5 +1,8 @@
 package keytool.view;
 
+import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
+
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -77,6 +80,27 @@ public class CreateWindow extends JFrame {
 		getContentPane().add(BtnValidate);
 
 		pack();
+	}
+	
+	public void resetField() {
+		this.FldName.setText("");
+		this.FldOU.setText("");
+		this.FldOrg.setText("");
+		this.FldCity.setText("");
+		this.FldState.setText("");
+		this.FldCountry.setText("");
+	}
+	
+	public void addBtnCancelListener(ActionListener actLst) {
+    	BtnCancel.addActionListener(actLst);
+	}
+	
+	public void addBtnValidateListener(ActionListener actLst) {
+    	BtnValidate.addActionListener(actLst);
+	}
+	
+	public void addCWWindowListener(WindowListener wdLst) {
+    	this.addWindowListener(wdLst);
 	}
 	
 	public String getNameField() {
