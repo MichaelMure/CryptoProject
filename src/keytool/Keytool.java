@@ -22,8 +22,10 @@ Package controller {
 @enduml
 */
 
+import java.io.FileInputStream;
 import java.security.Security;
 import keytool.controller.Controller;
+import keytool.model.MTCertificate;
 import keytool.model.Model;
 import keytool.view.View;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -39,6 +41,12 @@ public class Keytool {
 			/* Pour test*/
 	        model.openKeyStore("store.ks",  "keytool".toCharArray());
 
+	        /* Test d'import certificats */
+	        MTCertificate verisign = new MTCertificate(new FileInputStream("verisign-cert.pem"));
+	        verisign.addToKeyStore(model, "verisign");
+	        MTCertificate geotrust = new MTCertificate(new FileInputStream("geotrust-cert.der"));
+	        geotrust.addToKeyStore(model, "geotrust");
+	        
 			View view = new View(model);
 	        @SuppressWarnings("unused")
 			Controller controller = new Controller(model, view);
