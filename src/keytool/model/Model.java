@@ -189,6 +189,9 @@ public class Model {
 	 */
 	public void delEntry(String alias) throws ModelException {
 		try {
+			if(alias == null) return;
+			if(! this.keystore.containsAlias(alias))
+				throw new ModelException("Pas d'alias "+alias);
 			this.keystore.deleteEntry(alias);
 		} catch (KeyStoreException e) {
 			throw new ModelException("Pas d'entrée "+alias+"à supprimer :"+e.getMessage());
