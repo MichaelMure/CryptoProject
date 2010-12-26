@@ -10,6 +10,7 @@ public class View {
 	private MainWindow mainWindow;
 	private FileChooserWindow fileOpenWindow;
 	private CreateKeyWindow createKeyWindow;
+	private ImportKeyWindow importKeyWindow;
 	
 	public View(Model model) {
 		this.mainWindow = new MainWindow(model);
@@ -17,14 +18,18 @@ public class View {
 		
 		this.fileOpenWindow = new FileChooserWindow();
 		this.createKeyWindow = new CreateKeyWindow();
+		this.importKeyWindow = new ImportKeyWindow();
+		this.importKeyWindow.setVisible(true);
 	}
 
 	public void disposeAll() {
 		this.fileOpenWindow.dispose();
 		this.mainWindow.dispose();
 		this.createKeyWindow.dispose();
+		this.importKeyWindow.dispose();
 	}
 	
+	/* MainWindow */
 	public MainWindow getMainWindow() {
 		return this.mainWindow;
 	}
@@ -37,6 +42,7 @@ public class View {
 		this.mainWindow.setVisible(false);
 	}
 
+	/* FileChooserWindow */
 	public FileChooserWindow getFileOpenWindow() {
 		return this.fileOpenWindow;
 	}
@@ -49,11 +55,13 @@ public class View {
 		this.fileOpenWindow.setVisible(false);
 	}
 	
+	/* ErrorWindow */
 	public void createErrorWindow(String message) {
 		JOptionPane.showMessageDialog(new JFrame(), message, "Erreur",
 		        JOptionPane.ERROR_MESSAGE);
 	}
 	
+	/* CreateKeyWindow */
 	public CreateKeyWindow getCreateKeyWindow() {
 		return this.createKeyWindow;
 	}
@@ -67,6 +75,23 @@ public class View {
 	}
 	
 	public void hideCreateKeyWindow() {
-		this.createKeyWindow.dispose();
+		this.createKeyWindow.setVisible(false);
+	}
+	
+	/* ImportKeyWindow */
+	public ImportKeyWindow getImportKeyWindow() {
+		return this.importKeyWindow;
+	}
+	
+	public void showImportKeyWindow() {
+		this.importKeyWindow.setVisible(true);
+	}
+	
+	public void hideImportKeyWindow() {
+		this.importKeyWindow.setVisible(false);
+	}
+	
+	public void resetImportKeyWindow() {
+		this.importKeyWindow.resetField();
 	}
 }
