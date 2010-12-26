@@ -53,7 +53,7 @@ public class Controller {
 		refreshCertificateList();
 
 		initFOWindowListener();
-		initCreateWindowListener();
+		initCreateKeyWindowListener();
 	}
 
 	private void initMainWindowListener() {
@@ -65,8 +65,6 @@ public class Controller {
 		mw.addItemQuitListener(new ItemQuitListener());
 		mw.addBtnImportListener(new BtnImportListener());
 		mw.addBtnExportListener(new BtnExportListener());
-		mw.addKeyListListener(new ListKeysListener());
-		mw.addCertificatesListListener(new ListCertificatesListener());
 		mw.addBtnNewKeyListener(new BtnNewKeyListener());
 	}
 
@@ -231,25 +229,25 @@ public class Controller {
 		}
 	}
 	
-	private void initCreateWindowListener() {
-		this.view.getCreateKeyWindow().addBtnCancelListener(new CWBtnCancelListener());
-		this.view.getCreateKeyWindow().addBtnValidateListener(new CWBtnValidateListener());
-		this.view.getCreateKeyWindow().addCWWindowListener(new CWWindowListener());
+	private void initCreateKeyWindowListener() {
+		this.view.getCreateKeyWindow().addBtnCancelListener(new CKWBtnCancelListener());
+		this.view.getCreateKeyWindow().addBtnValidateListener(new CKWBtnValidateListener());
+		this.view.getCreateKeyWindow().addCWWindowListener(new CKWWindowListener());
 	}
 	
-	class CWBtnCancelListener implements ActionListener {
+	class CKWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			
 		}
 	}
 	
-	class CWBtnValidateListener implements ActionListener {
+	class CKWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			
 		}
 	}
 	
-	class CWWindowListener extends WindowAdapter {
+	class CKWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 
 		}
