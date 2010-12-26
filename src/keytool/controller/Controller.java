@@ -82,7 +82,7 @@ public class Controller {
 			DefaultListModel list = this.model.getKeys();
 			this.view.getMainWindow().setKeysList(list);
 		} catch (ModelException e) {
-			this.view.createKeyErrorWindow(e.getMessage());
+			this.view.createErrorWindow(e.getMessage());
 		}
 	}
 
@@ -91,7 +91,7 @@ public class Controller {
 			DefaultListModel list = this.model.getCertificates();
 			this.view.getMainWindow().setCertificatesList(list);
 		} catch (ModelException e) {
-			this.view.createKeyErrorWindow(e.getMessage());
+			this.view.createErrorWindow(e.getMessage());
 		}
 	}
 
@@ -100,7 +100,7 @@ public class Controller {
 			try {
 				model.newKeyStore();
 			} catch (ModelException e1) {
-				view.createKeyErrorWindow(e1.getMessage());
+				view.createErrorWindow(e1.getMessage());
 			}
 			refreshLists();
 		}
@@ -125,7 +125,7 @@ public class Controller {
 			try {
 				model.save();
 			} catch (ModelException e1) {
-				view.createKeyErrorWindow(e1.getMessage());
+				view.createErrorWindow(e1.getMessage());
 			}
 		}
 	}
@@ -165,7 +165,7 @@ public class Controller {
 			try {
 				view.getMainWindow().setDetails(model.getKey(selectedKey).getDetails());
 			} catch (ModelException e) {
-				view.createKeyErrorWindow(e.getMessage());
+				view.createErrorWindow(e.getMessage());
 			}
 		}
 	}
@@ -176,7 +176,7 @@ public class Controller {
 			try {
 				view.getMainWindow().setDetails(model.getCertificate(selectedCertificates).getDetails());
 			} catch (ModelException e) {
-				view.createKeyErrorWindow(e.getMessage());
+				view.createErrorWindow(e.getMessage());
 			}
 		}
 	}
@@ -195,7 +195,7 @@ public class Controller {
 						view.hideFileOpenWindow();
 						model.openKeyStore(view.getFileOpenWindow().getPath());
 					} catch (ModelException e2) {
-						view.createKeyErrorWindow(e2.getMessage());
+						view.createErrorWindow(e2.getMessage());
 					}
 					break;
 				case StateSAVING:
@@ -203,7 +203,7 @@ public class Controller {
 						view.hideFileOpenWindow();
 						model.saveTo(view.getFileOpenWindow().getPath());
 					} catch (ModelException e1) {
-						view.createKeyErrorWindow(e1.getMessage());
+						view.createErrorWindow(e1.getMessage());
 					}
 					break;
 				case StateEXPORTING:
@@ -220,7 +220,7 @@ public class Controller {
 							
 						}
 					} catch (ModelException e1) {
-						view.createKeyErrorWindow(e1.getMessage());
+						view.createErrorWindow(e1.getMessage());
 					}
 					view.hideFileOpenWindow();
 					break;
@@ -280,7 +280,7 @@ public class Controller {
 				view.getCreateKeyWindow().resetField();
 				refreshKeysList();
 			} catch (ModelException e) {
-				view.createKeyErrorWindow(e.getMessage());
+				view.createErrorWindow(e.getMessage());
 			}
 		}
 	}

@@ -49,7 +49,7 @@ public class View {
 		this.fileOpenWindow.setVisible(false);
 	}
 	
-	public void createKeyErrorWindow(String message) {
+	public void createErrorWindow(String message) {
 		JOptionPane.showMessageDialog(new JFrame(), message, "Erreur",
 		        JOptionPane.ERROR_MESSAGE);
 	}
