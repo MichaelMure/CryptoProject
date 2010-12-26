@@ -183,14 +183,19 @@ public class MainWindow extends JFrame {
     	this.ListCertificates.setModel(certList);
     }
     
-	public String getSelectedElement() {
-		if(this.TabbedPanel.getSelectedIndex() == 0) {
-			// Keys are selected
-			return (String) this.ListKeys.getModel().getElementAt(this.ListKeys.getSelectedIndex());
-		} else if(this.TabbedPanel.getSelectedIndex() == 1) {
-			// Certificates are selected
-			return (String) this.ListCertificates.getModel().getElementAt(this.ListCertificates.getSelectedIndex());
-		} else
-			return null;
+    public boolean isKeysTabSelected() {
+    	return (this.TabbedPanel.getSelectedIndex() == 0);
+    }
+    
+    public boolean isCertificatesTabSelected() {
+    	return (this.TabbedPanel.getSelectedIndex() == 1);
+    }
+    
+	public String getSelectedKey() {
+		return (String) this.ListKeys.getModel().getElementAt(this.ListKeys.getSelectedIndex());
+	}
+	
+	public String getSelectedCertificate() {
+		return (String) this.ListCertificates.getModel().getElementAt(this.ListCertificates.getSelectedIndex());
 	}
 }
