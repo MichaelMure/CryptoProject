@@ -63,22 +63,22 @@ public class MTPrivateKey extends MTKey {
 			this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
 
 		} catch (CertificateEncodingException e) {
-			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+			throw new ModelException("Problème d'encodage du certificat : "+e.getMessage());
 
 		} catch (InvalidKeyException e) {
-			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+			throw new ModelException("Clé invalide : "+e.getMessage());
 
 		} catch (IllegalStateException e) {
-			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+			throw new ModelException("État invalide : "+e.getMessage());
 
 		} catch (NoSuchProviderException e) {
-			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+			throw new ModelException("Fournisseur de cryptage inconnu : "+e.getMessage());
 
 		} catch (NoSuchAlgorithmException e) {
-			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+			throw new ModelException("Algorithm utilisé inconnu : "+e.getMessage());
 
 		} catch (SignatureException e) {
-			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+			throw new ModelException("Problème de signature : "+e.getMessage());
 
 		}
 	}
