@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
-public class CreateWindow extends JFrame {
+public class CreateKeyWindow extends JFrame {
 	private static final long serialVersionUID = -8090384481447967419L;
 	
 	private JButton BtnCancel;
@@ -26,7 +26,7 @@ public class CreateWindow extends JFrame {
 	private JTextField FldState;
 	private JTextField FldCountry;
 	
-	public CreateWindow() {
+	public CreateKeyWindow() {
 		initComponents();
 	}
 	
@@ -46,8 +46,7 @@ public class CreateWindow extends JFrame {
 		BtnCancel = new JButton();
 		BtnValidate = new JButton();
 
-		//setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-		setTitle("Creation d'un certificat");
+		setTitle("Creation d'une clé");
 		getContentPane().setLayout(new java.awt.GridLayout(7, 2, 10, 10));
 
 		LblName.setText("Nom complet");
