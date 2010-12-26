@@ -174,7 +174,7 @@ public class Controller {
 		public void valueChanged(ListSelectionEvent arg0) {
 			String selectedCertificates = view.getMainWindow().getSelectedCertificate();
 			try {
-				view.getMainWindow().setDetails(model.getKey(selectedCertificates).getDetails());
+				view.getMainWindow().setDetails(model.getCertificate(selectedCertificates).getDetails());
 			} catch (ModelException e) {
 				view.createKeyErrorWindow(e.getMessage());
 			}
