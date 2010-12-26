@@ -10,7 +10,6 @@ import javax.swing.JFileChooser;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import keytool.model.MTPrivateKey;
 import keytool.model.Model;
 import keytool.model.ModelException;
 import keytool.view.MainWindow;
@@ -154,7 +153,7 @@ public class Controller {
 	class BtnNewKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("création clé");
-			view.showCreateKeyWindow();
+			//view.showCreateKeyWindow();
 			state = State.StateCREATINGKEY;
 		}
 	}
@@ -249,23 +248,20 @@ public class Controller {
 	}
 	
 	class CKWBtnCancelListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			view.hideCreateKeyWindow();
-			view.getCreateKeyWindow().resetField();
+		public void actionPerformed(ActionEvent arg0) {
+			
 		}
 	}
 	
 	class CKWBtnValidateListener implements ActionListener {
-		public void actionPerformed(ActionEvent e) {
-			String subject = view.getCreateKeyWindow().getNameField();
-			MTPrivateKey key = new MTPrivateKey(subject);
-			key.addToKeyStore(model, "alias-1");
+		public void actionPerformed(ActionEvent arg0) {
+			
 		}
 	}
 	
 	class CKWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
-			view.getCreateKeyWindow().resetField();
+
 		}
 	}
 

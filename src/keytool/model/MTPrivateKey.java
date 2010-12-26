@@ -26,6 +26,7 @@ public class MTPrivateKey extends MTKey {
 	/**
 	 * Create a PrivateKey with a subject
 	 * @param subject
+	 * @throws ModelException 
 	 * @throws CertificateEncodingException
 	 * @throws InvalidKeyException
 	 * @throws IllegalStateException
@@ -33,29 +34,53 @@ public class MTPrivateKey extends MTKey {
 	 * @throws NoSuchAlgorithmException
 	 * @throws SignatureException
 	 */
-	public MTPrivateKey(String subject) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
-		/* Génération d'une paire de clé privée/publique */
-	    KeyPairGenerator kpGen = KeyPairGenerator.getInstance("RSA", "BC");
-	    kpGen.initialize(1024, new SecureRandom());
-	    KeyPair keyPair = kpGen.generateKeyPair();
-	    /* Save the key */
-	    this.key = keyPair.getPrivate();
-	    
-	    /* Génération d'un certificat qui encapsule la paire de clé */
-	    X509V3CertificateGenerator certGen = new X509V3CertificateGenerator();
+	public MTPrivateKey(String subject) throws ModelException  {
+		try {
+			/* Génération d'une paire de clé privée/publique */
+		    KeyPairGenerator kpGen;
+		    kpGen = KeyPairGenerator.getInstance("RSA", "BC");
 
-	    SecureRandom random = new SecureRandom();
+	
+		    kpGen.initialize(1024, new SecureRandom());
+		    KeyPair keyPair = kpGen.generateKeyPair();
+		    /* Save the key */
+		    this.key = keyPair.getPrivate();
+		    
+		    /* Génération d'un certificat qui encapsule la paire de clé */
+		    X509V3CertificateGenerator certGen = new X509V3CertificateGenerator();
+	
+		    SecureRandom random = new SecureRandom();
+	
+		    certGen.setSerialNumber(BigInteger.valueOf(random.nextInt(random.nextInt(Integer.MAX_VALUE))));
+		    certGen.setIssuerDN(new X500Principal(subject));
+		    certGen.setNotBefore(new Date(System.currentTimeMillis() - 10000));
+		    certGen.setNotAfter(new Date(System.currentTimeMillis() + 10000));
+		    certGen.setSubjectDN(new X500Principal(subject));
+		    certGen.setPublicKey(keyPair.getPublic());
+		    certGen.setSignatureAlgorithm("SHA256WithRSAEncryption");
+	
+		    /* Sauvegarde du certificat */
+			this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
 
-	    certGen.setSerialNumber(BigInteger.valueOf(random.nextInt(random.nextInt(Integer.MAX_VALUE))));
-	    certGen.setIssuerDN(new X500Principal(subject));
-	    certGen.setNotBefore(new Date(System.currentTimeMillis() - 10000));
-	    certGen.setNotAfter(new Date(System.currentTimeMillis() + 10000));
-	    certGen.setSubjectDN(new X500Principal(subject));
-	    certGen.setPublicKey(keyPair.getPublic());
-	    certGen.setSignatureAlgorithm("SHA256WithRSAEncryption");
+		} catch (CertificateEncodingException e) {
+			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
 
-	    /* Sauvegarde du certificat */
-	    this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
+		} catch (InvalidKeyException e) {
+			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+
+		} catch (IllegalStateException e) {
+			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+
+		} catch (NoSuchProviderException e) {
+			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+
+		} catch (NoSuchAlgorithmException e) {
+			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+
+		} catch (SignatureException e) {
+			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+
+		}
 	}
 	
 	/**
