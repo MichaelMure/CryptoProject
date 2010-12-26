@@ -90,4 +90,11 @@ public class ImportKeyWindow extends JFrame {
 		return this.FldCertificateFile.getText();
 	}
 	
+	public void setKeyFileField(String value) {
+		this.FldKeyFile.setText(value);
+	}
+	
+	public void setCertificateFileField(String value) {
+		this.FldCertificateFile.setText(value);
+	}
 }
