@@ -21,27 +21,40 @@ import keytool.view.View;
 
 [*] --> StateWait
 StateWait --> StateSaving : menuSave
-StateSaving --> StateWait : FOopen
-StateSaving --> StateWait : FOcancel
+StateSaving --> StateWait : FCopen
+StateSaving --> StateWait : FCcancel
 
 StateWait --> StateOpening : menuOpen
-StateOpening --> StateWait : FOopen
-StateOpening --> StateWait : FOcancel
+StateOpening --> StateWait : FCopen
+StateOpening --> StateWait : FCcancel
 
 StateWait --> StateExporting : itemExport
-StateExporting --> StateWait : FOopen
-StateExporting --> StateWait : FOcancel
+StateExporting --> StateWait : FCopen
+StateExporting --> StateWait : FCcancel
 
 StateWait --> StateImporting : itemImport
-StateImporting --> StateWait : FOopen
-StateImporting --> StateWait : FOcancel
+StateImporting --> StateChoosingKey : BtnChooseKey
+StateChoosingKey --> StateImporting : FCopen
+StateChoosingKey --> StateImporting : FCcancel
+StateImporting --> StateChoosingCertificate : BtnChooseCertificate
+StateChoosingCertificate --> StateImporting : FCopen
+StateChoosingCertificate --> StateImporting : FCcancel
+StateImporting --> StateWait : FCopen
+StateImporting --> StateWait : FCcancel
 
 @enduml
  */
 public class Controller {
 	private View view;
 	private Model model;
-	private enum State {StateWAIT, StateSAVING, StateOPENING, StateIMPORTING, StateEXPORTING, StateCREATINGKEY};
+	private enum State {StateWAIT,
+									StateSAVING,
+									StateOPENING,
+									StateIMPORTING,
+									StateEXPORTING,
+									StateCREATINGKEY,
+									StateCHOOSINGKEY,
+									StateCHOOSINGCERTIFICATE};
 	private State state;
 
 	public Controller(Model model, View view){
@@ -327,6 +340,7 @@ public class Controller {
 	
 	class IKWBtnChooseKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
+			
 		}
 	}
 	
