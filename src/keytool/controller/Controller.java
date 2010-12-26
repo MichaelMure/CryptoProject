@@ -38,7 +38,7 @@ StateImporting --> StateWait : FOcancel
 public class Controller {
 	private View view;
 	private Model model;
-	private enum State {StateWAIT, StateSAVING, StateOPENING, StateIMPORTING, StateEXPORTING};
+	private enum State {StateWAIT, StateSAVING, StateOPENING, StateIMPORTING, StateEXPORTING, StateCREATINGKEY};
 	private State state;
 
 	public Controller(Model model, View view){
@@ -56,13 +56,14 @@ public class Controller {
 
 	private void initMainWindowListener() {
 		MainWindow mw = this.view.getMainWindow();
-		mw.addItemNewListener(new ItemNewListener());
+		mw.addItemNewKeyStoreListener(new ItemNewListener());
 		mw.addItemOpenListener(new ItemOpenListener());
 		mw.addItemSaveListener(new ItemSaveListener());
 		mw.addItemSaveAsListener(new ItemSaveAsListener());
 		mw.addItemQuitListener(new ItemQuitListener());
 		mw.addBtnImportListener(new BtnImportListener());
 		mw.addBtnExportListener(new BtnExportListener());
+		mw.addBtnNewKeyListener(new BtnNewKeyListener());
 	}
 
 	private void refreshLists() {
@@ -142,6 +143,14 @@ public class Controller {
 		public void actionPerformed(ActionEvent e) {
 			view.showFileOpenWindow();
 			state = State.StateEXPORTING;
+		}
+	}
+	
+	class BtnNewKeyListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("création clé");
+			//view.showCreateKeyWindow();
+			state = State.StateCREATINGKEY;
 		}
 	}
 
