@@ -38,18 +38,18 @@ public class Keytool {
 			model = new Model();
 			/* Pour test*/
 	        model.openKeyStore("store.ks",  "keytool".toCharArray());
-/*  		MTCertificate cert = new MTCertificate();
+	        keytool.model.MTCertificate cert = new keytool.model.MTCertificate();
 	        
 	        cert.addToKeyStore(model, "test-cert");
 	        System.out.println(model.getCertificate("test-cert").toBase64());
 	        
-	        MTPrivateKey key = new MTPrivateKey("CN=Hello-Theo");
+	        keytool.model.MTPrivateKey key = new keytool.model.MTPrivateKey("CN=Hello-Theo");
 	        key.addToKeyStore(model, "cle-theo");
 
 	        System.out.println(model.getKey("cle-theo").toBase64());
 	        System.out.println(model.getCertificate("cle-theo").toBase64());
 	        System.out.println(model.getCertificate("cle-theo").getPublicKey().toBase64());
-	        */
+	        /* */
 			View view = new View(model);
 	        @SuppressWarnings("unused")
 			Controller controller = new Controller(model, view);
