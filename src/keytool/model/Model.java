@@ -236,7 +236,7 @@ public class Model {
 			while(aliases.hasMoreElements()) {
 				alias = aliases.nextElement();
 				if(keystore.isKeyEntry(alias)) {
-					list.addElement(alias.toString());
+					list.addElement(alias);
 				}
 			}
 		} catch (KeyStoreException e) {
@@ -257,7 +257,7 @@ public class Model {
 			while(aliases.hasMoreElements()) {
 				alias = aliases.nextElement();
 				if(keystore.isCertificateEntry(alias)) {
-					list.addElement(keystore.getCertificate(alias));
+					list.addElement(alias);
 				}
 			}
 		} catch (KeyStoreException e) {
