@@ -235,7 +235,7 @@ public class Controller {
 	
 	class CWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
-			System.out.println("pwet");
+
 		}
 	}
 
