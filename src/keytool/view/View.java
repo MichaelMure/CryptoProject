@@ -8,7 +8,7 @@ import keytool.model.Model;
 public class View {
 	
 	private MainWindow mainWindow;
-	private FileChooserWindow fileOpenWindow;
+	private FileChooserWindow fileChooserWindow;
 	private CreateKeyWindow createKeyWindow;
 	private ImportKeyWindow importKeyWindow;
 	
@@ -16,14 +16,14 @@ public class View {
 		this.mainWindow = new MainWindow(model);
 		this.mainWindow.setVisible(true);
 		
-		this.fileOpenWindow = new FileChooserWindow();
+		this.fileChooserWindow = new FileChooserWindow();
 		this.createKeyWindow = new CreateKeyWindow();
 		this.importKeyWindow = new ImportKeyWindow();
 		this.importKeyWindow.setVisible(true);
 	}
 
 	public void disposeAll() {
-		this.fileOpenWindow.dispose();
+		this.fileChooserWindow.dispose();
 		this.mainWindow.dispose();
 		this.createKeyWindow.dispose();
 		this.importKeyWindow.dispose();
@@ -43,16 +43,16 @@ public class View {
 	}
 
 	/* FileChooserWindow */
-	public FileChooserWindow getFileOpenWindow() {
-		return this.fileOpenWindow;
+	public FileChooserWindow getFileChooserWindow() {
+		return this.fileChooserWindow;
 	}
 	
-	public void showFileOpenWindow() {
-		this.fileOpenWindow.setVisible(true);
+	public void showFileChooserWindow() {
+		this.fileChooserWindow.setVisible(true);
 	}
 
-	public void hideFileOpenWindow() {
-		this.fileOpenWindow.setVisible(false);
+	public void hideFileChooserWindow() {
+		this.fileChooserWindow.setVisible(false);
 	}
 	
 	/* ErrorWindow */

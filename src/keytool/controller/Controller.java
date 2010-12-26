@@ -53,10 +53,12 @@ public class Controller {
 		refreshKeysList();
 		refreshCertificateList();
 
-		initFOWindowListener();
+		initFCWindowListener();
 		initCreateKeyWindowListener();
+		initImportKeyWindowListener();
 	}
 
+	/* MainWindow */
 	private void initMainWindowListener() {
 		MainWindow mw = this.view.getMainWindow();
 		mw.addItemNewKeyStoreListener(new ItemNewListener());
@@ -108,8 +110,8 @@ public class Controller {
 	
 	class ItemOpenListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			view.getFileOpenWindow().setOpenDialog();
-			view.showFileOpenWindow();
+			view.getFileChooserWindow().setOpenDialog();
+			view.showFileChooserWindow();
 			state = State.StateOPENING;
 		}
 	}
@@ -132,22 +134,22 @@ public class Controller {
 
 	class ItemSaveAsListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			view.getFileOpenWindow().setSaveDialog();
-			view.showFileOpenWindow();
+			view.getFileChooserWindow().setSaveDialog();
+			view.showFileChooserWindow();
 			state = State.StateSAVING;
 		}
 	}
 
 	class BtnImportListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			view.showFileOpenWindow();
+			view.showFileChooserWindow();
 			state = State.StateIMPORTING;
 		}
 	}
 
 	class BtnExportListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			view.showFileOpenWindow();
+			view.showFileChooserWindow();
 			state = State.StateEXPORTING;
 		}
 	}
@@ -201,27 +203,28 @@ public class Controller {
 		}
 	}
 	
-	private void initFOWindowListener() {
-		this.view.getFileOpenWindow().addFCActionListener(new FOActionListener());
-		this.view.getFileOpenWindow().addFCWindowListener(new FOWindowListener());
+	/* FileChooserWindow */
+	private void initFCWindowListener() {
+		this.view.getFileChooserWindow().addFCActionListener(new FCActionListener());
+		this.view.getFileChooserWindow().addFCWindowListener(new FCWindowListener());
 	}
 
-	class FOActionListener implements ActionListener {
+	class FCActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (JFileChooser.APPROVE_SELECTION.equals(e.getActionCommand())) {
 				switch(state) {
 				case StateOPENING:
 					try {
-						view.hideFileOpenWindow();
-						model.openKeyStore(view.getFileOpenWindow().getPath());
+						view.hideFileChooserWindow();
+						model.openKeyStore(view.getFileChooserWindow().getPath());
 					} catch (ModelException e2) {
 						view.createErrorWindow(e2.getMessage());
 					}
 					break;
 				case StateSAVING:
 					try {
-						view.hideFileOpenWindow();
-						model.saveTo(view.getFileOpenWindow().getPath());
+						view.hideFileChooserWindow();
+						model.saveTo(view.getFileChooserWindow().getPath());
 					} catch (ModelException e1) {
 						view.createErrorWindow(e1.getMessage());
 					}
@@ -231,37 +234,38 @@ public class Controller {
 						if(view.getMainWindow().isKeysTabSelected()) {
 							String alias = view.getMainWindow().getSelectedKey();
 							if(! alias.equals(""))
-								model.getKey(alias).exportTo(view.getFileOpenWindow().getPath());
+								model.getKey(alias).exportTo(view.getFileChooserWindow().getPath());
 								
 						} else if(view.getMainWindow().isCertificatesTabSelected()) {
 							String alias = view.getMainWindow().getSelectedCertificate();
 							if(! alias.equals(""))
-								model.getCertificate(alias).exportTo(view.getFileOpenWindow().getPath());
+								model.getCertificate(alias).exportTo(view.getFileChooserWindow().getPath());
 							
 						}
 					} catch (ModelException e1) {
 						view.createErrorWindow(e1.getMessage());
 					}
-					view.hideFileOpenWindow();
+					view.hideFileChooserWindow();
 					break;
 				case StateIMPORTING:
 					break;
 				}
 			} else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
-				view.hideFileOpenWindow();
+				view.hideFileChooserWindow();
 			}
 			refreshLists();
 			state = State.StateWAIT;
 		}
 	}
 
-	class FOWindowListener extends WindowAdapter {
+	class FCWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
-			view.hideFileOpenWindow();
+			view.hideFileChooserWindow();
 			state = State.StateWAIT;
 		}
 	}
 	
+	/* CreateKeyWindow */
 	private void initCreateKeyWindowListener() {
 		this.view.getCreateKeyWindow().addBtnCancelListener(new CKWBtnCancelListener());
 		this.view.getCreateKeyWindow().addBtnValidateListener(new CKWBtnValidateListener());
@@ -311,5 +315,38 @@ public class Controller {
 			view.hideCreateKeyWindow();
 		}
 	}
-
+	
+	/* ImportKeyWindow */
+	private void initImportKeyWindowListener() {
+		this.view.getImportKeyWindow().addBtnChooseKeyListener(new IKWBtnChooseKeyListener());
+		this.view.getImportKeyWindow().addBtnChooseCertificateListener(new IKWBtnChooseCertificateListener());
+		this.view.getImportKeyWindow().addBtnCancelListener(new IKWBtnCancelListener());
+		this.view.getImportKeyWindow().addBtnValidateListener(new IKWBtnValidateListener());
+		this.view.getImportKeyWindow().addIWWindowListener(new IKWWindowListener());
+	}
+	
+	class IKWBtnChooseKeyListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	}
+	
+	class IKWBtnChooseCertificateListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	}
+	
+	class IKWBtnCancelListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	}
+	
+	class IKWBtnValidateListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	}
+	
+	class IKWWindowListener extends WindowAdapter {
+		public void windowClosing(WindowEvent e) {
+		}
+	}
 }

@@ -62,6 +62,14 @@ public class ImportKeyWindow extends JFrame {
 		this.FldCertificateFile.setText("");
 	}
 	
+	public void addBtnChooseKeyListener(ActionListener actLst) {
+    	BtnChooseKey.addActionListener(actLst);
+	}
+	
+	public void addBtnChooseCertificateListener(ActionListener actLst) {
+    	BtnChooseCertificate.addActionListener(actLst);
+	}
+	
 	public void addBtnCancelListener(ActionListener actLst) {
     	BtnCancel.addActionListener(actLst);
 	}
@@ -70,7 +78,7 @@ public class ImportKeyWindow extends JFrame {
     	BtnValidate.addActionListener(actLst);
 	}
 	
-	public void addCWWindowListener(WindowListener wdLst) {
+	public void addIWWindowListener(WindowListener wdLst) {
     	this.addWindowListener(wdLst);
 	}
 	
