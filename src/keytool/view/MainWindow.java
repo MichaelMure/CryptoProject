@@ -30,7 +30,8 @@ public class MainWindow extends JFrame {
 	
 	private JButton BtnExport;
     private JButton BtnImport;
-    private JMenuItem ItemNew;
+    private JButton BtnNewKey;
+    private JMenuItem ItemNewKeyStore;
     private JMenuItem ItemOpen;
     private JMenuItem ItemSave;
     private JMenuItem ItemSaveAs;
@@ -44,6 +45,7 @@ public class MainWindow extends JFrame {
     private JScrollPane ScrollKeyPanel;
     private JSplitPane SplitPanel;
     private JTabbedPane TabbedPanel;
+
     
 	public MainWindow(Model model){
 		super("View");
@@ -54,6 +56,7 @@ public class MainWindow extends JFrame {
     private void initComponent() {
         this.BtnImport = new JButton();
         this.BtnExport = new JButton();
+        this.BtnNewKey = new JButton();
         this.SplitPanel = new JSplitPane();
         this.TabbedPanel = new JTabbedPane();
         this.ScrollKeyPanel = new JScrollPane();
@@ -63,7 +66,7 @@ public class MainWindow extends JFrame {
         this.LablDetails = new JLabel();
         this.Menu = new JMenuBar();
         this.MenuKeytool = new JMenu();
-        this.ItemNew = new JMenuItem();
+        this.ItemNewKeyStore = new JMenuItem();
         this.ItemOpen = new JMenuItem();
         this.ItemSave = new JMenuItem();
         this.ItemSaveAs = new JMenuItem();
@@ -76,6 +79,7 @@ public class MainWindow extends JFrame {
         /* Bouton */
         BtnImport.setText("Importer"); 
         BtnExport.setText("Exporter");
+        BtnNewKey.setText("Créer une nouvelle clé");
 
         /* Liste Clés */
         ScrollKeyPanel.setViewportView(ListKeys);
@@ -98,11 +102,11 @@ public class MainWindow extends JFrame {
         /* Menu */
         MenuKeytool.setText("Keytool");
 
-        /* Menu New */
-        ItemNew.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
-        ItemNew.setText("Nouveau");
-        MenuKeytool.add(ItemNew);
-        
+        /* Menu New KeyStore */
+        ItemNewKeyStore.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_N, InputEvent.CTRL_MASK));
+        ItemNewKeyStore.setText("Nouveau KeyStore");
+        MenuKeytool.add(ItemNewKeyStore);
+
         /* Menu Open */
         ItemOpen.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_MASK));
         ItemOpen.setText("Ouvrir");
@@ -135,6 +139,8 @@ public class MainWindow extends JFrame {
                 .addComponent(BtnImport)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BtnExport)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BtnNewKey)
                 .addContainerGap(451, Short.MAX_VALUE))
             .addComponent(SplitPanel, GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
         );
@@ -145,7 +151,8 @@ public class MainWindow extends JFrame {
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnImport)
-                    .addComponent(BtnExport)))
+                    .addComponent(BtnExport)
+                    .addComponent(BtnNewKey)))
         );
 
         pack();
@@ -155,8 +162,8 @@ public class MainWindow extends JFrame {
     	ItemQuit.addActionListener(actLst);
 	}
 
-    public void addItemNewListener(ActionListener actLst) {
-    	ItemNew.addActionListener(actLst);
+    public void addItemNewKeyStoreListener(ActionListener actLst) {
+    	ItemNewKeyStore.addActionListener(actLst);
 	}
     
     public void addItemOpenListener(ActionListener actLst) {
@@ -179,6 +186,10 @@ public class MainWindow extends JFrame {
     	BtnExport.addActionListener(actLst);
 	}
     
+    public void addBtnNewKeyListener(ActionListener actLst) {
+    	BtnNewKey.addActionListener(actLst);
+	}
+
     public void addKeyListListener(ListSelectionListener LstSlctLst) {
     	this.ListKeys.addListSelectionListener(LstSlctLst);
     }
@@ -186,7 +197,7 @@ public class MainWindow extends JFrame {
     public void addCertificatesListListener(ListSelectionListener LstSlctLst) {
     	this.ListCertificates.addListSelectionListener(LstSlctLst);
     }
-    
+
     public void setKeysList(DefaultListModel keysList) {
     	this.ListKeys.setModel(keysList);
     }
