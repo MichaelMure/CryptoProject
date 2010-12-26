@@ -160,13 +160,23 @@ public class Controller {
 	
 	class ListKeysListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
-
+			String selectedKey = view.getMainWindow().getSelectedKey();
+			try {
+				view.getMainWindow().setDetails(model.getKey(selectedKey).getDetails());
+			} catch (ModelException e) {
+				view.createKeyErrorWindow(e.getMessage());
+			}
 		}
 	}
 
 	class ListCertificatesListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
-
+			String selectedCertificates = view.getMainWindow().getSelectedCertificate();
+			try {
+				view.getMainWindow().setDetails(model.getKey(selectedCertificates).getDetails());
+			} catch (ModelException e) {
+				view.createKeyErrorWindow(e.getMessage());
+			}
 		}
 	}
 	

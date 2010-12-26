@@ -221,4 +221,8 @@ public class MainWindow extends JFrame {
 	public String getSelectedCertificate() {
 		return (String) this.ListCertificates.getModel().getElementAt(this.ListCertificates.getSelectedIndex());
 	}
+	
+	public void setDetails(String details) {
+		this.LablDetails.setText(details);
+	}
 }
