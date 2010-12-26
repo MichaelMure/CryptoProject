@@ -78,4 +78,29 @@ public class CreateWindow extends JFrame {
 
 		pack();
 	}
+	
+	public String getNameField() {
+		return this.FldName.getText();
+	}
+	
+	public String getOUField() {
+		return this.FldOU.getText();
+	}
+	
+	public String getOrgField() {
+		return this.FldOrg.getText();
+	}
+	
+	public String getCityField() {
+		return this.FldCity.getText();
+	}
+	
+	public String getStateField() {
+		return this.FldState.getText();
+	}
+	
+	public String getCountryField() {
+		return this.FldCountry.getText();
+	}
+	
 }
