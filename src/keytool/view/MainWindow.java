@@ -182,4 +182,15 @@ public class MainWindow extends JFrame {
     public void setCertificatesList(DefaultListModel certList) {
     	this.ListCertificates.setModel(certList);
     }
+    
+	public String getSelectedElement() {
+		if(this.TabbedPanel.getSelectedIndex() == 0) {
+			// Keys are selected
+			return (String) this.ListKeys.getModel().getElementAt(this.ListKeys.getSelectedIndex());
+		} else if(this.TabbedPanel.getSelectedIndex() == 1) {
+			// Certificates are selected
+			return (String) this.ListCertificates.getModel().getElementAt(this.ListCertificates.getSelectedIndex());
+		} else
+			return null;
+	}
 }
