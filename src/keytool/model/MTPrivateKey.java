@@ -1,5 +1,11 @@
 package keytool.model;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.Key;
@@ -70,10 +76,23 @@ public class MTPrivateKey extends MTKey {
 	 * Add the current PrivateKey to a keystore
 	 * @param keystore
 	 * @param alias
-	 * @throws KeyStoreException
+	 * @throws ModelException 
 	 */
-	public void addToKeyStore(Model keystore, String alias) throws KeyStoreException {
+	public void addToKeyStore(Model keystore, String alias) throws ModelException {
 		keystore.addKey(alias, this.key, this.certificate);
+	}
+
+	public void exportTo(String path) throws ModelException {
+		try {
+			BufferedWriter buf = new BufferedWriter(new FileWriter(path));
+			buf.write(this.toBase64());
+			buf.close();
+		} catch (CertificateEncodingException e) {
+			throw new ModelException("Problème d'encodage de certificat : "+e.getMessage());
+		} catch (IOException e) {
+			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+		}
+		
 	}
 
 }
