@@ -62,10 +62,10 @@ public class Model {
 		} catch (NoSuchAlgorithmException e) {
 			throw new ModelException("Error while creating default keystore : Integrity checking algorithm not found.");
 		} catch (CertificateException e) {
-			//cannot happend
+			//cannot happen
 			e.printStackTrace();
 		} catch (IOException e) {
-			// cannot happend
+			// cannot happen
 			e.printStackTrace();
 		}
 		this.password = password;
