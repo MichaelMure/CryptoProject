@@ -17,6 +17,9 @@ http://webcache.googleusercontent.com/search?q=cache:wKK1UtOxQt4J:forums.sun.com
 # Importer une clé privée dans un KeyStore
 http://www.agentbob.info/agentbob/79-AB.html
 
+# Lire des clés depuis le format PEM
+http://www.docjar.com/html/api/org/bouncycastle/openssl/PEMReader.java.html
+
 Liste le contenu du certificat (mdp : keytool)
 $ LC_ALL="C" keytool -storetype JCEKS -list -v -keystore store.ks 
 
