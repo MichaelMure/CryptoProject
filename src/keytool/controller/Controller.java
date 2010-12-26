@@ -186,6 +186,7 @@ public class Controller {
 					} catch (ModelException e1) {
 						view.createErrorWindow(e1.getMessage());
 					}
+					view.hideFileOpenWindow();
 					break;
 				case StateIMPORTING:
 					break;
