@@ -15,7 +15,7 @@ http://stackoverflow.com/questions/925377/generate-certificates-public-and-priva
 http://webcache.googleusercontent.com/search?q=cache:wKK1UtOxQt4J:forums.sun.com/thread.jspa%3FthreadID%3D782806+create+java+certificate+without+bouncy+castle&cd=1&hl=fr&ct=clnk&gl=fr
 
 Liste le contenu du certificat (mdp : keytool)
-$ keytool -storetype JCEKS -list -v -keystore store.ks 
+$ LC_ALL="C" keytool -storetype JCEKS -list -v -keystore store.ks 
 
 Affiche les informations sur une clé privée en PEM (base64)
 $ openssl rsa -in pkey.pem -noout -text
