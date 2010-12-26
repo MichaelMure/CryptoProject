@@ -10,6 +10,7 @@ import javax.swing.JFileChooser;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import keytool.model.MTPrivateKey;
 import keytool.model.Model;
 import keytool.model.ModelException;
 import keytool.view.MainWindow;
@@ -66,6 +67,8 @@ public class Controller {
 		mw.addBtnImportListener(new BtnImportListener());
 		mw.addBtnExportListener(new BtnExportListener());
 		mw.addBtnNewKeyListener(new BtnNewKeyListener());
+		mw.addKeyListListener(new ListKeysListener());
+		mw.addCertificatesListListener(new ListCertificatesListener());
 	}
 
 	private void refreshLists() {
@@ -151,20 +154,30 @@ public class Controller {
 	class BtnNewKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			System.out.println("création clé");
-			//view.showCreateKeyWindow();
+			view.showCreateKeyWindow();
 			state = State.StateCREATINGKEY;
 		}
 	}
 	
 	class ListKeysListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
-
+			String selectedKey = view.getMainWindow().getSelectedKey();
+			try {
+				view.getMainWindow().setDetails(model.getKey(selectedKey).getDetails());
+			} catch (ModelException e) {
+				view.createKeyErrorWindow(e.getMessage());
+			}
 		}
 	}
 
 	class ListCertificatesListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
-
+			String selectedCertificates = view.getMainWindow().getSelectedCertificate();
+			try {
+				view.getMainWindow().setDetails(model.getKey(selectedCertificates).getDetails());
+			} catch (ModelException e) {
+				view.createKeyErrorWindow(e.getMessage());
+			}
 		}
 	}
 	
@@ -236,20 +249,23 @@ public class Controller {
 	}
 	
 	class CKWBtnCancelListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-			
+		public void actionPerformed(ActionEvent e) {
+			view.hideCreateKeyWindow();
+			view.getCreateKeyWindow().resetField();
 		}
 	}
 	
 	class CKWBtnValidateListener implements ActionListener {
-		public void actionPerformed(ActionEvent arg0) {
-			
+		public void actionPerformed(ActionEvent e) {
+			String subject = view.getCreateKeyWindow().getNameField();
+			MTPrivateKey key = new MTPrivateKey(subject);
+			key.addToKeyStore(model, "alias-1");
 		}
 	}
 	
 	class CKWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
-
+			view.getCreateKeyWindow().resetField();
 		}
 	}
 
