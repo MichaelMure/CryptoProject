@@ -18,7 +18,9 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
+import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
+import javax.swing.event.ListSelectionListener;
 
 import keytool.model.Model;
 
@@ -77,9 +79,11 @@ public class MainWindow extends JFrame {
 
         /* Liste Clés */
         ScrollKeyPanel.setViewportView(ListKeys);
+        ListKeys.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         /* Liste Certificats */
         ScrollCertificatPanel.setViewportView(ListCertificates);
+        ListCertificates.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         
         /* TabbedPanel */
         TabbedPanel.addTab("Clés", ScrollKeyPanel);
@@ -174,7 +178,15 @@ public class MainWindow extends JFrame {
     public void addBtnExportListener(ActionListener actLst) {
     	BtnExport.addActionListener(actLst);
 	}
-
+    
+    public void addKeyListListener(ListSelectionListener LstSlctLst) {
+    	this.ListKeys.addListSelectionListener(LstSlctLst);
+    }
+    
+    public void addCertificatesListListener(ListSelectionListener LstSlctLst) {
+    	this.ListCertificates.addListSelectionListener(LstSlctLst);
+    }
+    
     public void setKeysList(DefaultListModel keysList) {
     	this.ListKeys.setModel(keysList);
     }

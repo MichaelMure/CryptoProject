@@ -7,6 +7,8 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 
 import keytool.model.Model;
 import keytool.model.ModelException;
@@ -63,6 +65,8 @@ public class Controller {
 		mw.addItemQuitListener(new ItemQuitListener());
 		mw.addBtnImportListener(new BtnImportListener());
 		mw.addBtnExportListener(new BtnExportListener());
+		mw.addKeyListListener(new ListKeysListener());
+		mw.addCertificatesListListener(new ListCertificatesListener());
 	}
 
 	private void refreshLists() {
@@ -144,7 +148,19 @@ public class Controller {
 			state = State.StateEXPORTING;
 		}
 	}
+	
+	class ListKeysListener implements ListSelectionListener {
+		public void valueChanged(ListSelectionEvent arg0) {
 
+		}
+	}
+
+	class ListCertificatesListener implements ListSelectionListener {
+		public void valueChanged(ListSelectionEvent arg0) {
+
+		}
+	}
+	
 	private void initFOWindowListener() {
 		this.view.getFileOpenWindow().addFCActionListener(new FOActionListener());
 		this.view.getFileOpenWindow().addFCWindowListener(new FOWindowListener());
