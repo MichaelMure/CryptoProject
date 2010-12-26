@@ -14,6 +14,9 @@ http://stackoverflow.com/questions/925377/generate-certificates-public-and-priva
 # Créer un certificat sans BouncyCastle
 http://webcache.googleusercontent.com/search?q=cache:wKK1UtOxQt4J:forums.sun.com/thread.jspa%3FthreadID%3D782806+create+java+certificate+without+bouncy+castle&cd=1&hl=fr&ct=clnk&gl=fr
 
+# Importer une clé privée dans un KeyStore
+http://www.agentbob.info/agentbob/79-AB.html
+
 Liste le contenu du certificat (mdp : keytool)
 $ LC_ALL="C" keytool -storetype JCEKS -list -v -keystore store.ks 
 
