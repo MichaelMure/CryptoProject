@@ -9,18 +9,20 @@ public class View {
 	
 	private MainWindow mainWindow;
 	private FileChooserWindow fileOpenWindow;
+	private CreateWindow createWindow;
 	
 	public View(Model model) {
 		this.mainWindow = new MainWindow(model);
 		this.mainWindow.setVisible(true);
 		
 		this.fileOpenWindow = new FileChooserWindow();
-		this.fileOpenWindow.setVisible(false);
+		this.createWindow = new CreateWindow();
 	}
 
 	public void disposeAll() {
 		this.fileOpenWindow.dispose();
 		this.mainWindow.dispose();
+		this.createWindow.dispose();
 	}
 	
 	public MainWindow getMainWindow() {
@@ -50,5 +52,21 @@ public class View {
 	public void createErrorWindow(String message) {
 		JOptionPane.showMessageDialog(new JFrame(), message, "Erreur",
 		        JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public CreateWindow getCreateWindow() {
+		return this.createWindow;
+	}
+	
+	public void showCreateWindow() {
+		this.createWindow.setVisible(true);
+	}
+	
+	public void resetCreateWindow() {
+		this.createWindow.resetField();
+	}
+	
+	public void hideCreateWindow() {
+		this.createWindow.dispose();
 	}
 }
