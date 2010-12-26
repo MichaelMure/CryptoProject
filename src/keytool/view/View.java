@@ -9,14 +9,14 @@ public class View {
 	
 	private MainWindow mainWindow;
 	private FileChooserWindow fileOpenWindow;
-	private CreateWindow createWindow;
+	private CreateKeyWindow createWindow;
 	
 	public View(Model model) {
 		this.mainWindow = new MainWindow(model);
 		this.mainWindow.setVisible(true);
 		
 		this.fileOpenWindow = new FileChooserWindow();
-		this.createWindow = new CreateWindow();
+		this.createWindow = new CreateKeyWindow();
 	}
 
 	public void disposeAll() {
@@ -54,7 +54,7 @@ public class View {
 		        JOptionPane.ERROR_MESSAGE);
 	}
 	
-	public CreateWindow getCreateWindow() {
+	public CreateKeyWindow getCreateWindow() {
 		return this.createWindow;
 	}
 	
