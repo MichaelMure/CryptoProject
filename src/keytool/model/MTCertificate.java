@@ -1,9 +1,12 @@
 package keytool.model;
 
+import java.io.BufferedInputStream;
 import java.io.BufferedWriter;
 import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.math.BigInteger;
 import java.security.InvalidKeyException;
@@ -15,8 +18,11 @@ import java.security.SecureRandom;
 import java.security.SignatureException;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.Date;
+import java.util.LinkedList;
 
 import javax.security.auth.x500.X500Principal;
 
@@ -39,6 +45,31 @@ public class MTCertificate {
 
 	public MTCertificate(String subject) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
 		this(subject, subject);
+	}
+	
+	public static MTCertificate importFrom(String path) throws ModelException {
+		try {
+			// Le flot transmis à la méthode generateCertificate() doit supporter
+			// les opérations mark() et reset() ce qui est le cas de BufferedInputStream
+			// mais pas celui de FileInputStream.
+			InputStream in = new BufferedInputStream(new FileInputStream(path));
+			// l'usine est spécialisée dans le traitement des certificats X509.
+			CertificateFactory factory = CertificateFactory.getInstance("X509");
+			// Comme les lectures ne sont pas faites explicitement c'est la méthode available()
+			// qui permettra de savoir si la fin de fichier est atteinte
+	
+			if(in.available() > 0) {
+				return new MTCertificate(factory.generateCertificate(in));
+			} else
+				throw new CertificateException("Pas de certificat dans le fichier "+path);
+		} catch (CertificateException e) {
+			throw new ModelException("Problème de certificat : "+e.getMessage());
+
+		} catch (IOException e) {
+			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
+
+		}
+
 	}
 	
 	public MTCertificate(String subject, String issuer) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
