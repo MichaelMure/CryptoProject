@@ -13,12 +13,14 @@ public class CreateKeyWindow extends JFrame {
 	
 	private JButton BtnCancel;
 	private JButton BtnValidate;
+	private JLabel LblAlias;
 	private JLabel LblName;
 	private JLabel LblOU;
 	private JLabel LblOrg;
 	private JLabel LblCity;
 	private JLabel LblState;
 	private JLabel LblCountry;
+	private JTextField FldAlias;
 	private JTextField FldName;
 	private JTextField FldOU;
 	private JTextField FldOrg;
@@ -31,6 +33,8 @@ public class CreateKeyWindow extends JFrame {
 	}
 	
 	private void initComponents() {
+		LblAlias = new JLabel();
+		FldAlias = new JTextField();
 		LblName = new JLabel();
 		FldName = new JTextField();
 		LblOU = new JLabel();
@@ -47,8 +51,12 @@ public class CreateKeyWindow extends JFrame {
 		BtnValidate = new JButton();
 
 		setTitle("Creation d'une clé");
-		getContentPane().setLayout(new java.awt.GridLayout(7, 2, 10, 10));
+		getContentPane().setLayout(new java.awt.GridLayout(8, 2, 10, 10));
 
+		LblAlias.setText("Nom de la clé");
+		getContentPane().add(LblAlias);
+		getContentPane().add(FldAlias);
+		
 		LblName.setText("Nom complet");
 		getContentPane().add(LblName);
 		getContentPane().add(FldName);
@@ -82,6 +90,7 @@ public class CreateKeyWindow extends JFrame {
 	}
 	
 	public void resetField() {
+		this.FldAlias.setText("");
 		this.FldName.setText("");
 		this.FldOU.setText("");
 		this.FldOrg.setText("");
@@ -100,6 +109,10 @@ public class CreateKeyWindow extends JFrame {
 	
 	public void addCWWindowListener(WindowListener wdLst) {
     	this.addWindowListener(wdLst);
+	}
+	
+	public String getAliasField() {
+		return this.FldAlias.getText();
 	}
 	
 	public String getNameField() {
