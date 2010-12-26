@@ -109,31 +109,45 @@ public class Model {
 	 * Get a key from the alias
 	 * @param alias
 	 * @return a key
-	 * @throws UnrecoverableKeyException
-	 * @throws KeyStoreException
-	 * @throws NoSuchAlgorithmException
+	 * @throws ModelException 
 	 */
-	public MTPrivateKey getKey(String alias) throws UnrecoverableKeyException, KeyStoreException, NoSuchAlgorithmException {
-		if(keystore.getKey(alias, password) != null) {
-			if(keystore.getCertificate(alias) != null) {
-				return new MTPrivateKey(keystore.getKey(alias, this.password), keystore.getCertificate(alias));
+	public MTPrivateKey getKey(String alias) throws ModelException {
+		try {
+			if(keystore.getKey(alias, password) != null) {
+				if(keystore.getCertificate(alias) != null) {
+					return new MTPrivateKey(keystore.getKey(alias, this.password), keystore.getCertificate(alias));
+				} else
+					throw new KeyStoreException("pas de certificat associé à la clé");
 			} else
-				throw new KeyStoreException("pas de certificat associé à la clé");
-		} else
-			throw new KeyStoreException("pas de clé à ce nom");
+				throw new KeyStoreException("pas de clé à ce nom");
+		} catch (UnrecoverableKeyException e) {
+			throw new ModelException("Problème avec la clé irrécupérable :"+e.getMessage());
+
+		} catch (KeyStoreException e) {
+			throw new ModelException("Problème de KeyStore :"+e.getMessage());
+
+		} catch (NoSuchAlgorithmException e) {
+			throw new ModelException("Algorithme non connu :"+e.getMessage());
+
+		}
 	}
 	
 	/**
 	 * Get a Certificate from its alias
 	 * @param alias of the certificate
 	 * @return a Certificate
-	 * @throws KeyStoreException
+	 * @throws ModelException 
 	 */
-	public MTCertificate getCertificate(String alias) throws KeyStoreException  {
-		if(this.keystore.containsAlias(alias))
-			return new MTCertificate(keystore.getCertificate(alias));
-		else
-			throw new KeyStoreException("Pas de certificat "+alias);
+	public MTCertificate getCertificate(String alias) throws ModelException {
+		try {
+			if(this.keystore.containsAlias(alias))
+				return new MTCertificate(keystore.getCertificate(alias));
+			else
+				throw new KeyStoreException("Pas de certificat "+alias);
+		} catch (KeyStoreException e) {
+			throw new ModelException("Pas de certificat pour l'alias "+alias+" : "+e.getMessage());
+
+		}
 		
 	}
 	
@@ -142,29 +156,43 @@ public class Model {
 	 * @param alias
 	 * @param key
 	 * @param certificate
-	 * @throws KeyStoreException
+	 * @throws ModelException
 	 */
-	public void addKey(String alias, Key key, Certificate certificate) throws KeyStoreException {
-		keystore.setKeyEntry(alias, key, this.password, new Certificate[] { certificate });
+	public void addKey(String alias, Key key, Certificate certificate) throws ModelException {
+		try {
+			keystore.setKeyEntry(alias, key, this.password, new Certificate[] { certificate });
+		} catch (KeyStoreException e) {
+			throw new ModelException("Impossible d'ajouter la clé avec l'alias "+alias+" :"+e.getMessage());
+
+		}
 	}
 	
 	/**
 	 * Add a certificate to the keystore
 	 * @param alias : alias of new certificate in the keystore
 	 * @param cert : Certificate to add
-	 * @throws KeyStoreException
+	 * @throws ModelException
 	 */
-	public void addCertificate(String alias, Certificate cert) throws KeyStoreException {
-		keystore.setCertificateEntry(alias, cert);
+	public void addCertificate(String alias, Certificate cert) throws ModelException {
+		try {
+			keystore.setCertificateEntry(alias, cert);
+		} catch (KeyStoreException e) {
+			throw new ModelException("Problème d'ajout du certificat :"+e.getMessage());
+
+		}
 	}
 	
 	/**
 	 * Delete an entry
 	 * @param alias to be deleted
-	 * @throws KeyStoreException
+	 * @throws ModelException 
 	 */
-	public void delEntry(String alias) throws KeyStoreException {
-		this.keystore.deleteEntry(alias);
+	public void delEntry(String alias) throws ModelException {
+		try {
+			this.keystore.deleteEntry(alias);
+		} catch (KeyStoreException e) {
+			throw new ModelException("Pas d'entrée "+alias+"à supprimer :"+e.getMessage());
+		}
 	}
 	
 	/**
