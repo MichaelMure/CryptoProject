@@ -7,9 +7,11 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.JTextField;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import keytool.model.MTPrivateKey;
 import keytool.model.Model;
 import keytool.model.ModelException;
 import keytool.view.MainWindow;
@@ -255,7 +257,23 @@ public class Controller {
 	
 	class CKWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			
+			StringBuilder subject = new StringBuilder();
+			subject.append("CN="+view.getCreateKeyWindow().getNameField());
+			subject.append(", ");
+			subject.append("OU="+view.getCreateKeyWindow().getOUField());
+			subject.append(", ");
+			subject.append("O="+view.getCreateKeyWindow().getOrgField());
+			subject.append(", ");
+			subject.append("L="+view.getCreateKeyWindow().getCityField());
+			subject.append(", ");
+			subject.append("ST="+view.getCreateKeyWindow().getStateField());
+			subject.append(", ");
+			subject.append("C="+view.getCreateKeyWindow().getCountryField());
+			try {
+				MTPrivateKey key = new MTPrivateKey(subject.toString());
+			} catch (ModelException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
