@@ -37,8 +37,8 @@ public class Keytool {
 		try {
 			model = new Model();
 			/* Pour test*/
-/*	        model.openKeyStore("store.ks",  "keytool".toCharArray());
-	        MTCertificate cert = new MTCertificate();
+	        model.openKeyStore("store.ks",  "keytool".toCharArray());
+/*  		MTCertificate cert = new MTCertificate();
 	        
 	        cert.addToKeyStore(model, "test-cert");
 	        System.out.println(model.getCertificate("test-cert").toBase64());

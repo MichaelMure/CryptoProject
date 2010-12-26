@@ -66,6 +66,8 @@ public class Controller {
 		mw.addBtnImportListener(new BtnImportListener());
 		mw.addBtnExportListener(new BtnExportListener());
 		mw.addBtnNewKeyListener(new BtnNewKeyListener());
+		mw.addKeyListListener(new ListKeysListener());
+		mw.addCertificatesListListener(new ListCertificatesListener());
 	}
 
 	private void refreshLists() {
