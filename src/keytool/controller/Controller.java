@@ -39,8 +39,8 @@ StateChoosingKey --> StateImporting : FCcancel
 StateImporting --> StateChoosingCertificate : BtnChooseCertificate
 StateChoosingCertificate --> StateImporting : FCopen
 StateChoosingCertificate --> StateImporting : FCcancel
-StateImporting --> StateWait : FCopen
-StateImporting --> StateWait : FCcancel
+StateImporting --> StateWait : BtnValidate
+StateImporting --> StateWait : BtnCancel
 
 @enduml
  */
@@ -155,7 +155,7 @@ public class Controller {
 
 	class BtnImportListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			view.showFileChooserWindow();
+			view.showImportKeyWindow();
 			state = State.StateIMPORTING;
 		}
 	}
@@ -233,6 +233,7 @@ public class Controller {
 					} catch (ModelException e2) {
 						view.createErrorWindow(e2.getMessage());
 					}
+					refreshLists();
 					break;
 				case StateSAVING:
 					try {
@@ -260,21 +261,50 @@ public class Controller {
 					}
 					view.hideFileChooserWindow();
 					break;
-				case StateIMPORTING:
+				case StateCHOOSINGKEY:
+					view.getImportKeyWindow().setKeyFileField(view.getFileChooserWindow().getPath());
+					view.hideFileChooserWindow();
+					state = State.StateIMPORTING;
+					break;
+				case StateCHOOSINGCERTIFICATE:
+					view.getImportKeyWindow().setCertificateFileField(view.getFileChooserWindow().getPath());
+					view.hideFileChooserWindow();
+					state = State.StateIMPORTING;
 					break;
 				}
 			} else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
-				view.hideFileChooserWindow();
+				switch(state) {
+				case StateEXPORTING:
+				case StateOPENING:
+				case StateSAVING:
+					view.hideFileChooserWindow();
+					state = State.StateWAIT;
+					break;
+				case StateCHOOSINGKEY:
+				case StateCHOOSINGCERTIFICATE:
+					view.hideFileChooserWindow();
+					state = State.StateIMPORTING;
+					break;
+				}
 			}
-			refreshLists();
-			state = State.StateWAIT;
 		}
 	}
 
 	class FCWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
-			view.hideFileChooserWindow();
-			state = State.StateWAIT;
+			switch(state) {
+			case StateEXPORTING:
+			case StateOPENING:
+			case StateSAVING:
+				view.hideFileChooserWindow();
+				state = State.StateWAIT;
+				break;
+			case StateCHOOSINGKEY:
+			case StateCHOOSINGCERTIFICATE:
+				view.hideFileChooserWindow();
+				state = State.StateIMPORTING;
+				break;
+			}
 		}
 	}
 	
@@ -340,17 +370,22 @@ public class Controller {
 	
 	class IKWBtnChooseKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			
+			view.showFileChooserWindow();
+			state = State.StateCHOOSINGKEY;
 		}
 	}
 	
 	class IKWBtnChooseCertificateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
+			view.showFileChooserWindow();
+			state = State.StateCHOOSINGCERTIFICATE;
 		}
 	}
 	
 	class IKWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
+			view.hideImportKeyWindow();
+			state = State.StateWAIT;
 		}
 	}
 	
@@ -361,6 +396,8 @@ public class Controller {
 	
 	class IKWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
+			view.hideImportKeyWindow();
+			state = State.StateWAIT;
 		}
 	}
 }

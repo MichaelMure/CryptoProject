@@ -19,7 +19,6 @@ public class View {
 		this.fileChooserWindow = new FileChooserWindow();
 		this.createKeyWindow = new CreateKeyWindow();
 		this.importKeyWindow = new ImportKeyWindow();
-		this.importKeyWindow.setVisible(true);
 	}
 
 	public void disposeAll() {
