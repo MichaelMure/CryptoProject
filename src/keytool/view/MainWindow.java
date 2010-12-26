@@ -30,6 +30,7 @@ public class MainWindow extends JFrame {
 	
 	private JButton BtnExport;
     private JButton BtnImport;
+    private JButton BtnDelete;
     private JButton BtnNewKey;
     private JMenuItem ItemNewKeyStore;
     private JMenuItem ItemOpen;
@@ -56,6 +57,7 @@ public class MainWindow extends JFrame {
     private void initComponent() {
         this.BtnImport = new JButton();
         this.BtnExport = new JButton();
+        this.BtnDelete = new JButton();
         this.BtnNewKey = new JButton();
         this.SplitPanel = new JSplitPane();
         this.TabbedPanel = new JTabbedPane();
@@ -79,6 +81,7 @@ public class MainWindow extends JFrame {
         /* Bouton */
         BtnImport.setText("Importer"); 
         BtnExport.setText("Exporter");
+        BtnDelete.setText("Supprimer");
         BtnNewKey.setText("Créer une nouvelle clé");
 
         /* Liste Clés */
@@ -143,6 +146,8 @@ public class MainWindow extends JFrame {
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BtnExport)
                 .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(BtnDelete)
+                .addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(BtnNewKey)
                 .addContainerGap(451, Short.MAX_VALUE))
             .addComponent(SplitPanel, GroupLayout.DEFAULT_SIZE, 590, Short.MAX_VALUE)
@@ -155,6 +160,7 @@ public class MainWindow extends JFrame {
                 .addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                     .addComponent(BtnImport)
                     .addComponent(BtnExport)
+                    .addComponent(BtnDelete)
                     .addComponent(BtnNewKey)))
         );
 
@@ -189,6 +195,10 @@ public class MainWindow extends JFrame {
     	BtnExport.addActionListener(actLst);
 	}
     
+    public void addBtnDeleteListener(ActionListener actLst) {
+    	BtnDelete.addActionListener(actLst);
+	}
+    
     public void addBtnNewKeyListener(ActionListener actLst) {
     	BtnNewKey.addActionListener(actLst);
 	}
@@ -218,11 +228,21 @@ public class MainWindow extends JFrame {
     }
     
 	public String getSelectedKey() {
-		return (String) this.ListKeys.getModel().getElementAt(this.ListKeys.getSelectedIndex());
+		int index = this.ListKeys.getSelectedIndex();
+		
+		if(index == -1)
+			return null;
+		else
+			return (String) this.ListKeys.getModel().getElementAt(index);
 	}
 	
 	public String getSelectedCertificate() {
-		return (String) this.ListCertificates.getModel().getElementAt(this.ListCertificates.getSelectedIndex());
+		int index = this.ListCertificates.getSelectedIndex();
+		
+		if(index == -1)
+			return null;
+		else
+			return (String) this.ListCertificates.getModel().getElementAt(index);
 	}
 	
 	public void setDetails(String details) {

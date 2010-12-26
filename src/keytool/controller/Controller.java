@@ -67,6 +67,7 @@ public class Controller {
 		mw.addItemQuitListener(new ItemQuitListener());
 		mw.addBtnImportListener(new BtnImportListener());
 		mw.addBtnExportListener(new BtnExportListener());
+		mw.addBtnDeleteListener(new BtnDeleteListener());
 		mw.addBtnNewKeyListener(new BtnNewKeyListener());
 		mw.addKeyListListener(new ListKeysListener());
 		mw.addCertificatesListListener(new ListCertificatesListener());
@@ -152,6 +153,24 @@ public class Controller {
 		}
 	}
 	
+	class BtnDeleteListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				if(view.getMainWindow().isKeysTabSelected()) {
+					String alias = view.getMainWindow().getSelectedKey();
+					model.delEntry(alias);					
+				} else if(view.getMainWindow().isCertificatesTabSelected()) {
+					String alias = view.getMainWindow().getSelectedCertificate();
+					model.delEntry(alias);				
+				}
+			}
+			catch(ModelException e1) {
+				view.createErrorWindow(e1.getMessage());
+			}
+			refreshLists();
+		}
+	}
+	
 	class BtnNewKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.showCreateKeyWindow();
@@ -162,6 +181,7 @@ public class Controller {
 	class ListKeysListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
 			String selectedKey = view.getMainWindow().getSelectedKey();
+			if(selectedKey == null) return;
 			try {
 				view.getMainWindow().setDetails(model.getKey(selectedKey).getDetails());
 			} catch (ModelException e) {
@@ -173,6 +193,7 @@ public class Controller {
 	class ListCertificatesListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
 			String selectedCertificates = view.getMainWindow().getSelectedCertificate();
+			if(selectedCertificates == null) return;
 			try {
 				view.getMainWindow().setDetails(model.getCertificate(selectedCertificates).getDetails());
 			} catch (ModelException e) {
