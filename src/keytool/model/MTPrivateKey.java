@@ -25,16 +25,31 @@ import java.security.cert.Certificate;
 import java.security.cert.CertificateEncodingException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
+import java.security.spec.DSAPrivateKeySpec;
+import java.security.spec.DSAPublicKeySpec;
 import java.security.spec.InvalidKeySpecException;
+import java.security.spec.KeySpec;
 import java.security.spec.PKCS8EncodedKeySpec;
+import java.security.spec.RSAPrivateCrtKeySpec;
+import java.security.spec.RSAPublicKeySpec;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import javax.security.auth.x500.X500Principal;
 
+import org.bouncycastle.asn1.ASN1InputStream;
+import org.bouncycastle.asn1.ASN1Sequence;
+import org.bouncycastle.asn1.DERInteger;
+import org.bouncycastle.asn1.util.ASN1Dump;
 import org.bouncycastle.crypto.params.AsymmetricKeyParameter;
 import org.bouncycastle.crypto.util.PrivateKeyFactory;
+import org.bouncycastle.jce.provider.PEMUtil;
+import org.bouncycastle.openssl.PEMReader;
+import org.bouncycastle.util.encoders.Base64;
+import org.bouncycastle.util.encoders.Hex;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
 public class MTPrivateKey extends MTKey {
@@ -111,66 +126,99 @@ public class MTPrivateKey extends MTKey {
 	}
 	/**
 	 * Create a PrivateKey from a key and a Certificate
+	 * From http://www.docjar.com/html/api/org/bouncycastle/openssl/PEMReader.java.html
 	 * @param keypath
 	 * @param certpath
 	 * @throws ModelException
 	 */
 	public MTPrivateKey(String keypath, String certpath) throws ModelException {
 		try {
-	        FileInputStream keyFis;
+			String type;
+				
+	        byte[] buffer = new byte[(int) new File(keypath).length()];
+	        BufferedInputStream f = new BufferedInputStream(new FileInputStream(keypath));
+	        f.read(buffer);
+	        String keyfileText = new String(buffer);
+	        String[] strings = keyfileText.split("-----");
+	        String keyText = strings[2];
+			System.out.println(keyText);
+			
+			// extract the key
+			byte[] keyBytes = Base64.decode(keyText);
+	
+			KeySpec                 privSpec;
+			ByteArrayInputStream    bIn = new ByteArrayInputStream(keyBytes);
+			ASN1InputStream         aIn = new ASN1InputStream(bIn);
+			ASN1Sequence            seq = (ASN1Sequence)aIn.readObject();
+	
+			if (keyfileText.contains("RSA"))
+			{
+				type = "RSA";
+				// DERInteger v = (DERInteger)seq.getObjectAt(0);
+				DERInteger mod = (DERInteger)seq.getObjectAt(1);
+				DERInteger pubExp = (DERInteger)seq.getObjectAt(2);
+				DERInteger privExp = (DERInteger)seq.getObjectAt(3);
+				DERInteger p1 = (DERInteger)seq.getObjectAt(4);
+				DERInteger p2 = (DERInteger)seq.getObjectAt(5);
+				DERInteger exp1 = (DERInteger)seq.getObjectAt(6);
+				DERInteger exp2 = (DERInteger)seq.getObjectAt(7);
+				DERInteger crtCoef = (DERInteger)seq.getObjectAt(8);
+			
+				privSpec = new RSAPrivateCrtKeySpec(
+						mod.getValue(), pubExp.getValue(), privExp.getValue(),
+						p1.getValue(), p2.getValue(),
+						exp1.getValue(), exp2.getValue(),
+						crtCoef.getValue());
+			} else {
+				// "DSA"
+				type = "DSA";
+				// DERInteger v = (DERInteger)seq.getObjectAt(0);
+				DERInteger p = (DERInteger)seq.getObjectAt(1);
+				DERInteger q = (DERInteger)seq.getObjectAt(2);
+				DERInteger g = (DERInteger)seq.getObjectAt(3);
+				DERInteger y = (DERInteger)seq.getObjectAt(4);
+				DERInteger x = (DERInteger)seq.getObjectAt(5);
+			
+				privSpec = new DSAPrivateKeySpec(
+						x.getValue(), p.getValue(),
+						q.getValue(), g.getValue());
+			}
+			
+			KeyFactory fact = KeyFactory.getInstance(type, "BC");
+			this.key = fact.generatePrivate(privSpec);
+			
+			
+	        byte[] certBuffer = new byte[(int) new File(certpath).length()];
+	        BufferedInputStream certBis = new BufferedInputStream(new FileInputStream(certpath));
+	        certBis.read(certBuffer);
+	        String certfileText = new String(certBuffer);
+	        String[] certStrings = certfileText.split("-----");
+	        String certText = certStrings[2];
+			System.out.println(certText);
+			
+	        ByteArrayInputStream certBais = new ByteArrayInputStream(Base64.decode(certText));
+	        CertificateFactory certFact = CertificateFactory.getInstance("X.509", "BC");
 
-			keyFis = new FileInputStream(keypath);
-		
-	        DataInputStream keyDis = new DataInputStream(keyFis);
-	        byte[] keyBytes = new byte[keyDis.available()];
-	        keyDis.readFully(keyBytes);
-	        ByteArrayInputStream bais = new ByteArrayInputStream(keyBytes);
-
-            // loading Key
-            byte[] key = new byte[bais.available()];
-            KeyFactory kf = KeyFactory.getInstance("RSA");
-            bais.read ( key, 0, bais.available() );
-            bais.close();
-            PKCS8EncodedKeySpec keysp = new PKCS8EncodedKeySpec ( key );
-            PrivateKey ff = kf.generatePrivate (keysp);
-
-            // loading CertificateChain
-            CertificateFactory cf = CertificateFactory.getInstance("X.509");
-            FileInputStream certFis = new FileInputStream(keypath);
-	        DataInputStream certDis = new DataInputStream(certFis);
-	        byte[] certBytes = new byte[certDis.available()];
-	        certDis.readFully(certBytes);
-	        InputStream certstream = new ByteArrayInputStream(certBytes);
-
-            Collection<? extends Certificate> c = cf.generateCertificates(certstream) ;
-            Certificate[] certs = new Certificate[c.toArray().length];
-            
-            if (c.size() == 1) {
-                System.out.println("One certificate, no chain.");
-                Certificate cert = cf.generateCertificate(certstream) ;
-                certs[0] = cert;
-                
-                this.key = ff;
-                this.certificate = cert;
-            } else {
-                throw new ModelException("Pas de gestion de certificat chaîné.");
-            }
-
-            
+	        this.certificate = (X509Certificate)certFact.generateCertificate(certBais);
+			
 		} catch (FileNotFoundException e) {
 			throw new ModelException("Fichier non trouvé ! : "+e.getMessage());
 		} catch (IOException e) {
 			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
 		} catch (CertificateException e) {
 			throw new ModelException("Problème de certificat : "+e.getMessage());
-		} catch (NoSuchAlgorithmException e) {
+		}  catch (NoSuchAlgorithmException e) {
 			throw new ModelException("Algorithme utilisé inconnu : "+e.getMessage());
 		} catch (InvalidKeySpecException e) {
 			throw new ModelException("Problème de clé privée : "+e.getMessage());
 
+		} catch (NoSuchProviderException e) {
+			throw new ModelException("Fournisseur de chiffrement inconnu  : "+e.getMessage());
+
 		}
 	}
-	
+
+
 	/**
 	 * Add the current PrivateKey to a keystore
 	 * @param keystore
