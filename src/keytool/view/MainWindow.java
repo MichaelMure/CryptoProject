@@ -8,7 +8,6 @@ import javax.swing.DefaultListModel;
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -16,6 +15,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
 import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.ListSelectionModel;
@@ -36,7 +36,7 @@ public class MainWindow extends JFrame {
     private JMenuItem ItemSave;
     private JMenuItem ItemSaveAs;
     private JMenuItem ItemQuit;
-    private JLabel LablDetails;
+    private JTextArea TxtDetails;
     private JList ListCertificates;
     private JList ListKeys;
     private JMenuBar Menu;
@@ -63,7 +63,7 @@ public class MainWindow extends JFrame {
         this.ListKeys = new JList();
         this.ScrollCertificatPanel = new JScrollPane();
         this.ListCertificates = new JList();
-        this.LablDetails = new JLabel();
+        this.TxtDetails = new JTextArea();
         this.Menu = new JMenuBar();
         this.MenuKeytool = new JMenu();
         this.ItemNewKeyStore = new JMenuItem();
@@ -93,11 +93,14 @@ public class MainWindow extends JFrame {
         TabbedPanel.addTab("Clés", ScrollKeyPanel);
         TabbedPanel.addTab("Certificats", ScrollCertificatPanel);
 
+        /* TxtDetails */
+        TxtDetails.setEditable(false);
+        
         /* SplitPanel */
         SplitPanel.setDividerLocation(300);
         SplitPanel.setContinuousLayout(true);
         SplitPanel.setLeftComponent(TabbedPanel);
-        SplitPanel.setRightComponent(LablDetails);
+        SplitPanel.setRightComponent(TxtDetails);
 
         /* Menu */
         MenuKeytool.setText("Keytool");
@@ -223,6 +226,6 @@ public class MainWindow extends JFrame {
 	}
 	
 	public void setDetails(String details) {
-		this.LablDetails.setText(details);
+		this.TxtDetails.setText(details);
 	}
 }
