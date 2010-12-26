@@ -9,6 +9,7 @@ public class View {
 	
 	private MainWindow mainWindow;
 	private FileChooserWindow fileOpenWindow;
+	private CreateWindow createWindow;
 	
 	public View(Model model) {
 		this.mainWindow = new MainWindow(model);
@@ -50,5 +51,14 @@ public class View {
 	public void createErrorWIndow(String message) {
 		JOptionPane.showMessageDialog(new JFrame(), message, "Erreur",
 		        JOptionPane.ERROR_MESSAGE);
+	}
+	
+	public void showCreateWindow() {
+		this.createWindow = new CreateWindow();
+		this.createWindow.setVisible(true);
+	}
+	
+	public void hideCreateWindow() {
+		this.createWindow.dispose();
 	}
 }
