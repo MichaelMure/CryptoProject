@@ -9,20 +9,20 @@ public class View {
 	
 	private MainWindow mainWindow;
 	private FileChooserWindow fileOpenWindow;
-	private CreateKeyWindow createWindow;
+	private CreateKeyWindow createKeyWindow;
 	
 	public View(Model model) {
 		this.mainWindow = new MainWindow(model);
 		this.mainWindow.setVisible(true);
 		
 		this.fileOpenWindow = new FileChooserWindow();
-		this.createWindow = new CreateKeyWindow();
+		this.createKeyWindow = new CreateKeyWindow();
 	}
 
 	public void disposeAll() {
 		this.fileOpenWindow.dispose();
 		this.mainWindow.dispose();
-		this.createWindow.dispose();
+		this.createKeyWindow.dispose();
 	}
 	
 	public MainWindow getMainWindow() {
@@ -49,24 +49,24 @@ public class View {
 		this.fileOpenWindow.setVisible(false);
 	}
 	
-	public void createErrorWindow(String message) {
+	public void createKeyErrorWindow(String message) {
 		JOptionPane.showMessageDialog(new JFrame(), message, "Erreur",
 		        JOptionPane.ERROR_MESSAGE);
 	}
 	
-	public CreateKeyWindow getCreateWindow() {
-		return this.createWindow;
+	public CreateKeyWindow getCreateKeyWindow() {
+		return this.createKeyWindow;
 	}
 	
-	public void showCreateWindow() {
-		this.createWindow.setVisible(true);
+	public void showCreateKeyWindow() {
+		this.createKeyWindow.setVisible(true);
 	}
 	
-	public void resetCreateWindow() {
-		this.createWindow.resetField();
+	public void resetCreateKeyWindow() {
+		this.createKeyWindow.resetField();
 	}
 	
-	public void hideCreateWindow() {
-		this.createWindow.dispose();
+	public void hideCreateKeyWindow() {
+		this.createKeyWindow.dispose();
 	}
 }

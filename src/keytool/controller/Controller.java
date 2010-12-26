@@ -76,7 +76,7 @@ public class Controller {
 			DefaultListModel list = this.model.getKeys();
 			this.view.getMainWindow().setKeysList(list);
 		} catch (ModelException e) {
-			this.view.createErrorWindow(e.getMessage());
+			this.view.createKeyErrorWindow(e.getMessage());
 		}
 	}
 
@@ -85,7 +85,7 @@ public class Controller {
 			DefaultListModel list = this.model.getCertificates();
 			this.view.getMainWindow().setCertificatesList(list);
 		} catch (ModelException e) {
-			this.view.createErrorWindow(e.getMessage());
+			this.view.createKeyErrorWindow(e.getMessage());
 		}
 	}
 
@@ -94,7 +94,7 @@ public class Controller {
 			try {
 				model.newKeyStore();
 			} catch (ModelException e1) {
-				view.createErrorWindow(e1.getMessage());
+				view.createKeyErrorWindow(e1.getMessage());
 			}
 			refreshLists();
 		}
@@ -119,7 +119,7 @@ public class Controller {
 			try {
 				model.save();
 			} catch (ModelException e1) {
-				view.createErrorWindow(e1.getMessage());
+				view.createKeyErrorWindow(e1.getMessage());
 			}
 		}
 	}
@@ -168,7 +168,7 @@ public class Controller {
 						view.hideFileOpenWindow();
 						model.openKeyStore(view.getFileOpenWindow().getPath());
 					} catch (ModelException e2) {
-						view.createErrorWindow(e2.getMessage());
+						view.createKeyErrorWindow(e2.getMessage());
 					}
 					break;
 				case StateSAVING:
@@ -176,7 +176,7 @@ public class Controller {
 						view.hideFileOpenWindow();
 						model.saveTo(view.getFileOpenWindow().getPath());
 					} catch (ModelException e1) {
-						view.createErrorWindow(e1.getMessage());
+						view.createKeyErrorWindow(e1.getMessage());
 					}
 					break;
 				case StateEXPORTING:
@@ -193,7 +193,7 @@ public class Controller {
 							
 						}
 					} catch (ModelException e1) {
-						view.createErrorWindow(e1.getMessage());
+						view.createKeyErrorWindow(e1.getMessage());
 					}
 					view.hideFileOpenWindow();
 					break;
@@ -216,9 +216,9 @@ public class Controller {
 	}
 	
 	private void initCreateWindowListener() {
-		this.view.getCreateWindow().addBtnCancelListener(new CWBtnCancelListener());
-		this.view.getCreateWindow().addBtnValidateListener(new CWBtnValidateListener());
-		this.view.getCreateWindow().addCWWindowListener(new CWWindowListener());
+		this.view.getCreateKeyWindow().addBtnCancelListener(new CWBtnCancelListener());
+		this.view.getCreateKeyWindow().addBtnValidateListener(new CWBtnValidateListener());
+		this.view.getCreateKeyWindow().addCWWindowListener(new CWWindowListener());
 	}
 	
 	class CWBtnCancelListener implements ActionListener {
