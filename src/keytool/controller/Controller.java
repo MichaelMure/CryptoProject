@@ -4,6 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
+import java.security.cert.CertificateEncodingException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
@@ -170,6 +175,22 @@ public class Controller {
 					}
 					break;
 				case StateEXPORTING:
+					try {
+						if(view.getMainWindow().isKeysTabSelected()) {
+							String alias = view.getMainWindow().getSelectedKey();
+							if(! alias.equals(""))
+								model.getKey(alias).exportTo(view.getFileOpenWindow().getPath());
+								
+						} else if(view.getMainWindow().isCertificatesTabSelected()) {
+							String alias = view.getMainWindow().getSelectedCertificate();
+							if(! alias.equals(""))
+								model.getCertificate(alias).exportTo(view.getFileOpenWindow().getPath());
+							
+						}
+					} catch (ModelException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 					break;
 				case StateIMPORTING:
 					break;
