@@ -257,22 +257,30 @@ public class Controller {
 	
 	class CKWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			StringBuilder subject = new StringBuilder();
-			subject.append("CN="+view.getCreateKeyWindow().getNameField());
-			subject.append(", ");
-			subject.append("OU="+view.getCreateKeyWindow().getOUField());
-			subject.append(", ");
-			subject.append("O="+view.getCreateKeyWindow().getOrgField());
-			subject.append(", ");
-			subject.append("L="+view.getCreateKeyWindow().getCityField());
-			subject.append(", ");
-			subject.append("ST="+view.getCreateKeyWindow().getStateField());
-			subject.append(", ");
-			subject.append("C="+view.getCreateKeyWindow().getCountryField());
 			try {
+				if(view.getCreateKeyWindow().getAliasField().equals(""))
+					throw new ModelException("L'alias ne doit pas être vide !");
+				
+				StringBuilder subject = new StringBuilder();
+				subject.append("CN="+view.getCreateKeyWindow().getNameField());
+				subject.append(", ");
+				subject.append("OU="+view.getCreateKeyWindow().getOUField());
+				subject.append(", ");
+				subject.append("O="+view.getCreateKeyWindow().getOrgField());
+				subject.append(", ");
+				subject.append("L="+view.getCreateKeyWindow().getCityField());
+				subject.append(", ");
+				subject.append("ST="+view.getCreateKeyWindow().getStateField());
+				subject.append(", ");
+				subject.append("C="+view.getCreateKeyWindow().getCountryField());
+
 				MTPrivateKey key = new MTPrivateKey(subject.toString());
+				key.addToKeyStore(model, view.getCreateKeyWindow().getAliasField());
+				view.hideCreateKeyWindow();
+				view.getCreateKeyWindow().resetField();
+				refreshKeysList();
 			} catch (ModelException e) {
-				e.printStackTrace();
+				view.createKeyErrorWindow(e.getMessage());
 			}
 		}
 	}
