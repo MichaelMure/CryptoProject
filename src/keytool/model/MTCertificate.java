@@ -114,19 +114,14 @@ public class MTCertificate {
 		StringBuilder sb = new StringBuilder();
 		if(cert != null) {
 				
-			sb.append("IssuerDN:"+cert.getIssuerDN().toString());
-			sb.append("\nNotBefore:"+cert.getNotBefore().toString());
-			sb.append("\nNotAfter:"+cert.getNotAfter().toString());
-	
-		    // récupération de la description X500 de l'émetteur
-			X500Principal issuer = cert.getIssuerX500Principal();
-			// édition de la description selon la RFC2253 (mode par défaut)
-			sb.append("émetteur\n").append(issuer.getName("RFC2253")).append("\n________________\n\n");
-			// récupération de la description X500 du sujet
-			X500Principal subject = cert.getSubjectX500Principal();
-			// édition de la description selon la RFC1779
-			sb.append("sujet\n").append(subject.getName("RFC1779")).append("\n________________\n\n");
-
+			sb.append("Émetteur:\n  ").append(cert.getIssuerDN().toString());
+			sb.append("\nPropriétaire:\n  ").append(cert.getSubjectDN().toString());
+			sb.append("\nValide pas avant:\n  ").append(cert.getNotBefore().toString());
+			sb.append("\nValide pas après:\n  ").append(cert.getNotAfter().toString());
+			sb.append("\nNuméro de série:\n  ").append(cert.getSerialNumber());
+			sb.append("\nAlgorithme de signature:\n  ").append(cert.getSigAlgName());
+			sb.append("\nType:\n  ").append(cert.getType());
+			
 		} else {
 			sb.append("Pas de certificat X509");
 		}
