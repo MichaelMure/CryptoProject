@@ -111,6 +111,30 @@ public class Controller {
 		}
 	}
 
+	private void refreshDetails() {
+		if(!model.isInitalized()) return;
+
+		String details = "";
+		if(view.getMainWindow().isKeysTabSelected()) {
+			String selectedKey = view.getMainWindow().getSelectedKey();
+			try {
+				if(selectedKey != null)
+					details = model.getKey(selectedKey).getDetails();
+			} catch (ModelException e) {
+				view.createErrorWindow(e.getMessage());
+			}
+		} else if(view.getMainWindow().isCertificatesTabSelected()) {
+			String selectedCertificates = view.getMainWindow().getSelectedCertificate();
+			try {
+				if(selectedCertificates != null)
+					details = model.getCertificate(selectedCertificates).getDetails();
+			} catch (ModelException e) {
+				view.createErrorWindow(e.getMessage());
+			}
+		}
+		view.getMainWindow().setDetails(details);
+	}
+	
 	private void refreshCertificateList() {
 		if(!model.isInitalized()) return;
 
