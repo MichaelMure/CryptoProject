@@ -18,7 +18,10 @@ public class ImportKeyWindow extends JFrame {
 	private JLabel LblKeyFile;
 	private JLabel LblCertificateFile;
 	private JLabel LblAlias;
-	private JLabel LblVoid;
+	private JLabel LblVoid1;
+	private JLabel LblVoid2;
+	private JLabel LblVoid3;
+	private JLabel LblTip;
 	private JTextField FldKeyFile;
 	private JTextField FldCertificateFile;
 	private JTextField FldAlias;
@@ -31,7 +34,10 @@ public class ImportKeyWindow extends JFrame {
 		LblKeyFile = new JLabel();
 		LblCertificateFile = new JLabel();
 		LblAlias = new JLabel();
-		LblVoid = new JLabel();
+		LblVoid1 = new JLabel();
+		LblVoid2 = new JLabel();
+		LblVoid3 = new JLabel();
+		LblTip = new JLabel();
 		FldKeyFile = new JTextField();
 		FldCertificateFile = new JTextField();
 		FldAlias = new JTextField();
@@ -41,12 +47,17 @@ public class ImportKeyWindow extends JFrame {
 		BtnValidate = new JButton();
 
 		setTitle("Import d'une clé/certificat associé");
-		getContentPane().setLayout(new java.awt.GridLayout(4, 3, 10, 10));
+		getContentPane().setLayout(new java.awt.GridLayout(5, 3, 10, 10));
 
+		getContentPane().add(LblVoid1);
+		LblTip.setText("Pour importer un certificat, laissez vide le champ \"Clé\"");
+		getContentPane().add(LblTip);
+		getContentPane().add(LblVoid2);
+		
 		LblAlias.setText("Alias");
 		getContentPane().add(LblAlias);
 		getContentPane().add(FldAlias);
-		getContentPane().add(LblVoid);
+		getContentPane().add(LblVoid3);
 		
 		LblKeyFile.setText("Fichier de la clé");
 		getContentPane().add(LblKeyFile);

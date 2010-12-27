@@ -26,6 +26,7 @@ import java.io.FileInputStream;
 import java.security.Security;
 import keytool.controller.Controller;
 import keytool.model.MTCertificate;
+import keytool.model.MTPrivateKey;
 import keytool.model.Model;
 import keytool.view.View;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
@@ -46,6 +47,16 @@ public class Keytool {
 	        verisign.addToKeyStore(model, "verisign");
 	        MTCertificate geotrust = new MTCertificate(new FileInputStream("geotrust-cert.der"));
 	        geotrust.addToKeyStore(model, "geotrust");
+	        
+	        
+	        /* Export de clé privée */
+	        model.getKey("io").exportTo("io-key.pem");
+	        model.getCertificate("io").exportTo("io-cert.pem");
+	        
+	        /* Import d'une clé privée */
+	        MTPrivateKey key = new MTPrivateKey("io-key.pem", "io-cert.pem");
+	        key.addToKeyStore(model, "import-key");
+	        
 	        
 			View view = new View(model);
 	        @SuppressWarnings("unused")

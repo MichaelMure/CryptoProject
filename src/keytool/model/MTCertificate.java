@@ -113,7 +113,6 @@ public class MTCertificate {
 		X509Certificate cert = (X509Certificate) this.certificate;
 		StringBuilder sb = new StringBuilder();
 		if(cert != null) {
-				
 			sb.append("Émetteur:\n  ").append(cert.getIssuerDN().toString());
 			sb.append("\nPropriétaire:\n  ").append(cert.getSubjectDN().toString());
 			sb.append("\nValide pas avant:\n  ").append(cert.getNotBefore().toString());
@@ -121,7 +120,6 @@ public class MTCertificate {
 			sb.append("\nNuméro de série:\n  ").append(cert.getSerialNumber());
 			sb.append("\nAlgorithme de signature:\n  ").append(cert.getSigAlgName());
 			sb.append("\nType:\n  ").append(cert.getType());
-			
 		} else {
 			sb.append("Pas de certificat X509");
 		}
