@@ -92,6 +92,7 @@ public class Controller {
 		mw.addKeyListListener(new ListKeysListener());
 		mw.addCertificatesListListener(new ListCertificatesListener());
 		mw.addTabChangeListener(new TabChangeListener());
+		refreshMainWindow();
 	}
 
 	private void refreshLists() {
@@ -100,6 +101,8 @@ public class Controller {
 	}
 	
 	private void refreshKeysList() {
+		if(!model.isInitalized()) return;
+
 		try {
 			DefaultListModel list = this.model.getKeys();
 			this.view.getMainWindow().setKeysList(list);
@@ -109,6 +112,8 @@ public class Controller {
 	}
 
 	private void refreshCertificateList() {
+		if(!model.isInitalized()) return;
+		
 		try {
 			DefaultListModel list = this.model.getCertificates();
 			this.view.getMainWindow().setCertificatesList(list);
@@ -119,6 +124,8 @@ public class Controller {
 
 	
 	private void refreshDetails() {
+		if(!model.isInitalized()) return;
+
 		String details = "";
 		if(view.getMainWindow().isKeysTabSelected()) {
 			String selectedKey = view.getMainWindow().getSelectedKey();
@@ -140,6 +147,27 @@ public class Controller {
 		view.getMainWindow().setDetails(details);
 	}
 	
+	/**
+	 * Met à jour la fenêtre principale :
+	 * - active/désactive les boutons
+	 * - met à jour les listes
+	 */
+	private void refreshMainWindow() {
+		refreshDetails();
+		refreshLists();
+		if(model.isInitalized())
+			this.setEnable(true);
+		else
+			this.setEnable(false);
+	}
+	
+	private void setEnable(boolean enable) {
+		view.getMainWindow().setEnabledFields(enable);
+	}
+	
+	/**
+	 * Nouveau keystore
+	 */
 	class ItemNewListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -147,7 +175,7 @@ public class Controller {
 			} catch (ModelException e1) {
 				view.createErrorWindow(e1.getMessage());
 			}
-			refreshLists();
+			refreshMainWindow();
 		}
 	}
 	
@@ -456,21 +484,32 @@ public class Controller {
 		this.view.getPasswordWindow().addCWWindowListener(new PWDWWindowListener());
 	}
 	
+	/**
+	 * Annualtion du mot de passe
+	 */
 	class PWDWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			
+			view.hidePasswordWindow();
+			refreshMainWindow();
 		}
 	}
 	
+	/**
+	 * Validation du mot de passe
+	 */
 	class PWDWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
 				model.openKeyStore(view.getFileChooserWindow().getPath(), view.getPasswordWindow().getPasswordField().toCharArray());
+				refreshMainWindow();
+				state = State.StateWAIT;
+				view.hidePasswordWindow();
+				view.resetPasswordWindow();
 			} catch (ModelException e2) {
 				view.createErrorWindow(e2.getMessage());
+				view.resetPasswordWindow();
 			}
-			refreshLists();
-			state = State.StateWAIT;
+
 		}
 	}
 	
@@ -481,6 +520,5 @@ public class Controller {
 			state = State.StateWAIT;
 		}
 	}
-	
-	
+
 }

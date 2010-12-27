@@ -253,4 +253,11 @@ public class MainWindow extends JFrame {
 	public void setDetails(String details) {
 		this.TxtDetails.setText(details);
 	}
+	
+	public void setEnabledFields(boolean enable) {
+		this.BtnDelete.setEnabled(enable);
+		this.BtnExport.setEnabled(enable);
+		this.BtnImport.setEnabled(enable);
+		this.BtnNewKey.setEnabled(enable);
+	}
 }

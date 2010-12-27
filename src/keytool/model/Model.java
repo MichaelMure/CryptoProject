@@ -23,7 +23,7 @@ public class Model {
 	private static char[] DEFAULT_PASSWORD = "keytool".toCharArray();
 	
 	public Model() throws ModelException {
-		this(Model.DEFAULT_PASSWORD);
+//		this(Model.DEFAULT_PASSWORD);
 	}
 	
 	public Model(char[] password) throws ModelException {
@@ -97,7 +97,7 @@ public class Model {
 		} catch (CertificateException e) {
 			throw new ModelException("Error while opening keystore "+path+": A certificate cannot be loaded.");
 		} catch (IOException e) {
-			throw new ModelException("Error while opening keystore "+path+": Can not find this file.");
+			throw new ModelException("Error while opening keystore "+path+": Mauvais mot de passe ?");
 		} catch (KeyStoreException e) {
 			throw new ModelException("Error while opening keystore "+path+": Can not create keystore.");
 		}
@@ -268,5 +268,20 @@ public class Model {
 		}
         return list;
     }
+    /**
+     * Détermine si le keystore est initialisé
+     * @return
+     */
+	public boolean isInitalized() {
+		if(this.keystore == null) return false;
+		
+	    // Attention : keystore peut-être différent de null, mais non initialisé !
+		try {
+			this.keystore.size();
+			return true;
+		} catch (KeyStoreException e) {
+			return false;
+		}
+	}
 
 }
