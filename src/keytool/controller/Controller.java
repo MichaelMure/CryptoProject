@@ -53,13 +53,13 @@ public class Controller {
 	private View view;
 	private Model model;
 	private enum State {StateWAIT,
-									StateSAVING,
-									StateOPENING,
-									StateIMPORTING,
-									StateEXPORTING,
-									StateCREATINGKEY,
-									StateCHOOSINGKEY,
-									StateCHOOSINGCERTIFICATE};
+						StateSAVING,
+						StateASKINGPASSWORD,
+						StateIMPORTING,
+						StateEXPORTING,
+						StateCREATINGKEY,
+						StateCHOOSINGKEY,
+						StateCHOOSINGCERTIFICATE};
 	private State state;
 
 	public Controller(Model model, View view){
@@ -74,6 +74,7 @@ public class Controller {
 		initFCWindowListener();
 		initCreateKeyWindowListener();
 		initImportKeyWindowListener();
+		initPasswordWindowListener();
 	}
 
 	/* MainWindow */
@@ -154,7 +155,7 @@ public class Controller {
 		public void actionPerformed(ActionEvent e) {
 			view.getFileChooserWindow().setOpenDialog();
 			view.showFileChooserWindow();
-			state = State.StateOPENING;
+			state = State.StateASKINGPASSWORD;
 		}
 	}
 
@@ -243,14 +244,9 @@ public class Controller {
 		public void actionPerformed(ActionEvent e) {
 			if (JFileChooser.APPROVE_SELECTION.equals(e.getActionCommand())) {
 				switch(state) {
-				case StateOPENING:
-					try {
-						view.hideFileChooserWindow();
-						model.openKeyStore(view.getFileChooserWindow().getPath());
-					} catch (ModelException e2) {
-						view.createErrorWindow(e2.getMessage());
-					}
-					refreshLists();
+				case StateASKINGPASSWORD:
+					view.showPasswordWindow();
+					view.hideFileChooserWindow();
 					break;
 				case StateSAVING:
 					try {
@@ -292,7 +288,7 @@ public class Controller {
 			} else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
 				switch(state) {
 				case StateEXPORTING:
-				case StateOPENING:
+				case StateASKINGPASSWORD:
 				case StateSAVING:
 					view.hideFileChooserWindow();
 					state = State.StateWAIT;
@@ -311,7 +307,7 @@ public class Controller {
 		public void windowClosing(WindowEvent e) {
 			switch(state) {
 			case StateEXPORTING:
-			case StateOPENING:
+			case StateASKINGPASSWORD:
 			case StateSAVING:
 				view.hideFileChooserWindow();
 				state = State.StateWAIT;
@@ -452,4 +448,39 @@ public class Controller {
 			refreshDetails();
 		}
 	}
+	
+	/* CreateKeyWindow */
+	private void initPasswordWindowListener() {
+		this.view.getPasswordWindow().addBtnCancelListener(new PWDWBtnCancelListener());
+		this.view.getPasswordWindow().addBtnValidateListener(new PWDWBtnValidateListener());
+		this.view.getPasswordWindow().addCWWindowListener(new PWDWWindowListener());
+	}
+	
+	class PWDWBtnCancelListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			
+		}
+	}
+	
+	class PWDWBtnValidateListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				model.openKeyStore(view.getFileChooserWindow().getPath(), view.getPasswordWindow().getPasswordField().toCharArray());
+			} catch (ModelException e2) {
+				view.createErrorWindow(e2.getMessage());
+			}
+			refreshLists();
+			state = State.StateWAIT;
+		}
+	}
+	
+	class PWDWWindowListener extends WindowAdapter {
+		public void windowClosing(WindowEvent e) {
+			view.hidePasswordWindow();
+			view.getPasswordWindow().resetField();
+			state = State.StateWAIT;
+		}
+	}
+	
+	
 }
