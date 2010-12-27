@@ -116,7 +116,7 @@ public class MTCertificate {
 				
 			sb.append("IssuerDN:"+cert.getIssuerDN().toString());
 			sb.append("\nNotBefore:"+cert.getNotBefore().toString());
-			sb.append("\nNotAfter:"+cert.getNotAfter().toString());
+			sb.append("\nNotAfter:"+cert.getNotAfter().toString()).append("\n________________\n\n");
 	
 		    // récupération de la description X500 de l'émetteur
 			X500Principal issuer = cert.getIssuerX500Principal();
