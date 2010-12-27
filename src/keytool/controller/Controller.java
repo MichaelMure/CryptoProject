@@ -388,6 +388,7 @@ public class Controller {
 	class IKWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			view.hideImportKeyWindow();
+			view.getImportKeyWindow().resetField();
 			state = State.StateWAIT;
 		}
 	}
@@ -416,6 +417,7 @@ public class Controller {
 					key.addToKeyStore(model, alias);
 				}
 				view.hideImportKeyWindow();
+				view.getImportKeyWindow().resetField();
 				refreshLists();
 			} catch (ModelException e) {
 				view.createErrorWindow(e.getMessage());
@@ -426,6 +428,7 @@ public class Controller {
 	class IKWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			view.hideImportKeyWindow();
+			view.getImportKeyWindow().resetField();
 			state = State.StateWAIT;
 		}
 	}
