@@ -125,6 +125,8 @@ public class MTPrivateKey extends MTKey {
 	        f.read(buffer);
 	        String keyfileText = new String(buffer);
 	        String[] strings = keyfileText.split("-----");
+	        if(strings.length < 3)
+	        	throw new CertificateException("Fichier incorrect");
 	        String keyText = strings[2];
 			
 			// extract the key
@@ -153,7 +155,7 @@ public class MTPrivateKey extends MTKey {
 						p1.getValue(), p2.getValue(),
 						exp1.getValue(), exp2.getValue(),
 						crtCoef.getValue());
-			} else {
+			} else if (keyfileText.contains("DSA")) {
 				// "DSA"
 				type = "DSA";
 				// DERInteger v = (DERInteger)seq.getObjectAt(0);
@@ -166,7 +168,7 @@ public class MTPrivateKey extends MTKey {
 				privSpec = new DSAPrivateKeySpec(
 						x.getValue(), p.getValue(),
 						q.getValue(), g.getValue());
-			}
+			} else throw new CertificateException("Mauvais type de clé !");
 			
 			KeyFactory fact = KeyFactory.getInstance(type, "BC");
 			this.key = fact.generatePrivate(privSpec);
