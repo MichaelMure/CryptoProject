@@ -227,4 +227,19 @@ public class MTPrivateKey extends MTKey {
 		
 	}
 
+	public String getDetails() {
+		StringBuffer details = new StringBuffer(this.getPublicKey().getDetails());
+		details.append("\n\n - Certificat ----- \n");
+		details.append(this.getCertificate().getDetails());
+		
+		return details.toString();
+	}
+	
+	public MTPublicKey getPublicKey() {
+		return new MTPublicKey(this.certificate.getPublicKey());
+	}
+	
+	public MTCertificate getCertificate() {
+		return new MTCertificate(this.certificate);
+	}
 }

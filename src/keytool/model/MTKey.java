@@ -12,17 +12,11 @@ import org.bouncycastle.openssl.PEMWriter;
 public abstract class MTKey {
 	protected Key key;
 	
-	public Key getKey() {
-		return this.key;
-	}
-	
 	public String toString() {
 		return "clé "+key.getAlgorithm()+", "+key.getFormat()+", "+key.getClass().getName();
 	}
 	
-	public String getDetails() {
-		return this.key.getClass().getName();
-	}
+	public abstract String getDetails();
 
 	/**
 	 * Export the PrivateKey to Base64 String
