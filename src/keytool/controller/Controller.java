@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -88,6 +90,7 @@ public class Controller {
 		mw.addBtnNewKeyListener(new BtnNewKeyListener());
 		mw.addKeyListListener(new ListKeysListener());
 		mw.addCertificatesListListener(new ListCertificatesListener());
+		mw.addTabChangeListener(new TabChangeListener());
 	}
 
 	private void refreshLists() {
@@ -113,6 +116,29 @@ public class Controller {
 		}
 	}
 
+	
+	private void refreshDetails() {
+		String details = "";
+		if(view.getMainWindow().isKeysTabSelected()) {
+			String selectedKey = view.getMainWindow().getSelectedKey();
+			try {
+				if(selectedKey != null)
+					details = model.getKey(selectedKey).getDetails();
+			} catch (ModelException e) {
+				view.createErrorWindow(e.getMessage());
+			}
+		} else if(view.getMainWindow().isCertificatesTabSelected()) {
+			String selectedCertificates = view.getMainWindow().getSelectedCertificate();
+			try {
+				if(selectedCertificates != null)
+					details = model.getCertificate(selectedCertificates).getDetails();
+			} catch (ModelException e) {
+				view.createErrorWindow(e.getMessage());
+			}
+		}
+		view.getMainWindow().setDetails(details);
+	}
+	
 	class ItemNewListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -197,25 +223,13 @@ public class Controller {
 	
 	class ListKeysListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
-			String selectedKey = view.getMainWindow().getSelectedKey();
-			if(selectedKey == null) return;
-			try {
-				view.getMainWindow().setDetails(model.getKey(selectedKey).getDetails());
-			} catch (ModelException e) {
-				view.createErrorWindow(e.getMessage());
-			}
+			refreshDetails();
 		}
 	}
 
 	class ListCertificatesListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
-			String selectedCertificates = view.getMainWindow().getSelectedCertificate();
-			if(selectedCertificates == null) return;
-			try {
-				view.getMainWindow().setDetails(model.getCertificate(selectedCertificates).getDetails());
-			} catch (ModelException e) {
-				view.createErrorWindow(e.getMessage());
-			}
+			refreshDetails();
 		}
 	}
 	
@@ -430,6 +444,12 @@ public class Controller {
 			view.hideImportKeyWindow();
 			view.getImportKeyWindow().resetField();
 			state = State.StateWAIT;
+		}
+	}
+	
+	class TabChangeListener implements ChangeListener {
+		public void stateChanged(ChangeEvent e) {
+			refreshDetails();
 		}
 	}
 }

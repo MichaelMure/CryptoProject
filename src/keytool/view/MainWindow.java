@@ -20,6 +20,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
 
 import keytool.model.Model;
@@ -95,7 +96,7 @@ public class MainWindow extends JFrame {
         /* TabbedPanel */
         TabbedPanel.addTab("Clés", ScrollKeyPanel);
         TabbedPanel.addTab("Certificats", ScrollCertificatPanel);
-
+        
         /* TxtDetails */
         TxtDetails.setEditable(false);
         
@@ -217,6 +218,10 @@ public class MainWindow extends JFrame {
     
     public void setCertificatesList(DefaultListModel certList) {
     	this.ListCertificates.setModel(certList);
+    }
+    
+    public void addTabChangeListener(ChangeListener actLst) {
+    	this.TabbedPanel.addChangeListener(actLst);
     }
     
     public boolean isKeysTabSelected() {

@@ -1,6 +1,16 @@
-Projet de Crypto
+Projet de Cryptographie
 
 Théophile Helleboid
 Michael Muré
+
+= Limitations ====
+== Import/Export ====
+L'import et l'export des clés/certificats ne fonctionne qu'avec le format PEM (base64).
+Un seul certificat ou clé par fichier est accepté.
+
+== Clés ====
+Les clés secrètes ne sont pas supportées.
+
+
 
 (c) 2010-2011
