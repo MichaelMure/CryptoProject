@@ -271,5 +271,21 @@ public class Model {
 		}
         return list;
     }
+    
+    /**
+     * Détermine si le keystore est initialisé
+     * @return
+     */
+	public boolean isInitalized() {
+		if(this.keystore == null) return false;
+
+	    // Attention : keystore peut-être différent de null, mais non initialisé !
+		try {
+			this.keystore.size();
+			return true;
+		} catch (KeyStoreException e) {
+			return false;
+		}
+	}
 
 }
