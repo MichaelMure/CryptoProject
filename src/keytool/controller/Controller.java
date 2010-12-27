@@ -30,6 +30,9 @@ StateSaving --> StateWait : FCcancel
 StateWait --> StateOpening : menuOpen
 StateOpening --> StateWait : FCopen
 StateOpening --> StateWait : FCcancel
+StateOpening --> StateOpeningFail : DefaultPasswordDontMatch
+StateOpeningFail --> StateWait : PWValidate
+StateOpeningFail --> StateWait : PWCancel
 
 StateWait --> StateExporting : itemExport
 StateExporting --> StateWait : FCopen
@@ -53,6 +56,7 @@ public class Controller {
 	private enum State {StateWAIT,
 									StateSAVING,
 									StateOPENING,
+									StateOPENINGFAIL,
 									StateIMPORTING,
 									StateEXPORTING,
 									StateCREATINGKEY,
@@ -72,6 +76,7 @@ public class Controller {
 		initFCWindowListener();
 		initCreateKeyWindowListener();
 		initImportKeyWindowListener();
+		initPasswordWindowListener();
 	}
 
 	/* MainWindow */
@@ -430,6 +435,28 @@ public class Controller {
 			view.hideImportKeyWindow();
 			view.getImportKeyWindow().resetField();
 			state = State.StateWAIT;
+		}
+	}
+	
+	/* PasswordWindow */
+	private void initPasswordWindowListener() {
+		this.view.getPasswordWindow().addPasswordWindowListener(new PWWindowListener());
+		this.view.getPasswordWindow().addBtnCancelListener(new PWBtnCancelListener());
+		this.view.getPasswordWindow().addBtnValidateListener(new PWBtnValidateListener());
+	}
+	
+	class PWBtnCancelListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	}
+	
+	class PWBtnValidateListener implements ActionListener {
+		public void actionPerformed(ActionEvent arg0) {
+		}
+	}
+	
+	class PWWindowListener extends WindowAdapter {
+		public void windowClosing(WindowEvent e) {
 		}
 	}
 }

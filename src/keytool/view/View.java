@@ -11,6 +11,7 @@ public class View {
 	private FileChooserWindow fileChooserWindow;
 	private CreateKeyWindow createKeyWindow;
 	private ImportKeyWindow importKeyWindow;
+	private PasswordWindow passwordWindow;
 	
 	public View(Model model) {
 		this.mainWindow = new MainWindow(model);
@@ -19,6 +20,8 @@ public class View {
 		this.fileChooserWindow = new FileChooserWindow();
 		this.createKeyWindow = new CreateKeyWindow();
 		this.importKeyWindow = new ImportKeyWindow();
+		this.passwordWindow = new PasswordWindow();
+		this.passwordWindow.setVisible(true);
 	}
 
 	public void disposeAll() {
@@ -26,6 +29,7 @@ public class View {
 		this.mainWindow.dispose();
 		this.createKeyWindow.dispose();
 		this.importKeyWindow.dispose();
+		this.passwordWindow.dispose();
 	}
 	
 	/* MainWindow */
@@ -92,5 +96,22 @@ public class View {
 	
 	public void resetImportKeyWindow() {
 		this.importKeyWindow.resetField();
+	}
+	
+	/* PasswordWindow */
+	public PasswordWindow getPasswordWindow() {
+		return this.passwordWindow;
+	}
+	
+	public void showPasswordWindow() {
+		this.passwordWindow.setVisible(true);
+	}
+	
+	public void hidePasswordWindow() {
+		this.passwordWindow.setVisible(false);
+	}
+	
+	public void resetPasswordWindow() {
+		this.passwordWindow.resetField();
 	}
 }
