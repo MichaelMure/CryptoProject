@@ -101,6 +101,8 @@ public class Controller {
 	}
 	
 	private void refreshKeysList() {
+		if(!model.isInitalized()) return;
+
 		try {
 			DefaultListModel list = this.model.getKeys();
 			this.view.getMainWindow().setKeysList(list);
@@ -110,6 +112,8 @@ public class Controller {
 	}
 
 	private void refreshCertificateList() {
+		if(!model.isInitalized()) return;
+
 		try {
 			DefaultListModel list = this.model.getCertificates();
 			this.view.getMainWindow().setCertificatesList(list);
