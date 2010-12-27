@@ -21,7 +21,6 @@ public class View {
 		this.createKeyWindow = new CreateKeyWindow();
 		this.importKeyWindow = new ImportKeyWindow();
 		this.passwordWindow = new PasswordWindow();
-		this.passwordWindow.setVisible(true);
 	}
 
 	public void disposeAll() {

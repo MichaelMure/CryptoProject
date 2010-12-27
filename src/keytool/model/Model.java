@@ -97,7 +97,10 @@ public class Model {
 		} catch (CertificateException e) {
 			throw new ModelException("Error while opening keystore "+path+": A certificate cannot be loaded.");
 		} catch (IOException e) {
-			throw new ModelException("Error while opening keystore "+path+": Can not find this file.");
+			if(e.getMessage().equals("Keystore was tampered with, or password was incorrect"))
+				throw new ModelException("Wrong password");
+			else
+				throw new ModelException("Error while opening keystore "+path+": Can not find this file.");
 		} catch (KeyStoreException e) {
 			throw new ModelException("Error while opening keystore "+path+": Can not create keystore.");
 		}

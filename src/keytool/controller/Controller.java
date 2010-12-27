@@ -238,10 +238,21 @@ public class Controller {
 					try {
 						view.hideFileChooserWindow();
 						model.openKeyStore(view.getFileChooserWindow().getPath());
+						refreshLists();
 					} catch (ModelException e2) {
-						view.createErrorWindow(e2.getMessage());
+						if(e2.getMessage().equals("Wrong password"))
+						{
+							state = State.StateOPENINGFAIL;
+							view.hideFileChooserWindow();
+							view.showPasswordWindow();
+						}
+						else
+						{
+							view.hideFileChooserWindow();
+							view.createErrorWindow(e2.getMessage());
+							state = State.StateWAIT;
+						}
 					}
-					refreshLists();
 					break;
 				case StateSAVING:
 					try {
@@ -447,16 +458,40 @@ public class Controller {
 	
 	class PWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
+			view.hidePasswordWindow();
+			view.resetPasswordWindow();
+			state = State.StateWAIT;
 		}
 	}
 	
 	class PWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
+			try {
+				view.hidePasswordWindow();
+				model.openKeyStore(view.getFileChooserWindow().getPath(), view.getPasswordWindow().getPasswordField());
+				refreshLists();
+			} catch (ModelException e2) {
+				if(e2.getMessage().equals("Wrong password"))
+				{
+					view.resetPasswordWindow();
+					view.showPasswordWindow();
+				}
+				else
+				{
+					view.createErrorWindow(e2.getMessage());
+					state = State.StateWAIT;
+				}
+			}
+			view.resetPasswordWindow();
+			state = State.StateWAIT;
 		}
 	}
 	
 	class PWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
+			view.hidePasswordWindow();
+			view.resetPasswordWindow();
+			state = State.StateWAIT;
 		}
 	}
 }

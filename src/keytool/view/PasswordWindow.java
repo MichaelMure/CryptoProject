@@ -25,12 +25,12 @@ public class PasswordWindow extends JDialog {
     }
     
     private void initComponents() {
-
         FldPassword = new JPasswordField();
         LblPassword = new JLabel();
         BtnCancel = new JButton();
         BtnValidate = new JButton();
 
+        this.setTitle("Mot de passe");
         LblPassword.setText("Mot de passe");
 
         BtnCancel.setText("Annuler");
@@ -90,8 +90,8 @@ public class PasswordWindow extends JDialog {
     	this.addWindowListener(wdLst);
 	}
 	
-	public String getPasswordField() {
-		return this.FldPassword.getPassword().toString();
+	public char[] getPasswordField() {
+		return this.FldPassword.getPassword();
 	}
 
 }
