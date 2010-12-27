@@ -4,12 +4,15 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
+import keytool.model.MTCertificate;
 import keytool.model.MTPrivateKey;
 import keytool.model.Model;
 import keytool.model.ModelException;
@@ -391,6 +394,32 @@ public class Controller {
 	
 	class IKWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
+			try {
+				String certpath = view.getImportKeyWindow().getCertificateFileField();
+				String keypath = view.getImportKeyWindow().getKeyFileField();
+				String alias = view.getImportKeyWindow().getAliasField();
+				if(alias.isEmpty())
+					throw new ModelException("L'alias est obligatoire");
+				
+				if(keypath.isEmpty()) {
+					// Import a certificate
+					MTCertificate certificate;
+					try {
+						certificate = new MTCertificate(new FileInputStream(certpath));
+					} catch (FileNotFoundException e) {
+						throw new ModelException("Fichier non trouvé :"+certpath);
+					}
+					certificate.addToKeyStore(model, alias);
+				} else {
+					// Import a PrivateKey
+					MTPrivateKey key = new MTPrivateKey(keypath, certpath);
+					key.addToKeyStore(model, alias);
+				}
+				view.hideImportKeyWindow();
+				refreshLists();
+			} catch (ModelException e) {
+				view.createErrorWindow(e.getMessage());
+			}
 		}
 	}
 	
