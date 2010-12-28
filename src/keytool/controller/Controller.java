@@ -119,7 +119,7 @@ public class Controller {
 	
 	private void refreshCertificateList() {
 		DefaultListModel list = new DefaultListModel();
-		
+		// Si le modèle n'est pas initialisé, la liste reste vide
 		try {
 			if(model.isInitalized())
 				list = this.model.getCertificates();
@@ -131,27 +131,29 @@ public class Controller {
 	}
 
 	private void refreshDetails() {
-		if(!model.isInitalized()) view.getMainWindow().setDetails("");
-
-		String details = "";
-		if(view.getMainWindow().isKeysTabSelected()) {
-			String selectedKey = view.getMainWindow().getSelectedKey();
-			try {
-				if(selectedKey != null)
-					details = model.getKey(selectedKey).getDetails();
-			} catch (ModelException e) {
-				view.createErrorWindow(e.getMessage());
+		if(!model.isInitalized())
+			view.getMainWindow().setDetails("");
+		else {
+			String details = "";
+			if(view.getMainWindow().isKeysTabSelected()) {
+				String selectedKey = view.getMainWindow().getSelectedKey();
+				try {
+					if(selectedKey != null)
+						details = model.getKey(selectedKey).getDetails();
+				} catch (ModelException e) {
+					view.createErrorWindow(e.getMessage());
+				}
+			} else if(view.getMainWindow().isCertificatesTabSelected()) {
+				String selectedCertificates = view.getMainWindow().getSelectedCertificate();
+				try {
+					if(selectedCertificates != null)
+						details = model.getCertificate(selectedCertificates).getDetails();
+				} catch (ModelException e) {
+					view.createErrorWindow(e.getMessage());
+				}
 			}
-		} else if(view.getMainWindow().isCertificatesTabSelected()) {
-			String selectedCertificates = view.getMainWindow().getSelectedCertificate();
-			try {
-				if(selectedCertificates != null)
-					details = model.getCertificate(selectedCertificates).getDetails();
-			} catch (ModelException e) {
-				view.createErrorWindow(e.getMessage());
-			}
+			view.getMainWindow().setDetails(details);
 		}
-		view.getMainWindow().setDetails(details);
 	}
 	
 	/**
