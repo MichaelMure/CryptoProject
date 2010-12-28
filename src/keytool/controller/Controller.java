@@ -187,7 +187,7 @@ public class Controller {
 			} catch (ModelException e1) {
 				view.createErrorWindow(e1.getMessage());
 			}
-			refreshLists();
+			refreshMainWindow();
 		}
 	}
 	
@@ -258,6 +258,7 @@ public class Controller {
 				view.createErrorWindow(e1.getMessage());
 			}
 			refreshLists();
+			refreshDetails();
 		}
 	}
 	
