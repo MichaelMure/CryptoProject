@@ -259,6 +259,8 @@ public class MainWindow extends JFrame {
 		this.BtnExport.setEnabled(enable);
 		this.BtnImport.setEnabled(enable);
 		this.BtnNewKey.setEnabled(enable);
+		this.ItemSave.setEnabled(enable);
+		this.ItemSaveAs.setEnabled(enable);
 	}
 	
 	public void setTitle(String path) {
