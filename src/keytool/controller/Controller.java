@@ -9,6 +9,8 @@ import java.io.FileNotFoundException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JFileChooser;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
@@ -93,6 +95,7 @@ public class Controller {
 		mw.addBtnNewKeyListener(new BtnNewKeyListener());
 		mw.addKeyListListener(new ListKeysListener());
 		mw.addCertificatesListListener(new ListCertificatesListener());
+		mw.addChangeTabListener(new ChangeTabListener());
 	}
 
 	private void refreshLists() {
@@ -189,6 +192,12 @@ public class Controller {
 		}
 	}
 
+	class ChangeTabListener implements ChangeListener {
+		public void stateChanged(ChangeEvent e) {
+			refreshDetails();
+		}
+	}
+	
 	class BtnImportListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.showImportKeyWindow();
