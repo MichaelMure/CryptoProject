@@ -30,16 +30,6 @@ public class Model {
 	public Model(char[] password) throws ModelException {
 		this.newKeyStore(password);
 	}
-	
-	/**
-	 * Open a KeyStore from a file and its password
-	 * @param path
-	 * @param password
-	 * @throws ModelException 
-	 */
-	public Model(String path, char[] password) throws ModelException {
-		openKeyStore(path, password);
-	}
 
 	
 	/**
