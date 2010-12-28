@@ -19,9 +19,6 @@ public class Model {
 	private char[] password;
 	private String currentPath;
 
-	private static String KEYSTORE_DEFAULT_PATH = "store.ks";
-	private static char[] DEFAULT_PASSWORD = "keytool".toCharArray();
-	
 	public Model() throws ModelException {
 		// FIXME : remove the following comment
 		//this(Model.DEFAULT_PASSWORD);
