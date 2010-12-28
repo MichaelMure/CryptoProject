@@ -20,6 +20,7 @@ import javax.swing.KeyStroke;
 import javax.swing.LayoutStyle;
 import javax.swing.ListSelectionModel;
 import javax.swing.WindowConstants;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.ListSelectionListener;
 
 import keytool.model.Model;
@@ -186,6 +187,10 @@ public class MainWindow extends JFrame {
     public void addItemSaveAsListener(ActionListener actLst) {
     	ItemSaveAs.addActionListener(actLst);
 	}
+    
+    public void addChangeTabListener(ChangeListener actLst) {
+    	TabbedPanel.addChangeListener(actLst);
+    }
     
     public void addBtnImportListener(ActionListener actLst) {
     	BtnImport.addActionListener(actLst);
