@@ -207,10 +207,11 @@ public class Model {
 	 * @param path of the file
 	 * @throws ModelException
 	 */
-	public void saveTo(String path) throws ModelException {
+	public void saveAs(String path) throws ModelException {
 		try {
 			FileOutputStream fos = new FileOutputStream(new File(path));
 			this.keystore.store(fos, this.password);
+			this.currentPath = path;
 		} catch (NoSuchAlgorithmException e) {
 			throw new ModelException("Error while saving keystore "+path+": Integrity checking algorithm not found.");
 		} catch (CertificateException e) {
@@ -228,7 +229,7 @@ public class Model {
 	 * @throws ModelException 
 	 */
 	public void save() throws ModelException {
-		saveTo(this.currentPath);
+		saveAs(this.currentPath);
 	}
 	
     /**
