@@ -23,7 +23,8 @@ public class Model {
 	private static char[] DEFAULT_PASSWORD = "keytool".toCharArray();
 	
 	public Model() throws ModelException {
-		this(Model.DEFAULT_PASSWORD);
+		// FIXME : remove the following comment
+		//this(Model.DEFAULT_PASSWORD);
 	}
 	
 	public Model(char[] password) throws ModelException {
