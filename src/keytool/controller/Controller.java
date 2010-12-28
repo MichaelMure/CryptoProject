@@ -105,18 +105,20 @@ public class Controller {
 	}
 	
 	private void refreshKeysList() {
-		if(!model.isInitalized()) return;
+		DefaultListModel list = new DefaultListModel();
 
 		try {
-			DefaultListModel list = this.model.getKeys();
-			this.view.getMainWindow().setKeysList(list);
+			if(model.isInitalized())
+				list = this.model.getKeys();
 		} catch (ModelException e) {
 			this.view.createErrorWindow(e.getMessage());
+		} finally {
+			this.view.getMainWindow().setKeysList(list);
 		}
 	}
 
 	private void refreshDetails() {
-		if(!model.isInitalized()) return;
+		if(!model.isInitalized()) view.getMainWindow().setDetails("");
 
 		String details = "";
 		if(view.getMainWindow().isKeysTabSelected()) {
@@ -158,13 +160,15 @@ public class Controller {
 	}
 	
 	private void refreshCertificateList() {
-		if(!model.isInitalized()) return;
-
+		DefaultListModel list = new DefaultListModel();
+		
 		try {
-			DefaultListModel list = this.model.getCertificates();
-			this.view.getMainWindow().setCertificatesList(list);
+			if(model.isInitalized())
+				list = this.model.getCertificates();
 		} catch (ModelException e) {
 			this.view.createErrorWindow(e.getMessage());
+		} finally {
+			this.view.getMainWindow().setCertificatesList(list);
 		}
 	}
 
