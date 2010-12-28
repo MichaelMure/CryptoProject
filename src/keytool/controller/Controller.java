@@ -96,6 +96,7 @@ public class Controller {
 		mw.addKeyListListener(new ListKeysListener());
 		mw.addCertificatesListListener(new ListCertificatesListener());
 		mw.addChangeTabListener(new ChangeTabListener());
+		refreshMainWindow();
 	}
 
 	private void refreshLists() {
@@ -526,6 +527,7 @@ public class Controller {
 				}
 			}
 			view.resetPasswordWindow();
+			refreshMainWindow();
 			state = State.StateWAIT;
 		}
 	}
