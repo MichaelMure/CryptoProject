@@ -279,24 +279,8 @@ public class Controller {
 			if (JFileChooser.APPROVE_SELECTION.equals(e.getActionCommand())) {
 				switch(state) {
 				case StateOPENING:
-					try {
-						view.hideFileChooserWindow();
-						model.openKeyStore(view.getFileChooserWindow().getPath());
-						refreshLists();
-					} catch (ModelException e2) {
-						if(e2.getMessage().equals("Wrong password"))
-						{
-							state = State.StateOPENINGFAIL;
-							view.hideFileChooserWindow();
-							view.showPasswordWindow();
-						}
-						else
-						{
-							view.hideFileChooserWindow();
-							view.createErrorWindow(e2.getMessage());
-							state = State.StateWAIT;
-						}
-					}
+					view.hideFileChooserWindow();
+					view.showPasswordWindow();
 					break;
 				case StateSAVING:
 					try {
@@ -495,7 +479,7 @@ public class Controller {
 	
 	/* PasswordWindow */
 	private void initPasswordWindowListener() {
-		this.view.getPasswordWindow().addPasswordWindowListener(new PWWindowListener());
+		this.view.getPasswordWindow().addPasswordWindowListener(new PWCWindowListener());
 		this.view.getPasswordWindow().addBtnCancelListener(new PWBtnCancelListener());
 		this.view.getPasswordWindow().addBtnValidateListener(new PWBtnValidateListener());
 	}
@@ -511,28 +495,22 @@ public class Controller {
 	class PWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			try {
-				view.hidePasswordWindow();
 				model.openKeyStore(view.getFileChooserWindow().getPath(), view.getPasswordWindow().getPasswordField());
-				refreshLists();
-			} catch (ModelException e2) {
-				if(e2.getMessage().equals("Wrong password"))
-				{
-					view.resetPasswordWindow();
-					view.showPasswordWindow();
-				}
-				else
-				{
-					view.createErrorWindow(e2.getMessage());
-					state = State.StateWAIT;
-				}
+				view.hidePasswordWindow();
+
+			} catch (ModelException e) {
+				view.createErrorWindow(e.getMessage());
+				state = State.StateWAIT;
+			} finally {
+				refreshMainWindow();
 			}
 			view.resetPasswordWindow();
-			refreshMainWindow();
+			
 			state = State.StateWAIT;
 		}
 	}
 	
-	class PWWindowListener extends WindowAdapter {
+	class PWCWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			view.hidePasswordWindow();
 			view.resetPasswordWindow();
