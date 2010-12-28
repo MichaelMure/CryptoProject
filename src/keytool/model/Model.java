@@ -74,15 +74,6 @@ public class Model {
 	}
 	
 	/**
-	 * Open a Keytore with its path and use the DEFAULT_PASSWORD
-	 * @param path
-	 * @throws ModelException 
-	 */
-	public void openKeyStore(String path) throws ModelException {
-		this.openKeyStore(path, DEFAULT_PASSWORD);
-	}
-	
-	/**
 	 * Open a Keytore with its path and its password
 	 * @param path
 	 * @param password
