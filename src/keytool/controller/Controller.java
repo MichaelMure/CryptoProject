@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
@@ -30,11 +31,11 @@ StateSaving --> StateWait : FCopen
 StateSaving --> StateWait : FCcancel
 
 StateWait --> StateOpening : menuOpen
-StateOpening --> StateWait : FCopen
 StateOpening --> StateWait : FCcancel
-StateOpening --> StateOpeningFail : DefaultPasswordDontMatch
-StateOpeningFail --> StateWait : PWValidate
-StateOpeningFail --> StateWait : PWCancel
+StateOpening --> StatePickPassword : FCOpen
+StatePickPassword --> StateWait : PWValidate
+StatePickPassword --> StatePickPassword : PWValidate
+StatePickPassword --> StateWait : PWCancel
 
 StateWait --> StateExporting : itemExport
 StateExporting --> StateWait : FCopen
@@ -58,12 +59,14 @@ public class Controller {
 	private enum State {StateWAIT,
 									StateSAVING,
 									StateOPENING,
+									StatePICKPASSWORD,
 									StateOPENINGFAIL,
 									StateIMPORTING,
 									StateEXPORTING,
 									StateCREATINGKEY,
 									StateCHOOSINGKEY,
-									StateCHOOSINGCERTIFICATE};
+									StateCHOOSINGCERTIFICATE,
+									StateCHOOSINGPASSWORDKEYSTORE};
 	private State state;
 
 	public Controller(Model model, View view){
@@ -182,12 +185,10 @@ public class Controller {
 
 	class ItemNewListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			try {
-				model.newKeyStore();
-			} catch (ModelException e1) {
-				view.createErrorWindow(e1.getMessage());
-			}
-			refreshMainWindow();
+			state = State.StateCHOOSINGPASSWORDKEYSTORE;
+			view.getPasswordWindow().resetField();
+			view.showPasswordWindow();
+
 		}
 	}
 	
@@ -292,8 +293,18 @@ public class Controller {
 			if (JFileChooser.APPROVE_SELECTION.equals(e.getActionCommand())) {
 				switch(state) {
 				case StateOPENING:
-					view.hideFileChooserWindow();
-					view.showPasswordWindow();
+					File file = new File(view.getFileChooserWindow().getPath());
+					if(!file.exists()) {
+						try {
+							throw new ModelException("Le fichier "+file.getPath()+" n'existe pas !");
+						} catch (ModelException e1) {
+							view.createErrorWindow(e1.getMessage());
+						}
+					} else {
+						view.hideFileChooserWindow();
+						view.showPasswordWindow();
+						state = State.StatePICKPASSWORD;
+					}
 					break;
 				case StateSAVING:
 					try {
@@ -507,19 +518,32 @@ public class Controller {
 	
 	class PWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			try {
-				model.openKeyStore(view.getFileChooserWindow().getPath(), view.getPasswordWindow().getPasswordField());
-				view.hidePasswordWindow();
+			switch(state) {
+				case StatePICKPASSWORD:
+					try {
+						model.openKeyStore(view.getFileChooserWindow().getPath(), view.getPasswordWindow().getPasswordField());
+						view.hidePasswordWindow();
+						state = State.StateWAIT;
 
-			} catch (ModelException e) {
-				view.createErrorWindow(e.getMessage());
-				state = State.StateWAIT;
-			} finally {
-				refreshMainWindow();
+					} catch (ModelException e) {
+						// Erreur de mot de passe : pas de changement d'etat
+						view.createErrorWindow(e.getMessage());
+					} finally {
+						refreshMainWindow();
+						view.resetPasswordWindow();
+
+					}
+					
+					break;
+				case StateCHOOSINGPASSWORDKEYSTORE:
+					try {
+						model.newKeyStore(view.getPasswordWindow().getPasswordField());
+					} catch (ModelException e) {
+						// Erreur dans la création du keystore
+						view.createErrorWindow(e.getMessage());
+					}
+					break;
 			}
-			view.resetPasswordWindow();
-			
-			state = State.StateWAIT;
 		}
 	}
 	
