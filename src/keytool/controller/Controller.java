@@ -162,8 +162,10 @@ public class Controller {
 	 * - met à jour les listes
 	 */
 	private void refreshMainWindow() {
-		refreshDetails();
+		// Details are computed from the lists
+		// DO refresh the lists before the details
 		refreshLists();
+		refreshDetails();
 		if(model.isInitalized())
 			this.setEnable(true);
 		else
@@ -291,7 +293,7 @@ public class Controller {
 				case StateSAVING:
 					try {
 						view.hideFileChooserWindow();
-						model.saveTo(view.getFileChooserWindow().getPath());
+						model.saveAs(view.getFileChooserWindow().getPath());
 					} catch (ModelException e1) {
 						view.createErrorWindow(e1.getMessage());
 					}
