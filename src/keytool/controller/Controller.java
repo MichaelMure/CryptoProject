@@ -229,6 +229,7 @@ public class Controller {
 		view.getFileChooserWindow().setSaveDialog();
 		view.showFileChooserWindow("Sauvegarder le KeyStore sous... ");
 		state = State.StateSAVING;
+		refreshMainWindow();
 	}
 	
 	class ChangeTabListener implements ChangeListener {
