@@ -116,6 +116,19 @@ public class Controller {
 			this.view.getMainWindow().setKeysList(list);
 		}
 	}
+	
+	private void refreshCertificateList() {
+		DefaultListModel list = new DefaultListModel();
+		
+		try {
+			if(model.isInitalized())
+				list = this.model.getCertificates();
+		} catch (ModelException e) {
+			this.view.createErrorWindow(e.getMessage());
+		} finally {
+			this.view.getMainWindow().setCertificatesList(list);
+		}
+	}
 
 	private void refreshDetails() {
 		if(!model.isInitalized()) view.getMainWindow().setDetails("");
@@ -157,19 +170,6 @@ public class Controller {
 	
 	private void setEnable(boolean enable) {
 		view.getMainWindow().setEnabledFields(enable);
-	}
-	
-	private void refreshCertificateList() {
-		DefaultListModel list = new DefaultListModel();
-		
-		try {
-			if(model.isInitalized())
-				list = this.model.getCertificates();
-		} catch (ModelException e) {
-			this.view.createErrorWindow(e.getMessage());
-		} finally {
-			this.view.getMainWindow().setCertificatesList(list);
-		}
 	}
 
 	class ItemNewListener implements ActionListener {
