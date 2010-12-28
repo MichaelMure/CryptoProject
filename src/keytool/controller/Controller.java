@@ -108,7 +108,7 @@ public class Controller {
 		DefaultListModel list = new DefaultListModel();
 
 		try {
-			if(model.isInitalized())
+			if(model.isInitialized())
 				list = this.model.getKeys();
 		} catch (ModelException e) {
 			this.view.createErrorWindow(e.getMessage());
@@ -121,7 +121,7 @@ public class Controller {
 		DefaultListModel list = new DefaultListModel();
 		// Si le modèle n'est pas initialisé, la liste reste vide
 		try {
-			if(model.isInitalized())
+			if(model.isInitialized())
 				list = this.model.getCertificates();
 		} catch (ModelException e) {
 			this.view.createErrorWindow(e.getMessage());
@@ -131,7 +131,7 @@ public class Controller {
 	}
 
 	private void refreshDetails() {
-		if(!model.isInitalized())
+		if(!model.isInitialized())
 			view.getMainWindow().setDetails("");
 		else {
 			String details = "";
@@ -166,10 +166,14 @@ public class Controller {
 		// DO refresh the lists before the details
 		refreshLists();
 		refreshDetails();
-		if(model.isInitalized())
+		
+		if(model.isInitialized()) {
 			this.setEnable(true);
-		else
+			view.getMainWindow().setTitle(model.getCurrentPath());
+		} else {
 			this.setEnable(false);
+			view.getMainWindow().setTitle(null);
+		}
 	}
 	
 	private void setEnable(boolean enable) {
@@ -190,7 +194,7 @@ public class Controller {
 	class ItemOpenListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.getFileChooserWindow().setOpenDialog();
-			view.showFileChooserWindow();
+			view.showFileChooserWindow("Choix du KeyStore");
 			state = State.StateOPENING;
 		}
 	}
@@ -214,7 +218,7 @@ public class Controller {
 	class ItemSaveAsListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.getFileChooserWindow().setSaveDialog();
-			view.showFileChooserWindow();
+			view.showFileChooserWindow("Sauvegarder le KeyStore sous... ");
 			state = State.StateSAVING;
 		}
 	}
@@ -234,7 +238,7 @@ public class Controller {
 
 	class BtnExportListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			view.showFileChooserWindow();
+			view.showFileChooserWindow("Exporter l'élement sous...");
 			state = State.StateEXPORTING;
 		}
 	}
@@ -425,14 +429,14 @@ public class Controller {
 	
 	class IKWBtnChooseKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			view.showFileChooserWindow();
+			view.showFileChooserWindow("Importer la clé...");
 			state = State.StateCHOOSINGKEY;
 		}
 	}
 	
 	class IKWBtnChooseCertificateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			view.showFileChooserWindow();
+			view.showFileChooserWindow("Importer le certificat...");
 			state = State.StateCHOOSINGCERTIFICATE;
 		}
 	}
