@@ -70,7 +70,7 @@ public class Model {
 			e.printStackTrace();
 		}
 		this.password = password;
-		this.currentPath = Model.KEYSTORE_DEFAULT_PATH;
+		this.currentPath = null;
 	}
 	
 	/**
