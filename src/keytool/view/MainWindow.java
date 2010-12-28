@@ -260,4 +260,11 @@ public class MainWindow extends JFrame {
 		this.BtnImport.setEnabled(enable);
 		this.BtnNewKey.setEnabled(enable);
 	}
+	
+	public void setTitle(String path) {
+		String append = "";
+		if(path != null)
+			append = " : "+path; 
+		super.setTitle("KeyTool "+append);
+	}
 }
