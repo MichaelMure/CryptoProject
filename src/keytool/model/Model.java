@@ -40,14 +40,7 @@ public class Model {
 	public Model(String path, char[] password) throws ModelException {
 		openKeyStore(path, password);
 	}
-	
-	/**
-	 * Create a new KeyStore with the DEFAULT_PASSWORD, in the KEYSTORE_DEFAULT_PATH
-	 * @throws ModelException 
-	 */
-	public void newKeyStore() throws ModelException {
-		newKeyStore(Model.DEFAULT_PASSWORD);
-	}
+
 	
 	/**
 	 * Create a new KeyStore in the KEYSTORE_DEFAULT_PATH
