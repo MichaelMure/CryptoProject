@@ -138,6 +138,24 @@ public class Controller {
 		view.getMainWindow().setDetails(details);
 	}
 	
+	/**
+	 * Met à jour la fenêtre principale :
+	 * - active/désactive les boutons
+	 * - met à jour les listes
+	 */
+	private void refreshMainWindow() {
+		refreshDetails();
+		refreshLists();
+		if(model.isInitalized())
+			this.setEnable(true);
+		else
+			this.setEnable(false);
+	}
+	
+	private void setEnable(boolean enable) {
+		view.getMainWindow().setEnabledFields(enable);
+	}
+	
 	private void refreshCertificateList() {
 		if(!model.isInitalized()) return;
 
