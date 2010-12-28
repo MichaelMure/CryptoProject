@@ -278,7 +278,7 @@ public class Model {
      * Détermine si le keystore est initialisé
      * @return
      */
-	public boolean isInitalized() {
+	public boolean isInitialized() {
 		if(this.keystore == null) return false;
 
 	    // Attention : keystore peut-être différent de null, mais non initialisé !
@@ -288,6 +288,10 @@ public class Model {
 		} catch (KeyStoreException e) {
 			return false;
 		}
+	}
+
+	public String getCurrentPath() {
+		return this.currentPath;
 	}
 
 }
