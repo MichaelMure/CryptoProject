@@ -209,7 +209,10 @@ public class Controller {
 	class ItemSaveListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
-				model.save();
+				if(model.getCurrentPath() == null)
+					saveModelAs();
+				else
+					model.save();
 			} catch (ModelException e1) {
 				view.createErrorWindow(e1.getMessage());
 			}
@@ -218,12 +221,16 @@ public class Controller {
 
 	class ItemSaveAsListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
-			view.getFileChooserWindow().setSaveDialog();
-			view.showFileChooserWindow("Sauvegarder le KeyStore sous... ");
-			state = State.StateSAVING;
+			saveModelAs();
 		}
 	}
 
+	private void saveModelAs() {
+		view.getFileChooserWindow().setSaveDialog();
+		view.showFileChooserWindow("Sauvegarder le KeyStore sous... ");
+		state = State.StateSAVING;
+	}
+	
 	class ChangeTabListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e) {
 			refreshDetails();
@@ -537,7 +544,10 @@ public class Controller {
 					break;
 				case StateCHOOSINGPASSWORDKEYSTORE:
 					try {
+						view.hidePasswordWindow();
 						model.newKeyStore(view.getPasswordWindow().getPasswordField());
+						state = State.StateWAIT;
+						refreshMainWindow();
 					} catch (ModelException e) {
 						// Erreur dans la création du keystore
 						view.createErrorWindow(e.getMessage());
