@@ -53,6 +53,11 @@ public class View {
 		this.fileChooserWindow.setVisible(true);
 	}
 
+	public void showFileChooserWindow(String name) {
+		this.fileChooserWindow.setTitle(name);
+		this.showFileChooserWindow();
+	}
+	
 	public void hideFileChooserWindow() {
 		this.fileChooserWindow.setVisible(false);
 	}
@@ -113,4 +118,5 @@ public class View {
 	public void resetPasswordWindow() {
 		this.passwordWindow.resetField();
 	}
+
 }
