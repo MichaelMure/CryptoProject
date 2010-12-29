@@ -2,6 +2,8 @@ package keytool.controller;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
@@ -515,6 +517,7 @@ public class Controller {
 		this.view.getPasswordWindow().addCWWindowListener(new PWCWindowListener());
 		this.view.getPasswordWindow().addBtnCancelListener(new PWBtnCancelListener());
 		this.view.getPasswordWindow().addBtnValidateListener(new PWBtnValidateListener());
+		this.view.getPasswordWindow().addKeyboardListener(new PWKeyListener());
 	}
 	
 	class PWBtnCancelListener implements ActionListener {
@@ -527,35 +530,39 @@ public class Controller {
 	
 	class PWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
-			switch(state) {
-				case StatePICKPASSWORD:
-					try {
-						model.openKeyStore(view.getFileChooserWindow().getPath(), view.getPasswordWindow().getPasswordField());
-						view.hidePasswordWindow();
-						state = State.StateWAIT;
+			validatePassword();
+		}
+	}
+	
+	private void validatePassword() {
+		switch(state) {
+		case StatePICKPASSWORD:
+			try {
+				model.openKeyStore(view.getFileChooserWindow().getPath(), view.getPasswordWindow().getPasswordField());
+				view.hidePasswordWindow();
+				state = State.StateWAIT;
 
-					} catch (ModelException e) {
-						// Erreur de mot de passe : pas de changement d'etat
-						view.createErrorWindow(e.getMessage());
-					} finally {
-						refreshMainWindow();
-						view.resetPasswordWindow();
+			} catch (ModelException e) {
+				// Erreur de mot de passe : pas de changement d'etat
+				view.createErrorWindow(e.getMessage());
+			} finally {
+				refreshMainWindow();
+				view.resetPasswordWindow();
 
-					}
-					
-					break;
-				case StateCHOOSINGPASSWORDKEYSTORE:
-					try {
-						view.hidePasswordWindow();
-						model.newKeyStore(view.getPasswordWindow().getPasswordField());
-						state = State.StateWAIT;
-						refreshMainWindow();
-					} catch (ModelException e) {
-						// Erreur dans la création du keystore
-						view.createErrorWindow(e.getMessage());
-					}
-					break;
 			}
+			
+			break;
+		case StateCHOOSINGPASSWORDKEYSTORE:
+			try {
+				view.hidePasswordWindow();
+				model.newKeyStore(view.getPasswordWindow().getPasswordField());
+				state = State.StateWAIT;
+				refreshMainWindow();
+			} catch (ModelException e) {
+				// Erreur dans la création du keystore
+				view.createErrorWindow(e.getMessage());
+			}
+			break;
 		}
 	}
 	
@@ -565,5 +572,17 @@ public class Controller {
 			view.resetPasswordWindow();
 			state = State.StateWAIT;
 		}
+	}
+	
+	class PWKeyListener implements KeyListener {
+		public void keyPressed(KeyEvent e) {
+			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+				validatePassword();
+			}
+			
+		}
+		public void keyReleased(KeyEvent e) {}
+		public void keyTyped(KeyEvent e) {}
+		
 	}
 }
