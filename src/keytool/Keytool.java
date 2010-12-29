@@ -4,16 +4,27 @@ package keytool;
 @startuml
 Package model {
 	MTCertificate *-- Certificate
+	MTPrivateKey *-- MTCertificate
+	MTKey <|-- MTPrivateKey
+	MTKey <|-- MTPublicKey
+
 	MTKey *-- Key
 	Model *-- KeyStore
 	Model .. MTKey : use
 	Model .. MTCertificate : use
+	MTCertificate .. MTPublicKey : use
 }
 Package view {
-	jFrame <|-- FileOpenWindow
+	jFrame <|-- FileChooserWindow
 	jFrame <|-- MainWindow
-	View *--FileOpenWindow
+	jFrame <|-- ImportKeyWindow
+	jFrame <|-- PasswordWindow
+	jFrame <|-- CreateKeyWindow
+	View *--FileChooserWindow
 	View *-- MainWindow
+	View *-- ImportKeyWindow
+	View *-- PasswordWindow
+	View *-- CreateKeyWindow
 }
 Package controller {
 	Controller *-- Model
