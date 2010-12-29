@@ -12,7 +12,7 @@ Package model {
 	Model *-- KeyStore
 	Model .. MTKey : use
 	Model .. MTCertificate : use
-	MTCertificate .. MTPublicKey : use
+	MTCertificate .. MTPublic : use
 }
 Package view {
 	jFrame <|-- FileChooserWindow
