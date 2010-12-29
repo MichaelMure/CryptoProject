@@ -1,6 +1,7 @@
 package keytool.view;
 
 import java.awt.event.ActionListener;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowListener;
 
 import javax.swing.GroupLayout;
@@ -89,6 +90,10 @@ public class PasswordWindow extends JDialog {
 	
 	public void addCWWindowListener(WindowListener wdLst) {
     	this.addWindowListener(wdLst);
+	}
+	
+	public void addKeyboardListener(KeyListener keyLst) {
+		this.FldPassword.addKeyListener( keyLst);
 	}
 	
 	public char[] getPasswordField() {
