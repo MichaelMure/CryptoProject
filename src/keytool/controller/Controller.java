@@ -57,6 +57,7 @@ public class Controller {
 	private View view;
 	private Model model;
 	private enum State {StateWAIT,
+<<<<<<< HEAD
 									StateSAVING,
 									StateOPENING,
 									StatePICKPASSWORD,
@@ -67,6 +68,15 @@ public class Controller {
 									StateCHOOSINGKEY,
 									StateCHOOSINGCERTIFICATE,
 									StateCHOOSINGPASSWORDKEYSTORE};
+=======
+						StateSAVING,
+						StateASKINGPASSWORD,
+						StateIMPORTING,
+						StateEXPORTING,
+						StateCREATINGKEY,
+						StateCHOOSINGKEY,
+						StateCHOOSINGCERTIFICATE};
+>>>>>>> master
 	private State state;
 
 	public Controller(Model model, View view){
@@ -98,7 +108,11 @@ public class Controller {
 		mw.addBtnNewKeyListener(new BtnNewKeyListener());
 		mw.addKeyListListener(new ListKeysListener());
 		mw.addCertificatesListListener(new ListCertificatesListener());
+<<<<<<< HEAD
 		mw.addChangeTabListener(new ChangeTabListener());
+=======
+		mw.addTabChangeListener(new TabChangeListener());
+>>>>>>> master
 		refreshMainWindow();
 	}
 
@@ -108,7 +122,11 @@ public class Controller {
 	}
 	
 	private void refreshKeysList() {
+<<<<<<< HEAD
 		DefaultListModel list = new DefaultListModel();
+=======
+		if(!model.isInitalized()) return;
+>>>>>>> master
 
 		try {
 			if(model.isInitialized())
@@ -121,8 +139,13 @@ public class Controller {
 	}
 	
 	private void refreshCertificateList() {
+<<<<<<< HEAD
 		DefaultListModel list = new DefaultListModel();
 		// Si le modèle n'est pas initialisé, la liste reste vide
+=======
+		if(!model.isInitalized()) return;
+		
+>>>>>>> master
 		try {
 			if(model.isInitialized())
 				list = this.model.getCertificates();
@@ -133,6 +156,7 @@ public class Controller {
 		}
 	}
 
+<<<<<<< HEAD
 	private void refreshDetails() {
 		if(!model.isInitialized())
 			view.getMainWindow().setDetails("");
@@ -157,6 +181,31 @@ public class Controller {
 			}
 			view.getMainWindow().setDetails(details);
 		}
+=======
+	
+	private void refreshDetails() {
+		if(!model.isInitalized()) return;
+
+		String details = "";
+		if(view.getMainWindow().isKeysTabSelected()) {
+			String selectedKey = view.getMainWindow().getSelectedKey();
+			try {
+				if(selectedKey != null)
+					details = model.getKey(selectedKey).getDetails();
+			} catch (ModelException e) {
+				view.createErrorWindow(e.getMessage());
+			}
+		} else if(view.getMainWindow().isCertificatesTabSelected()) {
+			String selectedCertificates = view.getMainWindow().getSelectedCertificate();
+			try {
+				if(selectedCertificates != null)
+					details = model.getCertificate(selectedCertificates).getDetails();
+			} catch (ModelException e) {
+				view.createErrorWindow(e.getMessage());
+			}
+		}
+		view.getMainWindow().setDetails(details);
+>>>>>>> master
 	}
 	
 	/**
@@ -165,6 +214,7 @@ public class Controller {
 	 * - met à jour les listes
 	 */
 	private void refreshMainWindow() {
+<<<<<<< HEAD
 		// Details are computed from the lists
 		// DO refresh the lists before the details
 		refreshLists();
@@ -177,11 +227,20 @@ public class Controller {
 			this.setEnable(false);
 			view.getMainWindow().setTitle(null);
 		}
+=======
+		refreshDetails();
+		refreshLists();
+		if(model.isInitalized())
+			this.setEnable(true);
+		else
+			this.setEnable(false);
+>>>>>>> master
 	}
 	
 	private void setEnable(boolean enable) {
 		view.getMainWindow().setEnabledFields(enable);
 	}
+<<<<<<< HEAD
 
 	class ItemNewListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -189,14 +248,33 @@ public class Controller {
 			view.getPasswordWindow().resetField();
 			view.showPasswordWindow();
 
+=======
+	
+	/**
+	 * Nouveau keystore
+	 */
+	class ItemNewListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				model.newKeyStore();
+			} catch (ModelException e1) {
+				view.createErrorWindow(e1.getMessage());
+			}
+			refreshMainWindow();
+>>>>>>> master
 		}
 	}
 	
 	class ItemOpenListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.getFileChooserWindow().setOpenDialog();
+<<<<<<< HEAD
 			view.showFileChooserWindow("Choix du KeyStore");
 			state = State.StateOPENING;
+=======
+			view.showFileChooserWindow();
+			state = State.StateASKINGPASSWORD;
+>>>>>>> master
 		}
 	}
 
@@ -299,6 +377,7 @@ public class Controller {
 		public void actionPerformed(ActionEvent e) {
 			if (JFileChooser.APPROVE_SELECTION.equals(e.getActionCommand())) {
 				switch(state) {
+<<<<<<< HEAD
 				case StateOPENING:
 					File file = new File(view.getFileChooserWindow().getPath());
 					if(!file.exists()) {
@@ -312,6 +391,11 @@ public class Controller {
 						view.showPasswordWindow();
 						state = State.StatePICKPASSWORD;
 					}
+=======
+				case StateASKINGPASSWORD:
+					view.showPasswordWindow();
+					view.hideFileChooserWindow();
+>>>>>>> master
 					break;
 				case StateSAVING:
 					try {
@@ -354,7 +438,7 @@ public class Controller {
 			} else if (JFileChooser.CANCEL_SELECTION.equals(e.getActionCommand())) {
 				switch(state) {
 				case StateEXPORTING:
-				case StateOPENING:
+				case StateASKINGPASSWORD:
 				case StateSAVING:
 					view.hideFileChooserWindow();
 					state = State.StateWAIT;
@@ -373,7 +457,7 @@ public class Controller {
 		public void windowClosing(WindowEvent e) {
 			switch(state) {
 			case StateEXPORTING:
-			case StateOPENING:
+			case StateASKINGPASSWORD:
 			case StateSAVING:
 				view.hideFileChooserWindow();
 				state = State.StateWAIT;
@@ -509,6 +593,7 @@ public class Controller {
 		}
 	}
 	
+<<<<<<< HEAD
 	/* PasswordWindow */
 	private void initPasswordWindowListener() {
 		this.view.getPasswordWindow().addPasswordWindowListener(new PWCWindowListener());
@@ -565,4 +650,56 @@ public class Controller {
 			state = State.StateWAIT;
 		}
 	}
+=======
+	class TabChangeListener implements ChangeListener {
+		public void stateChanged(ChangeEvent e) {
+			refreshDetails();
+		}
+	}
+	
+	/* CreateKeyWindow */
+	private void initPasswordWindowListener() {
+		this.view.getPasswordWindow().addBtnCancelListener(new PWDWBtnCancelListener());
+		this.view.getPasswordWindow().addBtnValidateListener(new PWDWBtnValidateListener());
+		this.view.getPasswordWindow().addCWWindowListener(new PWDWWindowListener());
+	}
+	
+	/**
+	 * Annualtion du mot de passe
+	 */
+	class PWDWBtnCancelListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			view.hidePasswordWindow();
+			refreshMainWindow();
+		}
+	}
+	
+	/**
+	 * Validation du mot de passe
+	 */
+	class PWDWBtnValidateListener implements ActionListener {
+		public void actionPerformed(ActionEvent e) {
+			try {
+				model.openKeyStore(view.getFileChooserWindow().getPath(), view.getPasswordWindow().getPasswordField().toCharArray());
+				refreshMainWindow();
+				state = State.StateWAIT;
+				view.hidePasswordWindow();
+				view.resetPasswordWindow();
+			} catch (ModelException e2) {
+				view.createErrorWindow(e2.getMessage());
+				view.resetPasswordWindow();
+			}
+
+		}
+	}
+	
+	class PWDWWindowListener extends WindowAdapter {
+		public void windowClosing(WindowEvent e) {
+			view.hidePasswordWindow();
+			view.getPasswordWindow().resetField();
+			state = State.StateWAIT;
+		}
+	}
+
+>>>>>>> master
 }

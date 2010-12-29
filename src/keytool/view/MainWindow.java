@@ -96,7 +96,7 @@ public class MainWindow extends JFrame {
         /* TabbedPanel */
         TabbedPanel.addTab("Clés", ScrollKeyPanel);
         TabbedPanel.addTab("Certificats", ScrollCertificatPanel);
-
+        
         /* TxtDetails */
         TxtDetails.setEditable(false);
         
@@ -224,6 +224,10 @@ public class MainWindow extends JFrame {
     	this.ListCertificates.setModel(certList);
     }
     
+    public void addTabChangeListener(ChangeListener actLst) {
+    	this.TabbedPanel.addChangeListener(actLst);
+    }
+    
     public boolean isKeysTabSelected() {
     	return (this.TabbedPanel.getSelectedIndex() == 0);
     }
@@ -253,12 +257,17 @@ public class MainWindow extends JFrame {
 	public void setDetails(String details) {
 		this.TxtDetails.setText(details);
 	}
+<<<<<<< HEAD
 
+=======
+	
+>>>>>>> master
 	public void setEnabledFields(boolean enable) {
 		this.BtnDelete.setEnabled(enable);
 		this.BtnExport.setEnabled(enable);
 		this.BtnImport.setEnabled(enable);
 		this.BtnNewKey.setEnabled(enable);
+<<<<<<< HEAD
 		this.ItemSave.setEnabled(enable);
 		this.ItemSaveAs.setEnabled(enable);
 	}
@@ -268,5 +277,7 @@ public class MainWindow extends JFrame {
 		if(path != null)
 			append = " : "+path; 
 		super.setTitle("KeyTool "+append);
+=======
+>>>>>>> master
 	}
 }
