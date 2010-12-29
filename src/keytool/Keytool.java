@@ -39,28 +39,6 @@ public class Keytool {
         Model model;
 		try {
 			model = new Model();
-<<<<<<< HEAD
-=======
-			/* Pour test*/
-	        //model.openKeyStore("store.ks",  "keytool".toCharArray());
-
-	        /* Test d'import certificats */
-	        //MTCertificate verisign = new MTCertificate(new FileInputStream("verisign-cert.pem"));
-	        //verisign.addToKeyStore(model, "verisign");
-	        //MTCertificate geotrust = new MTCertificate(new FileInputStream("geotrust-cert.der"));
-	        //geotrust.addToKeyStore(model, "geotrust");
-	        
-	        
-	        /* Export de clé privée */
-	        //model.getKey("io").exportTo("io-key.pem");
-	        //model.getCertificate("io").exportTo("io-cert.pem");
-	        
-	        /* Import d'une clé privée */
-	        //MTPrivateKey key = new MTPrivateKey("io-key.pem", "io-cert.pem");
-	        //key.addToKeyStore(model, "import-key");
-	        
->>>>>>> master
-	        
 			View view = new View(model);
 	        
 			Controller controller = new Controller(model, view);

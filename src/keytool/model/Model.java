@@ -20,12 +20,7 @@ public class Model {
 	private String currentPath;
 
 	public Model() throws ModelException {
-<<<<<<< HEAD
-		// FIXME : remove the following comment
-		//this(Model.DEFAULT_PASSWORD);
-=======
-//		this(Model.DEFAULT_PASSWORD);
->>>>>>> master
+
 	}
 	
 	public Model(char[] password) throws ModelException {
@@ -73,14 +68,7 @@ public class Model {
 		} catch (CertificateException e) {
 			throw new ModelException("Error while opening keystore "+path+": A certificate cannot be loaded.");
 		} catch (IOException e) {
-<<<<<<< HEAD
-			if(e.getMessage().equals("Keystore was tampered with, or password was incorrect"))
-				throw new ModelException("Wrong password");
-			else
-				throw new ModelException("Error while opening keystore "+path+": Can not find this file.");
-=======
 			throw new ModelException("Error while opening keystore "+path+": Mauvais mot de passe ?");
->>>>>>> master
 		} catch (KeyStoreException e) {
 			throw new ModelException("Error while opening keystore "+path+": Can not create keystore.");
 		}
@@ -252,23 +240,15 @@ public class Model {
 		}
         return list;
     }
-<<<<<<< HEAD
-    
-=======
->>>>>>> master
+
+
     /**
      * Détermine si le keystore est initialisé
      * @return
      */
-<<<<<<< HEAD
 	public boolean isInitialized() {
 		if(this.keystore == null) return false;
-
-=======
-	public boolean isInitalized() {
-		if(this.keystore == null) return false;
 		
->>>>>>> master
 	    // Attention : keystore peut-être différent de null, mais non initialisé !
 		try {
 			this.keystore.size();
@@ -277,12 +257,10 @@ public class Model {
 			return false;
 		}
 	}
-<<<<<<< HEAD
 
 	public String getCurrentPath() {
 		return this.currentPath;
 	}
-=======
->>>>>>> master
+
 
 }

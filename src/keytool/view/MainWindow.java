@@ -257,17 +257,12 @@ public class MainWindow extends JFrame {
 	public void setDetails(String details) {
 		this.TxtDetails.setText(details);
 	}
-<<<<<<< HEAD
 
-=======
-	
->>>>>>> master
 	public void setEnabledFields(boolean enable) {
 		this.BtnDelete.setEnabled(enable);
 		this.BtnExport.setEnabled(enable);
 		this.BtnImport.setEnabled(enable);
 		this.BtnNewKey.setEnabled(enable);
-<<<<<<< HEAD
 		this.ItemSave.setEnabled(enable);
 		this.ItemSaveAs.setEnabled(enable);
 	}
@@ -277,7 +272,5 @@ public class MainWindow extends JFrame {
 		if(path != null)
 			append = " : "+path; 
 		super.setTitle("KeyTool "+append);
-=======
->>>>>>> master
 	}
 }

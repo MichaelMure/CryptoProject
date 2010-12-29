@@ -118,8 +118,5 @@ public class View {
 	public void resetPasswordWindow() {
 		this.passwordWindow.resetField();
 	}
-<<<<<<< HEAD
 
-=======
->>>>>>> master
 }
