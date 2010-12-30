@@ -27,7 +27,9 @@ import java.security.spec.DSAPrivateKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
 import java.security.spec.RSAPrivateCrtKeySpec;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
 
 import javax.security.auth.x500.X500Principal;
 
@@ -70,8 +72,14 @@ public class MTPrivateKey extends MTKey {
 	
 		    certGen.setSerialNumber(BigInteger.valueOf(random.nextInt(random.nextInt(Integer.MAX_VALUE))));
 		    certGen.setIssuerDN(new X500Principal(subject));
-		    certGen.setNotBefore(new Date(System.currentTimeMillis() - 10000));
-		    certGen.setNotAfter(new Date(System.currentTimeMillis() + 10000));
+		    
+		    // Validité : 1 an avant/1 an après
+		    Calendar now = Calendar.getInstance();
+		    Calendar before = new GregorianCalendar(now.get(Calendar.YEAR) -1, now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+		    Calendar after = new GregorianCalendar(now.get(Calendar.YEAR) +1 , now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH));
+			certGen.setNotBefore(before.getTime());
+		    certGen.setNotAfter(after.getTime());
+		    
 		    certGen.setSubjectDN(new X500Principal(subject));
 		    certGen.setPublicKey(keyPair.getPublic());
 		    certGen.setSignatureAlgorithm("SHA256WithRSAEncryption");
