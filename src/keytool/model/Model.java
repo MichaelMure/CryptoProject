@@ -29,7 +29,7 @@ public class Model {
 
 	
 	/**
-	 * Create a new KeyStore in the KEYSTORE_DEFAULT_PATH
+	 * Create a new KeyStore in the memory
 	 * @param password of the new KeyStore
 	 * @throws ModelException 
 	 */
@@ -38,9 +38,9 @@ public class Model {
 			this.keystore = KeyStore.getInstance("JCEKS");
 			this.keystore.load(null, password);
 		} catch (KeyStoreException e) {
-			throw new ModelException("Error while creating default keystore : Can not create keystore.");
+			throw new ModelException("Erreur lors de la création du keystore : "+e.getMessage());
 		} catch (NoSuchAlgorithmException e) {
-			throw new ModelException("Error while creating default keystore : Integrity checking algorithm not found.");
+			throw new ModelException("Erreur lors de la création du keystore : "+e.getMessage());
 		} catch (CertificateException e) {
 			//cannot happen
 			e.printStackTrace();
@@ -64,13 +64,13 @@ public class Model {
 			java.io.FileInputStream fis = new java.io.FileInputStream(path);
 			this.keystore.load(fis, password);
 		} catch (NoSuchAlgorithmException e) {
-			throw new ModelException("Error while opening keystore "+path+": Integrity checking algorithm not found.");
+			throw new ModelException("Erreur de l'ouverture du keystore "+path+": "+e.getMessage());
 		} catch (CertificateException e) {
-			throw new ModelException("Error while opening keystore "+path+": A certificate cannot be loaded.");
+			throw new ModelException("Erreur de l'ouverture du keystore "+path+": "+e.getMessage());
 		} catch (IOException e) {
-			throw new ModelException("Error while opening keystore "+path+": Mauvais mot de passe ?");
+			throw new ModelException("Erreur de l'ouverture du keystore "+path+": Mauvais mot de passe ? "+e.getMessage());
 		} catch (KeyStoreException e) {
-			throw new ModelException("Error while opening keystore "+path+": Can not create keystore.");
+			throw new ModelException("Erreur de l'ouverture du keystore "+path+": "+e.getMessage());
 		}
 		this.password = password;
 		this.currentPath = path;
@@ -180,13 +180,13 @@ public class Model {
 			this.keystore.store(fos, this.password);
 			this.currentPath = path;
 		} catch (NoSuchAlgorithmException e) {
-			throw new ModelException("Error while saving keystore "+path+": Integrity checking algorithm not found.");
+			throw new ModelException("Erreur lors de l'enregistrement du keystore "+path+": "+e.getMessage());
 		} catch (CertificateException e) {
-			throw new ModelException("Error while saving keystore "+path+": A certificate cannot be saved.");
+			throw new ModelException("Erreur lors de l'enregistrement du keystore "+path+": "+e.getMessage());
 		} catch (KeyStoreException e) {
-			throw new ModelException("Error while saving keystore "+path+": Keystore has not been initialized.");
+			throw new ModelException("Erreur lors de l'enregistrement du keystore "+path+": "+e.getMessage());
 		} catch (IOException e) {
-			throw new ModelException("Error while saving keystore "+path+": Can not save here.");
+			throw new ModelException("Erreur lors de l'enregistrement du keystore "+path+": "+e.getMessage());
 		}
 		System.out.println("Save the keystore to: "+path);
 	}
@@ -215,7 +215,7 @@ public class Model {
 				}
 			}
 		} catch (KeyStoreException e) {
-			throw new ModelException("Error while listing keys : Keystore has not been initialized.");
+			throw new ModelException("Erreur lors de l'accès à la liste des clés "+e.getMessage());
 		}
         return list;
     }
@@ -236,7 +236,7 @@ public class Model {
 				}
 			}
 		} catch (KeyStoreException e) {
-			throw new ModelException("Error while listing certificates : Keystore has not been initialized.");
+			throw new ModelException("Erreur lors de l'accès à la liste des certificats "+e.getMessage());
 		}
         return list;
     }
