@@ -241,7 +241,6 @@ public class Model {
         return list;
     }
 
-
     /**
      * Détermine si le keystore est initialisé
      * @return
