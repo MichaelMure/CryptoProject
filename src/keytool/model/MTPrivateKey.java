@@ -218,7 +218,7 @@ public class MTPrivateKey extends MTKey {
 	 * @throws ModelException 
 	 */
 	public void addToKeyStore(Model keystore, String alias) throws ModelException {
-		keystore.addKey(alias, this.key, this.certificate);
+		keystore.addPrivateKey(alias, this.key, this.certificate);
 	}
 
 	public void exportTo(String path) throws ModelException {

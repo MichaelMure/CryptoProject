@@ -129,7 +129,7 @@ public class Model {
 	 * @param certificate
 	 * @throws ModelException
 	 */
-	public void addKey(String alias, Key key, Certificate certificate) throws ModelException {
+	public void addPrivateKey(String alias, Key key, Certificate certificate) throws ModelException {
 		try {
 			keystore.setKeyEntry(alias, key, this.password, new Certificate[] { certificate });
 		} catch (KeyStoreException e) {
