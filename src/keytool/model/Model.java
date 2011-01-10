@@ -8,10 +8,12 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
+import java.security.KeyStore.ProtectionParameter;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.util.Enumeration;
 
+import javax.crypto.SecretKey;
 import javax.swing.DefaultListModel;
 
 public class Model {
@@ -150,6 +152,24 @@ public class Model {
 		} catch (KeyStoreException e) {
 			throw new ModelException("Problème d'ajout du certificat :"+e.getMessage());
 
+		}
+	}
+	
+	/**
+	 * Add a secretKey to the keystore
+	 * @param alias of the key to insert
+	 * @param key to insert
+	 * @param password to protect the key
+	 * @throws ModelException
+	 */
+	public void addSecretKey(String alias, SecretKey key, char[] password ) throws ModelException {
+		try {
+
+			KeyStore.SecretKeyEntry skEntry = new KeyStore.SecretKeyEntry(key);
+
+			keystore.setEntry("secretKeyAlias", skEntry, new KeyStore.PasswordProtection(password));
+		} catch (KeyStoreException e) {
+			throw new ModelException("Problème d'ajout du certificat :"+e.getMessage());
 		}
 	}
 	

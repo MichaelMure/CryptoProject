@@ -2,10 +2,14 @@ package keytool.model;
 
 import java.security.Key;
 
-public class MTSecretKey extends MTKey {
+import javax.crypto.SecretKey;
 
-	public MTSecretKey(Key key2) {
+public class MTSecretKey extends MTKey {
+	private char[] password;
+	
+	public MTSecretKey(Key key2, char[] password2) {
 		this.key = key2;
+		this.password = password2;
 	}
 	
 	public String getDetails() {
@@ -17,4 +21,9 @@ public class MTSecretKey extends MTKey {
 		return details.toString();
 	}
 
+	public void addToKeyStore(Model keystore, String alias) throws ModelException {
+
+		keystore.addSecretKey(alias, (SecretKey)this.key, password);
+	}
+	
 }
