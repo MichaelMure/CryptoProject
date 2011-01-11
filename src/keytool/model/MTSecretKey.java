@@ -4,8 +4,7 @@ import java.security.Key;
 
 import javax.crypto.SecretKey;
 
-public class MTSecretKey extends MTKey {
-	private char[] password;
+public class MTSecretKey extends MTPSKey {
 	
 	public MTSecretKey(Key key2, char[] password2) {
 		this.key = key2;
@@ -14,7 +13,7 @@ public class MTSecretKey extends MTKey {
 	
 	public String getDetails() {
 		StringBuffer details = new StringBuffer();
-		details.append(" - Clé publique ----- ");
+		details.append(" - Clé secrète ----- ");
 		details.append("\nAlgorithme:\n  ").append(this.key.getAlgorithm());
 		details.append("\nFormat :\n  ").append(this.key.getFormat());
 		details.append("\nInstance de :\n  ").append(this.key.getClass().getName());
@@ -24,6 +23,12 @@ public class MTSecretKey extends MTKey {
 	public void addToKeyStore(Model keystore, String alias) throws ModelException {
 
 		keystore.addSecretKey(alias, (SecretKey)this.key, password);
+	}
+
+	@Override
+	public void exportTo(String string) throws ModelException {
+		// TODO Auto-generated exportTo Secret Key
+		
 	}
 	
 }

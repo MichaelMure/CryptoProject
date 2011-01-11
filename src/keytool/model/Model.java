@@ -79,18 +79,22 @@ public class Model {
 	}
 	
 	/**
-	 * Get a key from the alias
+	 * Get a key from the alias. It can be a private or secret key
 	 * @param alias
 	 * @return a key
 	 * @throws ModelException 
 	 */
-	public MTPrivateKey getKey(String alias) throws ModelException {
+	public MTPSKey getKey(String alias) throws ModelException {
 		try {
 			if(keystore.getKey(alias, password) != null) {
 				if(keystore.getCertificate(alias) != null) {
+					// La clé est associée à un certificat, c'est une clé privée
 					return new MTPrivateKey(keystore.getKey(alias, this.password), keystore.getCertificate(alias));
-				} else
-					throw new KeyStoreException("pas de certificat associé à la clé");
+				} else {
+					//throw new KeyStoreException("pas de certificat associé à la clé");
+					// FIXME : ajouter le mot de passe de la clé secrète
+					return new MTSecretKey(keystore.getKey(alias, this.password), this.password);
+				}
 			} else
 				throw new KeyStoreException("pas de clé à ce nom");
 		} catch (UnrecoverableKeyException e) {

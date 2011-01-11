@@ -38,7 +38,7 @@ import org.bouncycastle.asn1.DERInteger;
 import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
-public class MTPrivateKey extends MTKey {
+public class MTPrivateKey extends MTPSKey {
 	private Certificate certificate;
 
 	/**
