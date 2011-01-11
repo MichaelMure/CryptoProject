@@ -96,7 +96,7 @@ public class Model {
 					return new MTSecretKey(keystore.getKey(alias, this.password), this.password);
 				}
 			} else
-				throw new KeyStoreException("pas de clé à ce nom");
+				throw new KeyStoreException("pas de clé "+alias+" à ce nom");
 		} catch (UnrecoverableKeyException e) {
 			throw new ModelException("Problème avec la clé irrécupérable :"+e.getMessage());
 
@@ -257,7 +257,9 @@ public class Model {
 				alias = aliases.nextElement();
 				// FIXME Il faut afficher les certificats des clés privées
 				// qui ne sont pas du type "CertificateEntry"
-				if(true || keystore.isCertificateEntry(alias)) {
+				// On teste d'abord si c'est un vrai certificat.
+				// Sinon, si c'est une clé privée (pas l'inverse !)
+				if(keystore.isCertificateEntry(alias) || isPrivateKey(alias)) {
 					list.addElement(alias);
 				}
 			}
@@ -286,6 +288,11 @@ public class Model {
 	public String getCurrentPath() {
 		return this.currentPath;
 	}
-
+	
+	protected boolean isPrivateKey(String alias) throws ModelException {
+		return (getKey(alias) instanceof MTPrivateKey);
+		//return true;
+		
+	}
 
 }
