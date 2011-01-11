@@ -151,10 +151,10 @@ public class Controller {
 					view.createErrorWindow(e.getMessage());
 				}
 			} else if(view.getMainWindow().isCertificatesTabSelected()) {
-				String selectedCertificates = view.getMainWindow().getSelectedCertificate();
+				String selectedCertificate = view.getMainWindow().getSelectedCertificate();
 				try {
-					if(selectedCertificates != null)
-						details = model.getCertificate(selectedCertificates).getDetails();
+					if(selectedCertificate != null)
+						details = model.getCertificate(selectedCertificate).getDetails();
 				} catch (ModelException e) {
 					view.createErrorWindow(e.getMessage());
 				}
