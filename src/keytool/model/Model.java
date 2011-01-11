@@ -255,8 +255,6 @@ public class Model {
 			String alias;
 			while(aliases.hasMoreElements()) {
 				alias = aliases.nextElement();
-				// FIXME Il faut afficher les certificats des clés privées
-				// qui ne sont pas du type "CertificateEntry"
 				// On teste d'abord si c'est un vrai certificat.
 				// Sinon, si c'est une clé privée (pas l'inverse !)
 				if(keystore.isCertificateEntry(alias) || isPrivateKey(alias)) {
@@ -290,9 +288,7 @@ public class Model {
 	}
 	
 	protected boolean isPrivateKey(String alias) throws ModelException {
-		return (getKey(alias) instanceof MTPrivateKey);
-		//return true;
-		
+		return (getKey(alias) instanceof MTPrivateKey);		
 	}
 
 }
