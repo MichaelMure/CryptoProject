@@ -251,7 +251,9 @@ public class Model {
 			String alias;
 			while(aliases.hasMoreElements()) {
 				alias = aliases.nextElement();
-				if(keystore.isCertificateEntry(alias)) {
+				// FIXME Il faut afficher les certificats des clés privées
+				// qui ne sont pas du type "CertificateEntry"
+				if(true || keystore.isCertificateEntry(alias)) {
 					list.addElement(alias);
 				}
 			}

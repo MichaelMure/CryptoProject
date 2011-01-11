@@ -427,7 +427,7 @@ public class Controller {
 				key.addToKeyStore(model, view.getCreateKeyWindow().getAliasField());
 				view.hideCreateKeyWindow();
 				view.getCreateKeyWindow().resetField();
-				refreshKeysList();
+				refreshLists();
 			} catch (ModelException e) {
 				view.createErrorWindow(e.getMessage());
 			}
