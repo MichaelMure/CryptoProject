@@ -221,18 +221,7 @@ public class MTPrivateKey extends MTPSKey {
 		keystore.addPrivateKey(alias, this.key, this.certificate);
 	}
 
-	public void exportTo(String path) throws ModelException {
-		try {
-			BufferedWriter buf = new BufferedWriter(new FileWriter(path));
-			buf.write(this.toBase64());
-			buf.close();
-		} catch (CertificateEncodingException e) {
-			throw new ModelException("Problème d'encodage de certificat : "+e.getMessage());
-		} catch (IOException e) {
-			throw new ModelException("Problème d'entrée/sortie : "+e.getMessage());
-		}
-		
-	}
+
 
 	public String getDetails() {
 		StringBuffer details = new StringBuffer(this.getPublicKey().getDetails());

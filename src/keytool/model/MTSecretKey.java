@@ -25,10 +25,5 @@ public class MTSecretKey extends MTPSKey {
 		keystore.addSecretKey(alias, (SecretKey)this.key, password);
 	}
 
-	@Override
-	public void exportTo(String string) throws ModelException {
-		// TODO Auto-generated exportTo Secret Key
-		
-	}
 	
 }
