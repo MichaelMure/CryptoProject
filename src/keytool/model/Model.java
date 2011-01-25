@@ -21,14 +21,13 @@ public class Model {
 	private char[] password;
 	private String currentPath;
 
+	/**
+	 * Create an empty KeyStore 
+	 * @throws ModelException
+	 */
 	public Model() throws ModelException {
 
 	}
-	
-	public Model(char[] password) throws ModelException {
-		this.newKeyStore(password);
-	}
-
 	
 	/**
 	 * Create a new KeyStore in the memory
