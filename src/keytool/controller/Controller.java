@@ -55,6 +55,12 @@ StateImporting --> StateWait : BtnCancel
 
 @enduml
  */
+
+/**
+ * This class is the controller part of the MVC pattern.
+ * This class hold various listener classes, which are instantiated through the constructor,
+ * and connected to the view.
+ */
 public class Controller {
 	private View view;
 	private Model model;
@@ -72,6 +78,11 @@ public class Controller {
 
 	private State state;
 
+	/**
+	 * Constructor of the Controller
+	 * @param model The model
+	 * @param view The view
+	 */
 	public Controller(Model model, View view){
 		this.view = view;
 		this.model = model;
@@ -88,6 +99,9 @@ public class Controller {
 	}
 
 	/* MainWindow */
+	/**
+	 * Initialize the listener for the main window
+	 */
 	private void initMainWindowListener() {
 		MainWindow mw = this.view.getMainWindow();
 		mw.addItemNewKeyStoreListener(new ItemNewListener());
@@ -105,11 +119,17 @@ public class Controller {
 		refreshMainWindow();
 	}
 
+	/**
+	 * Refresh both certificate and key of the main window.
+	 */
 	private void refreshLists() {
 		this.refreshKeysList();
 		this.refreshCertificateList();
 	}
 	
+	/**
+	 * Refresh the key list of the main window.
+	 */
 	private void refreshKeysList() {
 		DefaultListModel list = new DefaultListModel();
 
@@ -123,6 +143,9 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Refresh the certificate list of the main window.
+	 */
 	private void refreshCertificateList() {
 		DefaultListModel list = new DefaultListModel();
 		// Si le modèle n'est pas initialisé, la liste reste vide
@@ -137,6 +160,9 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Refresh the details in the main window.
+	 */
 	private void refreshDetails() {
 		if(!model.isInitialized())
 			view.getMainWindow().setDetails("");
@@ -183,10 +209,18 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Enable or not the button of the main window
+	 * @param enable
+	 */
 	private void setEnable(boolean enable) {
 		view.getMainWindow().setEnabledFields(enable);
 	}
 
+	/**
+	 * Action listener for the new button of the main window
+	 * @author michael
+	 */
 	class ItemNewListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			state = State.StateCHOOSINGPASSWORDKEYSTORE;
@@ -195,6 +229,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Action listener for the open button of the main window
+	 * @author michael
+	 */
 	class ItemOpenListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.getFileChooserWindow().setOpenDialog();
@@ -203,12 +241,20 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Action listener for the quit button of the main window
+	 * @author michael
+	 */
 	class ItemQuitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.disposeAll();
 		}
 	}
 
+	/**
+	 * Action listener of the save button of the main window
+	 * @author michael
+	 */
 	class ItemSaveListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -222,24 +268,39 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Action listener of the save as button of the main window
+	 * @author michael
+	 */
 	class ItemSaveAsListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			saveModelAs();
 		}
 	}
 
+	/**
+	 * Helper to save the model in a file
+	 */
 	private void saveModelAs() {
 		view.getFileChooserWindow().setSaveDialog();
 		view.showFileChooserWindow("Sauvegarder le KeyStore sous... ");
 		state = State.StateSAVING;
 	}
 	
+	/**
+	 * Change listener for the key/certificate tab in the main window
+	 * @author michael
+	 */
 	class ChangeTabListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e) {
 			refreshDetails();
 		}
 	}
 	
+	/**
+	 * Action listener for the import button in the main window
+	 * @author michael
+	 */
 	class BtnImportListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.showImportKeyWindow();
@@ -247,6 +308,10 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Action listener for the export button of the main window
+	 * @author michael
+	 */
 	class BtnExportListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.showFileChooserWindow("Exporter l'élement sous...");
@@ -254,6 +319,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Action listener for the delete button in the main window
+	 * @author michael
+	 */
 	class BtnDeleteListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			try {
@@ -273,6 +342,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Action listener for the new button in the main window
+	 * @author michael
+	 */
 	class BtnNewKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			view.showCreateKeyWindow();
@@ -280,12 +353,20 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * List selection listener for the key list of the main window
+	 * @author michael
+	 */
 	class ListKeysListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
 			refreshDetails();
 		}
 	}
 
+	/**
+	 * List selection listener for the certificate list in the main window
+	 * @author michael
+	 */
 	class ListCertificatesListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
 			refreshDetails();
@@ -293,11 +374,18 @@ public class Controller {
 	}
 	
 	/* FileChooserWindow */
+	/**
+	 * Initialize the File chooser window listener
+	 */
 	private void initFCWindowListener() {
 		this.view.getFileChooserWindow().addFCActionListener(new FCActionListener());
 		this.view.getFileChooserWindow().addFCWindowListener(new FCWindowListener());
 	}
 
+	/**
+	 * Action listener for the file chooser
+	 * @author michael
+	 */
 	class FCActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
 			if (JFileChooser.APPROVE_SELECTION.equals(e.getActionCommand())) {
@@ -372,6 +460,10 @@ public class Controller {
 		}
 	}
 
+	/**
+	 * Window adaptater for the file chooser window
+	 * @author michael
+	 */
 	class FCWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			switch(state) {
@@ -391,12 +483,18 @@ public class Controller {
 	}
 	
 	/* CreateKeyWindow */
+	/**
+	 * Initialize the create key window listener
+	 */
 	private void initCreateKeyWindowListener() {
 		this.view.getCreateKeyWindow().addBtnCancelListener(new CKWBtnCancelListener());
 		this.view.getCreateKeyWindow().addBtnValidateListener(new CKWBtnValidateListener());
 		this.view.getCreateKeyWindow().addCWWindowListener(new CKWWindowListener());
 	}
 	
+	/**
+	 * Action listener for the cancel button of the create key window
+	 */
 	class CKWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			view.getCreateKeyWindow().resetField();
@@ -404,6 +502,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Action listener for the validate button of the create key window
+	 * @author michael
+	 */
 	class CKWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			try {
@@ -434,6 +536,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Window adapter for the create key window
+	 * @author michael
+	 */
 	class CKWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			view.getCreateKeyWindow().resetField();
@@ -442,6 +548,9 @@ public class Controller {
 	}
 	
 	/* ImportKeyWindow */
+	/**
+	 * Initialize the import key window listener
+	 */
 	private void initImportKeyWindowListener() {
 		this.view.getImportKeyWindow().addBtnChooseKeyListener(new IKWBtnChooseKeyListener());
 		this.view.getImportKeyWindow().addBtnChooseCertificateListener(new IKWBtnChooseCertificateListener());
@@ -450,6 +559,10 @@ public class Controller {
 		this.view.getImportKeyWindow().addIWWindowListener(new IKWWindowListener());
 	}
 	
+	/**
+	 * Action listener for the choose button of the import key window
+	 * @author michael
+	 */
 	class IKWBtnChooseKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			view.showFileChooserWindow("Importer la clé...");
@@ -457,6 +570,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Action listener for the choose certificate button of the import key window
+	 * @author michael
+	 */
 	class IKWBtnChooseCertificateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			view.showFileChooserWindow("Importer le certificat...");
@@ -464,6 +581,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Action listener for the cancel button of the import key window
+	 * @author michael
+	 */
 	class IKWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			view.hideImportKeyWindow();
@@ -472,6 +593,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Action listener for the validate button of the import key window
+	 * @author michael
+	 */
 	class IKWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			try {
@@ -504,6 +629,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Window listener for the import key window
+	 * @author michael
+	 */
 	class IKWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			view.hideImportKeyWindow();
@@ -513,6 +642,9 @@ public class Controller {
 	}
 	
 	/* PasswordWindow */
+	/**
+	 * Initialize the password window listener
+	 */
 	private void initPasswordWindowListener() {
 		this.view.getPasswordWindow().addCWWindowListener(new PWCWindowListener());
 		this.view.getPasswordWindow().addBtnCancelListener(new PWBtnCancelListener());
@@ -520,6 +652,10 @@ public class Controller {
 		this.view.getPasswordWindow().addKeyboardListener(new PWKeyListener());
 	}
 	
+	/**
+	 * Action listener for the cancel button of the password window
+	 * @author michael
+	 */
 	class PWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			view.hidePasswordWindow();
@@ -528,12 +664,19 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Action listener for the validate button of the password window
+	 * @author michael
+	 */
 	class PWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
 			validatePassword();
 		}
 	}
 	
+	/**
+	 * helper to validate the password given by the user, and display an error message if wrong
+	 */
 	private void validatePassword() {
 		switch(state) {
 		case StatePICKPASSWORD:
@@ -566,6 +709,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Window listener for the password window
+	 * @author michael
+	 */
 	class PWCWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
 			view.hidePasswordWindow();
@@ -574,6 +721,10 @@ public class Controller {
 		}
 	}
 	
+	/**
+	 * Key listener for the keyboard input in the password window
+	 * @author michael
+	 */
 	class PWKeyListener implements KeyListener {
 		public void keyPressed(KeyEvent e) {
 			if(e.getKeyCode() == KeyEvent.VK_ENTER) {
