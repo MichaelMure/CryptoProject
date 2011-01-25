@@ -282,10 +282,20 @@ public class Model {
 		}
 	}
 
+	/**
+	 * get the current path of the file's keystore
+	 * @return the path of the keystore
+	 */
 	public String getCurrentPath() {
 		return this.currentPath;
 	}
 	
+	/**
+	 * determine if the key is a private key
+	 * @param alias of the key
+	 * @return true if the key is private
+	 * @throws ModelException
+	 */
 	protected boolean isPrivateKey(String alias) throws ModelException {
 		return (getKey(alias) instanceof MTPrivateKey);		
 	}
