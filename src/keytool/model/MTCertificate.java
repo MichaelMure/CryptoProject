@@ -61,7 +61,7 @@ public class MTCertificate {
 	}
 
 	/**
-	 * 
+	 * Constructor of MTCertificate with the subject
 	 * @param subject
 	 * @throws CertificateEncodingException
 	 * @throws InvalidKeyException
@@ -74,6 +74,11 @@ public class MTCertificate {
 		this(subject, subject);
 	}
 	
+	/**
+	 * MTCertificate for importing a Certificate from a file
+	 * @param FileInputStream Certificate to import
+	 * @throws ModelException
+	 */
 	public MTCertificate(FileInputStream fis) throws ModelException {
 		try {
 			// Le flot transmis à la méthode generateCertificate() doit supporter
@@ -99,6 +104,17 @@ public class MTCertificate {
 
 	}
 	
+	/**
+	 * Constructor for Certificate with a subject and an issuer
+	 * @param subject
+	 * @param issuer
+	 * @throws CertificateEncodingException
+	 * @throws InvalidKeyException
+	 * @throws IllegalStateException
+	 * @throws NoSuchProviderException
+	 * @throws NoSuchAlgorithmException
+	 * @throws SignatureException
+	 */
 	public MTCertificate(String subject, String issuer) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
 
 		/* Génération d'une paire de clé privée/publique */
@@ -123,20 +139,11 @@ public class MTCertificate {
 	    /* Sauvegarde du certificat */
 	    this.certificate = certGen.generate(keyPair.getPrivate(), "BC");
 	}
-
-	public void setCertificate(Certificate certificate) {
-		this.certificate = certificate;
-	}
-
-	public Certificate getCertificate() {
-		return certificate;
-	}
 	
-	public MTPublicKey getPublicKey() {
-		MTPublicKey mtKey = new MTPublicKey(this.certificate.getPublicKey());
-		return mtKey;
-	}
-	
+	/**
+	 * Provide details about the certificate
+	 * @return String with details
+	 */
 	public String getDetails() {
 		X509Certificate cert = (X509Certificate) this.certificate;
 		StringBuilder sb = new StringBuilder();
@@ -154,15 +161,29 @@ public class MTCertificate {
 		return sb.toString();
 	}
 	
+	/**
+	 * add the current certificate to a given keystore
+	 * @param keystore's target
+	 * @param alias for the certificate in the KS
+	 * @throws ModelException
+	 */
 	public void addToKeyStore(Model keystore, String alias) throws ModelException {
 		keystore.addCertificate(alias, this.certificate);
 	}
 	
+	/**
+	 * Return details of the certificate
+	 */
 	public String toString() {
 		return getDetails();
 	}
 
-	
+	/**
+	 * Return base64 encoding of the certificate
+	 * @return base64 string encoding
+	 * @throws CertificateEncodingException
+	 * @throws IOException
+	 */
 	public String toBase64() throws CertificateEncodingException, IOException {
 		ByteArrayOutputStream bOut = new ByteArrayOutputStream();
     
@@ -175,6 +196,11 @@ public class MTCertificate {
 		return bOut.toString();
 	}
 	
+	/**
+	 * Export the certificate to a path
+	 * @param path to export the certificate
+	 * @throws ModelException
+	 */
 	public void exportTo(String path) throws ModelException {
 		try {
 			BufferedWriter buf = new BufferedWriter(new FileWriter(path));
