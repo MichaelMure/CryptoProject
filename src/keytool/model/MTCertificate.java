@@ -28,20 +28,48 @@ import javax.security.auth.x500.X500Principal;
 import org.bouncycastle.openssl.PEMWriter;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
+/**
+ * Certificate encapsulation
+ * @author Michaël Muré & Théophile Helleboid
+ *
+ */
 public class MTCertificate {
 	private Certificate certificate;
 	private static String DEFAULT_SUBJECT = "CN=Alice-Subject, O=ENSISA, L=Mulhouse, ST=68, C=FR";
 	private static String DEFAULT_ISSUER = "CN=Bob-Issuer, O=DataPower, L=Cambridge, ST=MA, C=US";
 
 
+	/**
+	 * Certificate constructor with a Java Certificate
+	 * @param certificate to encapsulate
+	 */
 	public MTCertificate(Certificate certificate) {
 		this.certificate = certificate;
 	}
 	
+	/**
+	 * Default constructor with a default Certificate
+	 * @throws CertificateEncodingException
+	 * @throws InvalidKeyException
+	 * @throws IllegalStateException
+	 * @throws NoSuchProviderException
+	 * @throws NoSuchAlgorithmException
+	 * @throws SignatureException
+	 */
 	public MTCertificate() throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
 		this(DEFAULT_SUBJECT, DEFAULT_ISSUER);
 	}
 
+	/**
+	 * 
+	 * @param subject
+	 * @throws CertificateEncodingException
+	 * @throws InvalidKeyException
+	 * @throws IllegalStateException
+	 * @throws NoSuchProviderException
+	 * @throws NoSuchAlgorithmException
+	 * @throws SignatureException
+	 */
 	public MTCertificate(String subject) throws CertificateEncodingException, InvalidKeyException, IllegalStateException, NoSuchProviderException, NoSuchAlgorithmException, SignatureException {
 		this(subject, subject);
 	}
