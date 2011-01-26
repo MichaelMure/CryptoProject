@@ -11,7 +11,7 @@ public class MTPublicKey extends MTKey {
 
 	/**
 	 * Constructor with a Key
-	 * @param key to encapsulate
+	 * @param key2 to encapsulate
 	 */
 	public MTPublicKey(Key key2) {
 		this.key = key2;

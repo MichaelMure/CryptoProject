@@ -76,7 +76,7 @@ public class MTCertificate {
 	
 	/**
 	 * MTCertificate for importing a Certificate from a file
-	 * @param FileInputStream Certificate to import
+	 * @param fis : FileInputStream Certificate to import
 	 * @throws ModelException
 	 */
 	public MTCertificate(FileInputStream fis) throws ModelException {
@@ -163,7 +163,7 @@ public class MTCertificate {
 	
 	/**
 	 * add the current certificate to a given keystore
-	 * @param keystore's target
+	 * @param keystore 's target
 	 * @param alias for the certificate in the KS
 	 * @throws ModelException
 	 */

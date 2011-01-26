@@ -14,7 +14,7 @@ public class ModelException extends Exception {
 
 	/**
 	 * Constructor for the Exception
-	 * @param Error message 
+	 * @param message : Error message 
 	 */
 	public ModelException(String message) {
 		super(message);
