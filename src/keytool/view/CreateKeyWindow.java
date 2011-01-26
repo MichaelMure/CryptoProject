@@ -11,7 +11,6 @@ import javax.swing.JTextField;
 /**
  * This class is the window for creating a key.
  * It holds a list of text field to configure the new key.
- * @author michael
  *
  */
 public class CreateKeyWindow extends JFrame {

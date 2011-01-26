@@ -8,7 +8,6 @@ import keytool.model.Model;
 /**
  * This class is the view part of the MVC pattern
  * This class holds a copy of each window used in the application, and abstract access to each for the controller.
- * @author michael
  *
  */
 public class View {

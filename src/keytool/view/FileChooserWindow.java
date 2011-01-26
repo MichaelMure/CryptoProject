@@ -9,7 +9,6 @@ import javax.swing.JFrame;
 
 /**
  * This class holds the file chooser window.
- * @author michael
  *
  */
 public class FileChooserWindow extends JFrame {

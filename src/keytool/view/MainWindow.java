@@ -27,7 +27,6 @@ import keytool.model.Model;
 
 /**
  * This class hold the main window of this software
- * @author michael
  *
  */
 public class MainWindow extends JFrame {

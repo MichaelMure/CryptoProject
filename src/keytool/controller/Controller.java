@@ -219,7 +219,6 @@ public class Controller {
 
 	/**
 	 * Action listener for the new button of the main window
-	 * @author michael
 	 */
 	class ItemNewListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -231,7 +230,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the open button of the main window
-	 * @author michael
 	 */
 	class ItemOpenListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -243,7 +241,6 @@ public class Controller {
 
 	/**
 	 * Action listener for the quit button of the main window
-	 * @author michael
 	 */
 	class ItemQuitListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -253,7 +250,6 @@ public class Controller {
 
 	/**
 	 * Action listener of the save button of the main window
-	 * @author michael
 	 */
 	class ItemSaveListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -270,7 +266,6 @@ public class Controller {
 
 	/**
 	 * Action listener of the save as button of the main window
-	 * @author michael
 	 */
 	class ItemSaveAsListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -289,7 +284,6 @@ public class Controller {
 	
 	/**
 	 * Change listener for the key/certificate tab in the main window
-	 * @author michael
 	 */
 	class ChangeTabListener implements ChangeListener {
 		public void stateChanged(ChangeEvent e) {
@@ -299,7 +293,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the import button in the main window
-	 * @author michael
 	 */
 	class BtnImportListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -310,7 +303,6 @@ public class Controller {
 
 	/**
 	 * Action listener for the export button of the main window
-	 * @author michael
 	 */
 	class BtnExportListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -321,7 +313,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the delete button in the main window
-	 * @author michael
 	 */
 	class BtnDeleteListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -344,7 +335,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the new button in the main window
-	 * @author michael
 	 */
 	class BtnNewKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -355,7 +345,6 @@ public class Controller {
 	
 	/**
 	 * List selection listener for the key list of the main window
-	 * @author michael
 	 */
 	class ListKeysListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
@@ -365,7 +354,6 @@ public class Controller {
 
 	/**
 	 * List selection listener for the certificate list in the main window
-	 * @author michael
 	 */
 	class ListCertificatesListener implements ListSelectionListener {
 		public void valueChanged(ListSelectionEvent arg0) {
@@ -384,7 +372,6 @@ public class Controller {
 
 	/**
 	 * Action listener for the file chooser
-	 * @author michael
 	 */
 	class FCActionListener implements ActionListener {
 		public void actionPerformed(ActionEvent e) {
@@ -462,7 +449,6 @@ public class Controller {
 
 	/**
 	 * Window adaptater for the file chooser window
-	 * @author michael
 	 */
 	class FCWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
@@ -504,7 +490,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the validate button of the create key window
-	 * @author michael
 	 */
 	class CKWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
@@ -538,7 +523,6 @@ public class Controller {
 	
 	/**
 	 * Window adapter for the create key window
-	 * @author michael
 	 */
 	class CKWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
@@ -561,7 +545,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the choose button of the import key window
-	 * @author michael
 	 */
 	class IKWBtnChooseKeyListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
@@ -572,7 +555,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the choose certificate button of the import key window
-	 * @author michael
 	 */
 	class IKWBtnChooseCertificateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
@@ -583,7 +565,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the cancel button of the import key window
-	 * @author michael
 	 */
 	class IKWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
@@ -595,7 +576,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the validate button of the import key window
-	 * @author michael
 	 */
 	class IKWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
@@ -631,7 +611,6 @@ public class Controller {
 	
 	/**
 	 * Window listener for the import key window
-	 * @author michael
 	 */
 	class IKWWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
@@ -654,7 +633,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the cancel button of the password window
-	 * @author michael
 	 */
 	class PWBtnCancelListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
@@ -666,7 +644,6 @@ public class Controller {
 	
 	/**
 	 * Action listener for the validate button of the password window
-	 * @author michael
 	 */
 	class PWBtnValidateListener implements ActionListener {
 		public void actionPerformed(ActionEvent arg0) {
@@ -711,7 +688,6 @@ public class Controller {
 	
 	/**
 	 * Window listener for the password window
-	 * @author michael
 	 */
 	class PWCWindowListener extends WindowAdapter {
 		public void windowClosing(WindowEvent e) {
@@ -723,7 +699,6 @@ public class Controller {
 	
 	/**
 	 * Key listener for the keyboard input in the password window
-	 * @author michael
 	 */
 	class PWKeyListener implements KeyListener {
 		public void keyPressed(KeyEvent e) {

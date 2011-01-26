@@ -13,7 +13,6 @@ import javax.swing.LayoutStyle;
 
 /**
  * This class holds the password window
- * @author michael
  *
  */
 public class PasswordWindow extends JDialog {

@@ -10,7 +10,6 @@ import javax.swing.JTextField;
 
 /**
  * This class holds the import key window
- * @author michael
  *
  */
 public class ImportKeyWindow extends JFrame {
