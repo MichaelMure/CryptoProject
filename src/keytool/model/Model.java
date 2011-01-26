@@ -267,7 +267,7 @@ public class Model {
 
     /**
      * Détermine si le keystore est initialisé
-     * @return
+     * @return whether or not the keystore is initialized
      */
 	public boolean isInitialized() {
 		if(this.keystore == null) return false;

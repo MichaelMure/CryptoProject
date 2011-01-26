@@ -261,7 +261,7 @@ public class MainWindow extends JFrame {
 
     /**
      * Add a list selection listener to the key list
-     * @param actLst
+     * @param LstSlctLst
      */
     public void addKeyListListener(ListSelectionListener LstSlctLst) {
     	this.ListKeys.addListSelectionListener(LstSlctLst);

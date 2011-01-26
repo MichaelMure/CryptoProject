@@ -23,7 +23,7 @@ public abstract class MTKey {
 	/**
 	 * Export the PrivateKey to Base64 String
 	 * if you wan the publicKey, go through the certificate
-	 * @return
+	 * @return the key encoded in base64
 	 * @throws CertificateEncodingException
 	 * @throws IOException
 	 */
