@@ -25,6 +25,11 @@ import javax.swing.event.ListSelectionListener;
 
 import keytool.model.Model;
 
+/**
+ * This class hold the main window of this software
+ * @author michael
+ *
+ */
 public class MainWindow extends JFrame {
 	
 	private static final long serialVersionUID = 2831115647099397913L;
@@ -48,13 +53,19 @@ public class MainWindow extends JFrame {
     private JSplitPane SplitPanel;
     private JTabbedPane TabbedPanel;
 
-    
+    /**
+     * Constructor of the main window
+     * @param model
+     */
 	public MainWindow(Model model){
 		super("View");
 		this.initComponent();
 		this.setLocation(250,250);
 	}
 
+	/**
+	 * Create and initialize the main window components
+	 */
     private void initComponent() {
         this.BtnImport = new JButton();
         this.BtnExport = new JButton();
@@ -168,74 +179,146 @@ public class MainWindow extends JFrame {
         pack();
     }
 
+    /**
+     * Add an action listener to the quit item
+     * @param actLst
+     */
     public void addItemQuitListener(ActionListener actLst) {
     	ItemQuit.addActionListener(actLst);
 	}
 
+    /**
+     * Add an action listener to the new key item
+     * @param actLst
+     */
     public void addItemNewKeyStoreListener(ActionListener actLst) {
     	ItemNewKeyStore.addActionListener(actLst);
 	}
     
+    /**
+     * Add an action listener to the open item
+     * @param actLst
+     */
     public void addItemOpenListener(ActionListener actLst) {
     	ItemOpen.addActionListener(actLst);
 	}
 
+    /**
+     * Add an action listener to the save item
+     * @param actLst
+     */
     public void addItemSaveListener(ActionListener actLst) {
     	ItemSave.addActionListener(actLst);
 	}
     
+    /**
+     * Add an action listener to the save as item
+     * @param actLst
+     */
     public void addItemSaveAsListener(ActionListener actLst) {
     	ItemSaveAs.addActionListener(actLst);
 	}
     
+    /**
+     * Add a change listener to the key/certificate tab
+     * @param actLst
+     */
     public void addChangeTabListener(ChangeListener actLst) {
     	TabbedPanel.addChangeListener(actLst);
     }
     
+    /**
+     * Add an action listener to the import button
+     * @param actLst
+     */
     public void addBtnImportListener(ActionListener actLst) {
     	BtnImport.addActionListener(actLst);
 	}
 
+    /**
+     * Add an action listener to the export button
+     * @param actLst
+     */
     public void addBtnExportListener(ActionListener actLst) {
     	BtnExport.addActionListener(actLst);
 	}
     
+    /**
+     * Add an action listener to the delete button
+     * @param actLst
+     */
     public void addBtnDeleteListener(ActionListener actLst) {
     	BtnDelete.addActionListener(actLst);
 	}
     
+    /**
+     * Add an action listener to the new key button
+     * @param actLst
+     */
     public void addBtnNewKeyListener(ActionListener actLst) {
     	BtnNewKey.addActionListener(actLst);
 	}
 
+    /**
+     * Add a list selection listener to the key list
+     * @param actLst
+     */
     public void addKeyListListener(ListSelectionListener LstSlctLst) {
     	this.ListKeys.addListSelectionListener(LstSlctLst);
     }
     
+    /**
+     * Add a certificate listener to the certificate list
+     * @param LstSlctLst
+     */
     public void addCertificatesListListener(ListSelectionListener LstSlctLst) {
     	this.ListCertificates.addListSelectionListener(LstSlctLst);
     }
 
+    /**
+     * Set the key list
+     * @param keysList
+     */
     public void setKeysList(DefaultListModel keysList) {
     	this.ListKeys.setModel(keysList);
     }
     
+    /**
+     * Set the certificate list
+     * @param certList
+     */
     public void setCertificatesList(DefaultListModel certList) {
     	this.ListCertificates.setModel(certList);
     }
     
+    /**
+     * Add a change listener to the key/certificate tab
+     * @param actLst
+     */
     public void addTabChangeListener(ChangeListener actLst) {
     	this.TabbedPanel.addChangeListener(actLst);
     }
     
+    /**
+     * 
+     * @return whether or not the key tab is selected.
+     */
     public boolean isKeysTabSelected() {
     	return (this.TabbedPanel.getSelectedIndex() == 0);
     }
     
+    /**
+     * 
+     * @return whether or not the certificate tab is selected.
+     */
     public boolean isCertificatesTabSelected() {
     	return (this.TabbedPanel.getSelectedIndex() == 1);
     }
     
+    /**
+     * 
+     * @return the current selected key, or -1 if any.
+     */
 	public String getSelectedKey() {
 		int index = this.ListKeys.getSelectedIndex();
 		
@@ -245,6 +328,10 @@ public class MainWindow extends JFrame {
 			return (String) this.ListKeys.getModel().getElementAt(index);
 	}
 	
+	/**
+	 * 
+	 * @return the current selected certificate, or -1 if any.
+	 */
 	public String getSelectedCertificate() {
 		int index = this.ListCertificates.getSelectedIndex();
 		
@@ -254,10 +341,18 @@ public class MainWindow extends JFrame {
 			return (String) this.ListCertificates.getModel().getElementAt(index);
 	}
 	
+	/**
+	 * Set the text of the details panel
+	 * @param details
+	 */
 	public void setDetails(String details) {
 		this.TxtDetails.setText(details);
 	}
 
+	/**
+	 * Enable or not the button
+	 * @param enable
+	 */
 	public void setEnabledFields(boolean enable) {
 		this.BtnDelete.setEnabled(enable);
 		this.BtnExport.setEnabled(enable);
@@ -267,6 +362,9 @@ public class MainWindow extends JFrame {
 		this.ItemSaveAs.setEnabled(enable);
 	}
 	
+	/**
+	 * Set the window title
+	 */
 	public void setTitle(String path) {
 		String append = "";
 		if(path != null)

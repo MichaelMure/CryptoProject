@@ -11,7 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JPasswordField;
 import javax.swing.LayoutStyle;
 
-
+/**
+ * This class holds the password window
+ * @author michael
+ *
+ */
 public class PasswordWindow extends JDialog {
 
 	private static final long serialVersionUID = -4537433709703714282L;
@@ -21,10 +25,16 @@ public class PasswordWindow extends JDialog {
     private javax.swing.JLabel LblPassword;
     private javax.swing.JPasswordField FldPassword;
 
+    /**
+     * Constructor of the password window
+     */
     public PasswordWindow() {
     	initComponents();
     }
     
+    /**
+     * Create and initialize the password window component
+     */
     private void initComponents() {
         FldPassword = new JPasswordField();
         LblPassword = new JLabel();
@@ -75,27 +85,49 @@ public class PasswordWindow extends JDialog {
         pack();
     }
 
-	
+	/**
+	 * Reset the password field
+	 */
 	public void resetField() {
 		this.FldPassword.setText("");
 	}
 	
+	/**
+	 * Add an action listener to the cancel button
+	 * @param actLst
+	 */
 	public void addBtnCancelListener(ActionListener actLst) {
     	BtnCancel.addActionListener(actLst);
 	}
 	
+	/**
+	 * Add an action listener to the validate button
+	 * @param actLst
+	 */
 	public void addBtnValidateListener(ActionListener actLst) {
     	BtnValidate.addActionListener(actLst);
 	}
 	
+	/**
+	 * Add a window listener to the password window
+	 * @param wdLst
+	 */
 	public void addCWWindowListener(WindowListener wdLst) {
     	this.addWindowListener(wdLst);
 	}
 	
+	/**
+	 * Add a key listener to the password field
+	 * @param keyLst
+	 */
 	public void addKeyboardListener(KeyListener keyLst) {
 		this.FldPassword.addKeyListener( keyLst);
 	}
 	
+	/**
+	 * 
+	 * @return the password
+	 */
 	public char[] getPasswordField() {
 		return this.FldPassword.getPassword();
 	}

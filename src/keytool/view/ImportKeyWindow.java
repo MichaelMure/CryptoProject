@@ -8,6 +8,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 
+/**
+ * This class holds the import key window
+ * @author michael
+ *
+ */
 public class ImportKeyWindow extends JFrame {
 	private static final long serialVersionUID = -8090384481447967419L;
 	
@@ -26,10 +31,16 @@ public class ImportKeyWindow extends JFrame {
 	private JTextField FldCertificateFile;
 	private JTextField FldAlias;
 	
+	/**
+	 * ImportKeyWindow constructor.
+	 */
 	public ImportKeyWindow() {
 		initComponents();
 	}
 	
+	/**
+	 * Create and initialize all the components of the import key window
+	 */
 	private void initComponents() {
 		LblKeyFile = new JLabel();
 		LblCertificateFile = new JLabel();
@@ -79,48 +90,90 @@ public class ImportKeyWindow extends JFrame {
 		pack();
 	}
 	
+	/**
+	 * Reset all the fields of the window
+	 */
 	public void resetField() {
 		this.FldAlias.setText("");
 		this.FldKeyFile.setText("");
 		this.FldCertificateFile.setText("");
 	}
 	
+	/**
+	 * Add an action listener to the Choose key button
+	 * @param actLst
+	 */
 	public void addBtnChooseKeyListener(ActionListener actLst) {
     	BtnChooseKey.addActionListener(actLst);
 	}
 	
+	/**
+	 * Add an action listener to the choose certificate button
+	 * @param actLst
+	 */
 	public void addBtnChooseCertificateListener(ActionListener actLst) {
     	BtnChooseCertificate.addActionListener(actLst);
 	}
 	
+	/**
+	 * Add an action listener to the cancel button
+	 * @param actLst
+	 */
 	public void addBtnCancelListener(ActionListener actLst) {
     	BtnCancel.addActionListener(actLst);
 	}
 	
+	/**
+	 * Add an action listener to the validate button
+	 */
 	public void addBtnValidateListener(ActionListener actLst) {
     	BtnValidate.addActionListener(actLst);
 	}
 	
+	/**
+	 * Add a window listener to the Import key window
+	 * @param wdLst
+	 */
 	public void addIWWindowListener(WindowListener wdLst) {
     	this.addWindowListener(wdLst);
 	}
 	
+	/**
+	 * 
+	 * @return the alias field
+	 */
 	public String getAliasField() {
 		return this.FldAlias.getText();
 	}
 	
+	/**
+	 * 
+	 * @return the path of the key file.
+	 */
 	public String getKeyFileField() {
 		return this.FldKeyFile.getText();
 	}
 	
+	/**
+	 * 
+	 * @return the path of the certificate file.
+	 */
 	public String getCertificateFileField() {
 		return this.FldCertificateFile.getText();
 	}
 	
+	/**
+	 * Set the key file path field
+	 * @param value
+	 */
 	public void setKeyFileField(String value) {
 		this.FldKeyFile.setText(value);
 	}
 	
+	/**
+	 * Set the certificate file path field
+	 * @param value
+	 */
 	public void setCertificateFileField(String value) {
 		this.FldCertificateFile.setText(value);
 	}
