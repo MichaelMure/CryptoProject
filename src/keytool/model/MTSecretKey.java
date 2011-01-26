@@ -4,6 +4,11 @@ import java.security.Key;
 
 import javax.crypto.SecretKey;
 
+/**
+ * Secret Key encapsulation :
+ * @author Michaël Muré & Théophile Helleboid
+ *
+ */
 public class MTSecretKey extends MTPSKey {
 	
 	public MTSecretKey(Key key2, char[] password2) {
@@ -20,6 +25,12 @@ public class MTSecretKey extends MTPSKey {
 		return details.toString();
 	}
 
+	/**
+	 * Add this Key to a keystore with an alias
+	 * @param keystore
+	 * @param alias
+	 * @throws ModelException
+	 */
 	public void addToKeyStore(Model keystore, String alias) throws ModelException {
 
 		keystore.addSecretKey(alias, (SecretKey)this.key, password);

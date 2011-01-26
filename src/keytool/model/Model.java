@@ -15,6 +15,13 @@ import java.util.Enumeration;
 import javax.crypto.SecretKey;
 import javax.swing.DefaultListModel;
 
+/**
+ * Model is an encapsulation of a Java KeyStore
+ * This class provides the methods to manipulate the keystore,
+ * get a Certificate or a Key, or add it
+ * @author Michaël Muré & Théophile Helleboid
+ *
+ */
 public class Model {
 	private KeyStore keystore;
 	private char[] password;

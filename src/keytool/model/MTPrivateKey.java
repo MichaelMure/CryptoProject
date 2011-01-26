@@ -36,6 +36,12 @@ import org.bouncycastle.asn1.DERInteger;
 import org.bouncycastle.util.encoders.Base64;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
 
+/**
+ * Private Key encapsulation :
+ * the key can added to a MTkeystore, or you can get Public Key
+ * @author Michaël Muré & Théophile Helleboid
+ *
+ */
 public class MTPrivateKey extends MTPSKey {
 	private Certificate certificate;
 
@@ -220,7 +226,10 @@ public class MTPrivateKey extends MTPSKey {
 	}
 
 
-
+	/**
+	 * Get details about the key
+	 * @return the details
+	 */
 	public String getDetails() {
 		StringBuffer details = new StringBuffer(this.getPublicKey().getDetails());
 		details.append("\n\n - Certificat ----- \n");
@@ -229,10 +238,18 @@ public class MTPrivateKey extends MTPSKey {
 		return details.toString();
 	}
 	
+	/**
+	 * Get the public key associated with this P Key
+	 * @return the public key
+	 */
 	public MTPublicKey getPublicKey() {
 		return new MTPublicKey(this.certificate.getPublicKey());
 	}
 	
+	/**
+	 * Get the certificate associated with this P Key
+	 * @return the certificate
+	 */
 	public MTCertificate getCertificate() {
 		return new MTCertificate(this.certificate);
 	}

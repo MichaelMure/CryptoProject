@@ -10,7 +10,12 @@ import java.security.cert.CertificateEncodingException;
 
 import org.bouncycastle.openssl.PEMWriter;
 
-
+/**
+ * Key encapsulation :
+ * the key can be Private, Secret or Public
+ * @author Michaël Muré & Théophile Helleboid
+ *
+ */
 public abstract class MTKey {
 	protected Key key;
 	
@@ -39,7 +44,11 @@ public abstract class MTKey {
 		return bOut.toString();
 	}
 	
-	
+	/**
+	 * Export the current Key to a file
+	 * @param path to the file
+	 * @throws ModelException
+	 */
 	public void exportTo(String path) throws ModelException {
 		try {
 			BufferedWriter buf = new BufferedWriter(new FileWriter(path));

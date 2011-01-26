@@ -1,8 +1,9 @@
 package keytool.model;
 
 /**
- * Clé privée ou secrète
- * @author chtitux
+ * Private or Secret Key
+ * These keys need a password
+ * @author Michaël Muré & Théophile Helleboid
  *
  */
 public abstract class MTPSKey extends MTKey {
